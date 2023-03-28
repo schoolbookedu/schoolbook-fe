@@ -1,0 +1,21 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  background: #fff;
+  font-family: 'Work Sans', sans-serif;
+}
+h1{
+
+}
+h2{
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 40px;
+  color: #000000;
+  margin: 0px;
+}
+p{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
