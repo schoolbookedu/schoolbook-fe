@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import './Signup.css'
 import logo from '../../utils/logo.png'
 import Tab from '../../component/Student/Tab';
@@ -10,9 +11,9 @@ const Signup = () => {
         <div className='tab'>
            <div className='container'>
            <div className='logo'>
-            <a href="/">
+            <Link to="/">
               <img src={logo} alt="logo" />
-            </a>
+            </Link>
             </div>
             <Tab/>
            </div>

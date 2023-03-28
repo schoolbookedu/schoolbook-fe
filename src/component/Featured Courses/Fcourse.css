@@ -1,0 +1,89 @@
+.fcourse{
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: flex-start;
+   max-width: 325px;
+   width: 100%;
+   padding-bottom: 20px;
+   background-color: #FFFFFF;
+   margin-right:20px;
+   box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.fcourse-img{
+width: 20%;
+}
+.fcourse img{
+    width: 325px;
+    height: 264px;
+    object-fit: cover;
+}
+.fcourse-text{
+    padding: 0px 20px;
+}
+.fcourse-text h2{
+    font-size: 20px;
+}
+.fcourse-span{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fcourse-span span{
+    font-size: 16px;
+    color:#000000;
+}
+.fcourse-span .amount{
+    font-weight: 700;
+    font-size: 24px;
+    color:#407BFF;
+}
+.fcourse-button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fcourse-button button{
+    width:80%;
+    margin: 0px;
+    margin-top: 30px;
+    padding: 25px 0px;
+    background: #407BFF;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 24px;
+    color:#FFFFFF;
+}
+
+@media (max-width: 1050px){
+    .fcourse{
+       margin-bottom: 50px;
+     }
+  }
+  @media (max-width: 480px){
+    .fcourse{
+        max-width: 250px;
+        width: 100%;
+     }
+     .fcourse img{
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+    }
+    .fcourse-text h2{
+        font-size: 16px;
+        line-height: 25px;
+    }
+    .fcourse-span span{
+        font-size: 12px;
+    }
+    .fcourse-span .amount{
+        font-size: 20px;
+    }
+    .fcourse-text button{
+        padding: 15px 0px;
+        font-size: 16px;
+    }
+  }
+ 

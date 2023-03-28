@@ -60,7 +60,9 @@ const RegisterTab = () => {
             <input type="email" placeholder="Email"></input>
             <input type="password" placeholder="Password"></input>
             <div className="loginButton">
-              <input type="submit" value="Login"></input> 
+              <Link to="/Dashboard">
+                <input type="submit" value="Login"></input> 
+              </Link>
               <Link to="/PassRecover">Forgot&nbsp;password?</Link>
             </div>   
           </form>}

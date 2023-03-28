@@ -1,0 +1,21 @@
+.search{
+    width: 40%;
+    display: flex;
+}
+
+.search [type="search"]{
+    width: 100%;
+    padding: 16px 24px;
+    border: 2px solid #407BFF;
+    border-radius: 3px;
+}
+.icon {
+    padding: 17px 14px 0px 14px;
+    color: #407BFF;
+    margin-left: -55px;
+  }
+@media (max-width: 900px){
+    .search{
+        width: 70%;
+    }
+}
