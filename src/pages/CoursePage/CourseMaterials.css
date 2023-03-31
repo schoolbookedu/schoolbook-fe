@@ -1,0 +1,124 @@
+
+.course-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.banner{
+    width: 100%;
+}
+.banner img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.price{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -185px;
+}
+.price-container{
+    width:80%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.price-body{
+    width: 80%;
+    margin-top: -30px;
+}
+.price-title{
+    width: 50%;
+}
+.price-title h2{
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+    padding: 0px;
+}
+.price-followbtn{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.price-followbtn span{
+    display: flex;
+    align-items: flex-end;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.095em;
+    color: #000000;
+}
+.price-followbtn .follow,
+.price-followbtn  .followed {
+    background: #407BFF;
+    font-size: 24px;
+    color: #FFFFFF;
+    padding: 20px 70px;
+    border: 3px solid #407BFF;
+    border-radius: 50px;
+    margin-right: 100px;
+}
+.price-followbtn  .followed {
+    color: #407BFF;
+    background: #FFFFFF;
+    border: 3px solid #407BFF;
+  }
+.objectivetab-container{
+    width: 92%;
+}
+
+
+@media (max-width: 900px){
+    .price-body{
+        width: 90%;
+        margin-top: 200px;
+    }
+    .price-title{
+        width: 60%;
+    }
+    .price-title h2{
+        font-size: 24px;
+        line-height: 38px;
+    }
+    .price-followbtn span{
+        align-items: center;
+        font-size: 14px;
+    }
+    .price-followbtn .follow,
+    .price-followbtn  .followed {
+        font-size: 18px;
+        padding: 10px 50px;
+        margin-right: 0px;
+    }
+    .objectivetab-container{
+        width: 100%;
+    }
+}
+@media (max-width: 480px){
+    .price-title{
+        width: 100%;
+    }
+    .price-title h2{
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .price-followbtn{
+        flex-direction: column;
+    }
+    .price-followbtn span{
+        font-size: 12px;
+        padding: 15px 0px;
+    }
+    .price-followbtn .follow,
+    .price-followbtn  .followed {
+        width: 50%;
+        font-size: 14px;
+        padding: 8px 30px;
+    }
+}

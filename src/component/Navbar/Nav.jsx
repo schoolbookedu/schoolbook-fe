@@ -12,10 +12,12 @@ const Nav = () => {
                     <img src={logo} alt="logo" />
                 </Link>
             </div>
+            <Link to="/Profile">
             <div className='user'>
                 <span className='userprofile'>AO</span>
                 <p>Oluwaseyi</p>
             </div>
+            </Link>
         </div>
     </div>
   )

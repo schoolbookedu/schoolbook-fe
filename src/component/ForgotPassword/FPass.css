@@ -1,11 +1,11 @@
-.pass-register{
+.register{
     width: 100%;
     display: flex;
     flex-direction:column ;
     justify-content: center;
     align-items: center;
 }
-h2{
+.register h2{
     padding-top: 50px;
  }
 .formButton input[type="submit"]
@@ -13,17 +13,17 @@ h2{
     width: 280px;
 }
 @media (max-width: 900px){
- h2{
+    .register h2{
     font-size: 32px;
     line-height: 20px;
  }
 
   } 
   @media (max-width: 480px){
-    h2{
+    .register h2{
         font-size: 22px;
      }
-     p{
+     .register p{
         font-weight: 400;
         font-size: 16px;
         line-height: 10px;

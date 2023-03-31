@@ -13,18 +13,15 @@
     margin-top: 79px;
   }
   
-  button {
+  .tabs button {
     padding: 10px 0px;
-    border: none;
     background: none;
-    cursor: pointer;
-    font-weight: 400;
     font-size: 26px;
     line-height: 20px;
     margin-right: 100px;
     color: rgba(224, 224, 224, 0.5);
   }
-  button.active {
+  .tabs button.active {
     font-weight: 700;
     color: #FFEE52;
     border-bottom: 2px solid #FFEE52;
@@ -40,7 +37,7 @@
     line-height: 60px;
     color: #FFFFFF;
   }
-  span{
+  .tab-content span{
     color: #FFEE52;
   }
 
@@ -68,7 +65,7 @@
 }
 
 @media (max-width: 480px){
-  button {
+  .tabs button {
     font-size: 20px;
     font-weight: 500;
     color: rgba(224, 224, 224, 0.5);

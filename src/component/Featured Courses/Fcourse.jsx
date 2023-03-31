@@ -1,5 +1,6 @@
 import React from 'react'
 import img from '../../utils/img.png'
+import { Link } from 'react-router-dom';
 import './Fcourse.css'
 
 const Fcourse = () => {
@@ -15,7 +16,9 @@ const Fcourse = () => {
           <span className='amount'>$15</span>
         </div>
         <div className='fcourse-button'>
-          <button>Enroll</button>
+          <Link to="/CourseMaterials">
+            <button>Enroll</button>
+          </Link> 
         </div>
       </div>
     </div>

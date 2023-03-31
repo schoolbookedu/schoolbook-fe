@@ -4,7 +4,10 @@ import './App.css';
 import Signup from './pages/Signup/Signup';
 import PassRecover from './pages/Signup/PassRecover';
 import Newpass from './pages/Signup/Newpass';
-import Dashboard from './pages/Dash/Dashboard';
+import Dashboard from './pages/DashboardPage/Dashboard';
+import CourseMaterials from './pages/CoursePage/CourseMaterials';
+import CourseContent from './pages/Course Content/CourseContent';
+import Profile from './pages/User Profile/Profile';
 
 
 function App() {
@@ -16,6 +19,9 @@ function App() {
           <Route path="/PassRecover" element={(<PassRecover/>)} />
           <Route path="/Newpass" element={(<Newpass/>)} />
           <Route path="/Dashboard" element={(<Dashboard/>)} />
+          <Route path="/CourseMaterials" element={(<CourseMaterials/>)} />
+          <Route path="/CourseContent" element={(<CourseContent/>)} />
+          <Route path="/Profile" element={(<Profile/>)} />
         </Routes>
       </BrowserRouter>   
     </div>

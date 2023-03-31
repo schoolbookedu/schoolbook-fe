@@ -1,0 +1,30 @@
+.objectiveTab button.active{
+    font-weight: 700;
+    color: #407BFF;
+    border-bottom: 2px solid #407BFF;
+  }
+
+.mediadocument p{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+  letter-spacing: 0.085em;
+  color: #000000;
+}
+.mediaaudio{
+  width: 100%;
+  margin-top: 40px;
+}
+
+.mediaaudio img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+@media (max-width: 900px){
+  .mediadocument p{
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
