@@ -11,6 +11,7 @@
 .formButton input[type="submit"]
 {
     width: 280px;
+    border-radius: 5px;
 }
 @media (max-width: 900px){
     .register h2{

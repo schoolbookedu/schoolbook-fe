@@ -1,0 +1,269 @@
+.profile-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.profile-id{
+    width: 30%;
+    height: 100vh;
+    padding: 80px 0px;
+    background: #FAFAFA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.profile-id .user .userprofile{
+    padding: 20px;
+    color: #FFFFFF;
+    background: #407BFF;
+}
+.profile-id .user{
+    padding-bottom: 50px;
+    border-bottom: 1px solid #C1C1C1;
+}
+.profile-id .user p{
+    font-weight: 600;
+    font-size: 30px;
+    color:#000000;
+}
+.profile-container .objective-container{
+    height: 65vh;
+}
+.dashboard-menu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FAFAFA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.menu-icon{
+    width:80%;
+    padding: 8px;
+    margin: 0px;
+}
+.cancel-icon{
+    display: none;
+}
+.Menutabs ul li{
+    text-align: right;
+    padding-right: 20px;
+}
+.Menutabs ul li:active{
+    color: #407BFF;
+}
+.logoutbtn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logoutbtn button{
+    padding: 20px 70px;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 500;
+    background: #407BFF;
+    border-radius: 3px;
+}
+.profile-edit{
+    width: 70%;
+    padding: 80px;
+}
+.profile-edit label{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+}
+.profile-edit form{
+    width: 80%;
+}
+.fullname{
+    display: flex;
+}
+.name{
+    width: 50%
+}
+.profile-edit form .fullname input[type="text"]{
+    width: 90%;
+}
+.profile-edit form input[type="text"],
+.profile-edit form input[type="email"],
+.profile-edit form input[type="password"]{
+    width: 95%;
+    border: none;
+    background: none;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    pointer-events: none;
+}
+.profile-edit form input[type="password"]{
+    width: 60%;
+}
+*:focus{
+    outline: none;
+}
+.password,
+.inst{
+    margin-top: 20px;
+}
+.pass{
+    width: 97%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pass span{
+    font-size: 16px;
+    line-height: 19px;
+    color: #407BFF;
+}
+.completed-courses{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Change Password */
+
+.changepass{
+    width: 80%;
+}
+.changepass h2{
+    margin-bottom: 20px;
+}
+.changepass form{
+    width: 100%;
+}
+.changepass form input[type="password"]{
+    width: 97%;
+    padding-left: 20px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+.profile-edit .formButton{
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media (max-width: 900px){
+    .profile-id{
+        width: 250px;
+        height: 100%;
+        padding: 0px;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+    .profile-id .user .userprofile{
+        padding: 15px;
+    }
+    .profile-id .user p{
+        display: block;
+        font-size: 20px;
+        margin: 10px;
+    }
+    .dashboard-menu{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .menu-icon{
+        width:80%;
+        padding: 8px;
+        margin: 0px;
+    }
+    .cancel-icon{
+        display: block;
+        margin: 20px;
+    }
+    .profile-container .objective-container{
+        height: 50vh;
+    }
+    .profile-edit{
+        width: 100%;
+        padding-left: 80px;
+    }
+    .profile-id .user{
+        padding: 20px;
+    }
+    .profile-edit form{
+        width: 100%;
+    }
+    .profile-edit label{
+        font-size: 14px;
+    }
+   
+    .profile-edit form input[type="text"],
+    .profile-edit form input[type="email"],
+    .profile-edit form input[type="password"]{
+    font-size: 20px;
+    }
+    .logoutbtn button{
+    padding: 20px 70px;
+    font-size: 16px;
+    }
+    .completed-courses{
+        flex-direction: column;
+    }
+    .changepass h2{
+      font-size: 22px;
+    }
+    .changepass form input[type="password"]{
+        width: 96%;
+    }
+    .formButton input[type="submit"]
+{
+    width: 200px;
+    font-size: 16px;
+}
+}
+@media (max-width: 480px){
+    .profile-id{
+        width: 200px;
+    }
+    .fullname{
+        display: flex;
+        flex-direction: column;
+    }
+    .name{
+        width: 100%
+    }
+    .profile-edit{
+        width: 100%;
+        padding: 50px 20px;
+    }
+    .profile-edit label{
+        font-size: 12px;
+    }
+    .profile-edit form input[type="text"],
+    .profile-edit form input[type="email"],
+    .profile-edit form input[type="password"]{
+        width: 90%;
+        font-size: 18px;
+    }
+    .logoutbtn button{
+        padding: 20px 50px;
+        }
+    .pass span{
+        font-size: 12px;
+    }
+    .changepass{
+        width: 100%;
+    }
+    .changepass form input[type="password"]{
+        width: 95%;
+    }
+    .formButton input[type="submit"]
+    {
+        width: 150px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+}
