@@ -16,16 +16,16 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={(<Signup/>)} />
-          <Route path="/PassRecover" element={(<PassRecover/>)} />
-          <Route path="/Newpass" element={(<Newpass/>)} />
-          <Route path="/Dashboard" element={(<Dashboard/>)} />
-          <Route path="/CourseMaterials" element={(<CourseMaterials/>)} />
-          <Route path="/CourseContent" element={(<CourseContent/>)} />
-          <Route path="/Profile" element={(<Profile/>)} />
-          <Route path="/ChangePass" element={(<ChangePass/>)} />
+          <Route path="/" element={(<Signup />)} />
+          <Route path="/PassRecover" element={(<PassRecover />)} />
+          <Route path="/Newpass" element={(<Newpass />)} />
+          <Route path="/Dashboard" element={(<Dashboard />)} />
+          <Route path="/CourseMaterials" element={(<CourseMaterials />)} />
+          <Route path="/CourseContent" element={(<CourseContent />)} />
+          <Route path="/Profile" element={(<Profile />)} />
+          <Route path="/ChangePass" element={(<ChangePass />)} />
         </Routes>
-      </BrowserRouter>   
+      </BrowserRouter>
     </div>
   );
 }

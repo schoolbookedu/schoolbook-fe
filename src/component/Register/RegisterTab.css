@@ -88,6 +88,7 @@
         font-weight: 500;
         font-size: 20px;
         border: none;
+        border-radius: 5px;
         background: #407BFF;
     }
     .loginButton input[type="submit"]
@@ -109,7 +110,7 @@
         margin: 0px;
       }
       .tabForm{
-        width: 100%;
+        width: 95%;
       }
       .registerTab{
         justify-content: space-between;

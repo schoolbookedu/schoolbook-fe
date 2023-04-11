@@ -5,6 +5,15 @@
     align-items: center;
     justify-content: center;
 }
+.dashboard-content{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard-content h2{
+  font-size: 30px;
+}
 .dashboard-container{
     width: 100%;
     display: flex;
@@ -40,7 +49,6 @@
     width: 90%;
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
     margin-top: 50px;
   }
   .search-container{
@@ -56,15 +64,19 @@
   }
   .fcourse-container{
     margin: 30px auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 25px 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    overflow: hidden;
   }
-  @media (max-width: 1050px){
-    .fcourse-container{
-      grid-template-columns: repeat(2, 1fr);
+  .fcourse-scroll{
+    width: 100%;
+    display: flex;
+    overflow: scroll;
+    padding: 20px;
     }
-  }
+
 
 
   @media (max-width: 900px){
@@ -72,6 +84,12 @@
         padding: 10px 50px;
         font-size: 20px;
         margin-right: 0px;
+      }
+      .dashboard-content{
+        width: 100%;
+      }
+      .dashboard-content h2{
+        font-size: 26px;
       }
       .search-container{
         flex-direction: column;
@@ -81,12 +99,11 @@
       .search-container h2{
         padding-bottom: 50px;
       }
-      .fcourse-container{
-        width: 100%;
-        grid-template-columns: repeat(1, 1fr);
-      }
   }
   @media (max-width: 480px){
+    .dashboard-content h2{
+      font-size: 20px;
+    }
     .dashboard-tab button {
         padding: 5px 20px;
         font-size: 16px;

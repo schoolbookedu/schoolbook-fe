@@ -55,18 +55,13 @@ width: 20%;
 .fcourse-button button{
     margin: 0px;
     margin-top: 30px;
-    padding: 25px 70px;
+    padding: 20px 90px;
     background: #407BFF;
     border-radius: 3px;
     font-weight: 700;
     font-size: 24px;
     color:#FFFFFF;
 }
-@media (max-width: 1050px){
-    .fcourse{
-       margin-bottom: 50px;
-     }
-  }
   @media (max-width: 480px){
     .fcourse{
         max-width: 250px;

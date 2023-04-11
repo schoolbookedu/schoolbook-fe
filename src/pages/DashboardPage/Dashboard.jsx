@@ -38,10 +38,12 @@ const Dashboard = () => {
           <h2>Featured Courses</h2>
           <Search/>
           </div>
-          <div className='fcourse-container'>  
+          <div className='fcourse-container'> 
+          <div className='fcourse-scroll'>
             <Fcourse/>
             <Fcourse/>
             <Fcourse/>
+          </div> 
           </div>
           </div>}
           {activeTab === 1 && 

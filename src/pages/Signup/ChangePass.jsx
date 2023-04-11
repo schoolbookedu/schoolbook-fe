@@ -1,4 +1,4 @@
-import { faBars, faClose, faPencil, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,24 +12,12 @@ const profileTab = [
 ];
 
 const ChangePass = () => {
-  const [userFirstName, setUserfirstName] = useState("Oluwaseyi");
-  const [userLastName, setUserLastName] = useState("Ajewole");
-  const [userEmail, setUseremail] = useState("Olubayoseyi10@gmail.com");
-  const [userUniversity, setUseruniversity] = useState(
-    "Bowen University, iwo, Osun state"
-  );
-  const [userPassword, setUserpassword] = useState("Oluwaseyi1234###");
   const [activeTab, setActiveTab] = useState(0);
-  const [open,  setOpen] = useState(false)
-
-  const inputchangehandler = (event) => {
-    setUserfirstName(event.target.value);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
-
 
   return (
     <>
@@ -43,66 +31,67 @@ const ChangePass = () => {
         </div>
       </div>
       <div className="dashboard-menu">
-      <div className={`menu-icon ${open ? 'open' : ''}`} onClick={handleClick}>
-            <FontAwesomeIcon icon={faBars} />
+        <div
+          className={`menu-icon ${open ? "open" : ""}`}
+          onClick={handleClick}
+        >
+          <FontAwesomeIcon icon={faBars} />
         </div>
       </div>
       <div className="profile-container">
-        
         {open && (
-        <div className="profile-id">
+          <div className="profile-id">
             <div className="cancel-icon" onClick={() => setOpen(false)}>
-                <FontAwesomeIcon icon={faClose} />
+              <FontAwesomeIcon icon={faClose} />
             </div>
-          <div className="user">
-            <span className="userprofile">AO</span>
-            <p>Oluwaseyi</p>
-          </div>
+            <div className="user">
+              <span className="userprofile">AO</span>
+              <p>Oluwaseyi</p>
+            </div>
 
-          <div className="objective" onClick={() => setOpen(false)}>
-            <div className="objective-container">
-              <div className="Sidenav-tab">
-                <div className="Menutabs">
-                  {profileTab.map((menu) => (
-                    <ul
-                      className={activeTab === menu.id ? "active" : ""}
-                      onClick={() => setActiveTab(menu.id)}
-                    >
-                      <li key={menu.id}>{menu.label}</li>
-                    </ul>
-                  ))}
+            <div className="objective" onClick={() => setOpen(false)}>
+              <div className="objective-container">
+                <div className="Sidenav-tab">
+                  <div className="Menutabs">
+                    {profileTab.map((menu) => (
+                      <ul
+                        className={activeTab === menu.id ? "active" : ""}
+                        onClick={() => setActiveTab(menu.id)}
+                      >
+                        <li key={menu.id}>{menu.label}</li>
+                      </ul>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="logoutbtn">
+              <div className="logoutbtn">
                 <Link to="/">
                   <button>Log Out</button>
                 </Link>
               </div>
+            </div>
           </div>
-        </div>
-         )}
+        )}
         <div className="profile-edit">
           {activeTab === 0 && (
             <div className="changepass">
-                    <h2>Change Password</h2>
-                <form>
+              <h2>Change Password</h2>
+              <form>
                 <input type="password" placeholder="Old Password"></input>
                 <input type="password" placeholder="New Password"></input>
                 <div className="formButton">
-                <Link to="/">
-                    <input type="submit" value="Change Password"></input>  
-                </Link> 
-                </div>  
-                </form>
+                  <Link to="/">
+                    <input type="submit" value="Change Password"></input>
+                  </Link>
+                </div>
+              </form>
             </div>
-            
           )}
-          {activeTab === 1 && 
-          <div className="completed-courses">
-            <Completed/>
-          </div>
-          }
+          {activeTab === 1 && (
+            <div className="completed-courses">
+              <Completed />
+            </div>
+          )}
         </div>
       </div>
     </>
