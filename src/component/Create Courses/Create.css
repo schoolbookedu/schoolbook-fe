@@ -1,0 +1,24 @@
+.create{
+    width: 40%;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    margin-top: 30px;
+    border: 1px dashed #407BFF;
+}
+
+@media (max-width: 900px){
+    .create{
+        width: 50%;
+        height: 200px;
+        margin-top: 20px;
+    }
+}
+@media (max-width: 480px){
+    .create{
+        width: 60%;
+        height: 150px;
+    }
+}

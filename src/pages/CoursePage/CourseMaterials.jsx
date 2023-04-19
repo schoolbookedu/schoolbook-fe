@@ -5,6 +5,7 @@ import banner from "../../utils/banner.png";
 import Price from "../../component/Price Card/Price";
 import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
 
+
 const tab = [{ id: 0, label: "Course Materials" }];
 
 const CourseMaterials = () => {

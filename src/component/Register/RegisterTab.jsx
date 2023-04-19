@@ -51,7 +51,9 @@ const RegisterTab = () => {
                   <label>By Registering you agree with the terms and<br/> condition of schoolbook</label> 
                 </div> 
                 <div className="formButton">
+                <Link to="/InstructorDashboard">
                   <input type="submit" value="Register"></input> 
+                  </Link>
                 </div>                   
               </form>
           }

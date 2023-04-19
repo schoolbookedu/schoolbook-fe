@@ -54,6 +54,114 @@
   border-radius: 50px;
 }
 
+.outline-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start;
+  align-items:flex-start;
+  padding: 80px 0px;
+  /* background: blue; */
+}
+.outline-list{
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+ .outline-list button{
+  font-size: 20px;
+  padding: 30px;
+  text-align: left;
+  color: #E0E0E0;
+  border-bottom: none;
+  background: none;
+}
+.outline-content{
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0px 20px;
+  border-left: 1px solid #000000 ;
+}
+.create-outline{
+  width:100%;
+}
+.outline-content .form,
+.outline-content .outline-form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.outline-content .form input[type="text"],
+.outline-content .outline-form input[type="text"]{
+  padding: 30px 20px;
+}
+.outline-content .form input[type="text"]:last-child{
+  padding-bottom: 300px;
+}
+.outlinebtn,
+.outlinebtn2{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 30px;
+}
+
+.outlinebtn button,
+.outlinebtn2 button,
+.outline-form button{
+  font-size: 20px;
+  background: #407BFF;
+  color: #FFFFFF;
+  border: 1px solid #407BFF;
+  padding: 18px 70px;
+}
+
+.outlinebtn2 .prev{
+  border: 1px solid #407BFF;
+  color: #407BFF;
+  background: none;
+  margin-right: 20px;
+}
+.outline-content .outline-form h2{
+  font-size: 22px;
+  font-weight: 600;
+  padding: 30px 0px 10px 0px;
+}
+.outline-form .outline-btn{
+  width: 100%;
+  margin: 20px 0px;
+}
+.outline-create{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 0px;
+  border: 1px solid #000000;
+
+}
+.outline-create p{
+  font-size: 16px;
+  color: #E0E0E0;
+}
+
+.preview-course{
+  width: 100%;
+}
+
+.preview-text{
+  width: 70%;
+}
+
 @media (max-width: 900px){
     .sidenavContent-text{
       width: 60%;
@@ -77,6 +185,21 @@
     .sidenavContentbtn button{
       font-size: 18px;
       padding: 15px 40px;
+    }
+
+    .outline-list button,
+    .outline-form button{
+      font-size: 18px;
+    }
+    .preview-text{
+      width: 100%;
+    }
+    .preview-course h2{
+      font-size: 20px;
+      line-height: 30px;
+    }
+    .preview-text p{
+      font-size: 16px;
     }
   }
   
@@ -102,6 +225,66 @@
         }
         .sidenavContentbtn{
           margin-top: 20px;
+        }
+
+
+
+        .outline-container{
+          width: 95%;
+          padding: 40px 0px;
+        }
+        .outline-list button{
+          font-size: 14px;
+          padding: 0px;
+          padding-bottom: 30px;
+        }
+        .outline-content{
+          padding: 0px ;
+          padding-left: 10px;
+        }
+        .outline-content .form input[type="text"],
+        .outline-content .outline-form input[type="text"]{
+          padding: 15px 10px;
+        }
+        .outline-content .form input[type="text"]::placeholder{
+          font-size: 12px;
+        }
+        .outline-content .form input[type="text"]:last-child{
+          padding-bottom: 150px;
+        }
+        .outlinebtn{
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+        .outline-content .outline-form h2{
+          font-size: 14px;
+          font-weight: 600;
+          padding: 0px;
+        }
+        .outlinebtn button,
+        .outline-form button{
+          font-size: 14px;
+          padding: 13px 20px;
+        }
+        .outline-form .outline-btn{
+          margin: 0px;
+          margin-bottom: 20px;
+        }
+        .outline-create{
+          padding: 30px 0px;
+          margin-bottom: 30px;
+        }
+        .outline-create p{
+          font-size: 12px;
+        }
+        .preview-course h2{
+          font-size: 18px;
+          line-height: 24px;
+        }
+        .preview-text p{
+          font-size: 12px;
+          line-height: 18px;
         }
     }
   
