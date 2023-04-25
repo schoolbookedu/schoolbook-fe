@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Link } from "react-router-dom";
 import OutlineCard from "../Outline Card/OutlineCard";
 import "./CourseObjective.css";
+import { useSelector } from "react-redux";
 
 const tabs = [
   { id: 0, label: "Course Objectives" },
@@ -19,6 +20,7 @@ const cardData = [
 
 const CourseObjective = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const inputObjective = useSelector((state) => state.inputObjective);
   return (
     <>
       <div className="objective">
@@ -37,28 +39,7 @@ const CourseObjective = () => {
           {activeTab === 0 && (
             <div className="objective-content">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Ut et
-                massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                sapien fringilla, mattis ligula consectetur, ultrices mauris.
-                Maecenas vitae mattis tellus. Nullam quis imperdiet augue.
-                Vestibulum auctor ornare leo, non suscipit magna interdum eu.
-                Curabitur pellentesque nibh nibh, at maximus ante fermentum sit
-                amet. Pellentesque commodo lacus at sodales sodales. Quisque
-                sagittis orci ut diam condimentum,vel euismod erat placerat. In
-                iaculis arcu eros, eget tempus orci facilisis id.Lorem ipsum
-                dolor sit
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Ut et
-                massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                sapien fringilla, mattis ligula consectetur, ultrices mauris.
-                Maecenas vitae mattis tellus. Nullam quis imperdiet augue.
-                Vestibulum auctor ornare leo, non suscipit magna interdum eu.
-                Curabitur pellentesque nibh nibh, at maximus ante fermentum sit
-                amet. Pellentesque commodo lacus at sodales sodales. Quisque
-                sagittis orci ut diam condimentum,vel euismod erat placerat. In
-                iaculis arcu eros, eget tempus orci facilisis id.Lorem ipsum
-                dolor sit
+               {inputObjective}
               </p>
             </div>
           )}

@@ -2,10 +2,6 @@ import {React, useState} from 'react'
 import '../DashboardPage/Dashboard.css'
 import './InstructorDashboard.css'
 import Nav from '../../component/Navbar/Nav'
-import Fcourse from '../../component/Featured Courses/Fcourse';
-import Course from '../../component/Courses/Course';
-import Search from '../../component/Searchbar/Search';
-import Progress from '../../component/Courses/Progress';
 import Create from '../../component/Create Courses/Create';
 import Created from '../../component/Featured Courses/Created';
 

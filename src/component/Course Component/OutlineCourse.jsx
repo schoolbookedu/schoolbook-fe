@@ -2,16 +2,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState, useRef } from "react";
 import { faPaperclip, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import MediaContent from "../Media Content/MediaContent";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 
 const link = [
   { id: 0, list: "Course Intro" },
   { id: 1, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse = () => {
+const OutlineCourse = ({onSubmit}) => {
   const [activeTab, setActiveTab] = useState(0);
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const handleTitleChange = (event) => {
+    dispatch({ type: 'UPDATE_TITLE_VALUE', payload: event.target.value });
+  };
+  const inputTitle = useSelector((state) => state.inputTitle);
+  
+  const handleObjectiveChange = (event) => {
+    dispatch({ type: 'UPDATE_OBJECTIVE_VALUE', payload: event.target.value });
+  };
+  const inputObjective = useSelector((state) => state.inputObjective);
+  
+  const handleMaterialChange = (event) => {
+    dispatch({ type: 'UPDATE_MATERIAL_VALUE', payload: event.target.value });
+  };
+  const inputMaterial = useSelector((state) => state.inputMaterial);
 
   const handleClick = () => {
     // 👇️ open file input box on click of other element
@@ -36,6 +54,8 @@ const OutlineCourse = () => {
     console.log(fileObj);
     console.log(fileObj.name);
   };
+
+
   return (
     <>
       <div className="outline-container">
@@ -54,22 +74,26 @@ const OutlineCourse = () => {
           {activeTab === 0 && (
             <div className="create-outline">
               <div className="form">
-                <input type="text" placeholder="Course Title" />
-                <input type="text" placeholder="Course Objective" />
+                <input type="text" placeholder="Course Title" 
+                onChange={handleTitleChange}/>
+                <textarea type="text" placeholder="Course Objective"  
+                onChange={handleObjectiveChange} />
               </div>
               <div className="outlinebtn">
-                <button onClick={() => setActiveTab(1)}>Next</button>
+                <button onClick={() => setActiveTab(1)}
+                 >Next</button>
               </div>
             </div>
           )}
           {activeTab === 1 && (
             <>
               <div className="outline-form">
-                <input type="text" placeholder="Title" />
+                <input type="text" placeholder="Title" value={inputTitle}/>
               </div>
               <div className="outline-form">
                 <h2>Course Materials</h2>
-                <input type="text" placeholder="Material Title" />
+                <input type="text" placeholder="Material Title" 
+                onChange={handleMaterialChange}/>
                 <div className="outline-btn">
                   <label htmlFor="file-input">
                     <button onClick={handleClick}>
@@ -82,6 +106,7 @@ const OutlineCourse = () => {
                     type="file"
                     onChange={handleFileChange}
                   />
+                
                 </div>
               </div>
               <div className="outline-form">
@@ -105,22 +130,13 @@ const OutlineCourse = () => {
           {activeTab === 2 && (
             <>
               <div className="preview-course">
-                <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
+                <h2>{inputTitle}</h2>
                 <div className="preview-text">
                   <p>COURSE OBJECTIVE</p>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.Ut
-                    et massa mi. Aliquam in hendrerit urna. Pellentesque sit
-                    amet sapien fringilla, mattis ligula consectetur, ultrices
-                    mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet
-                    augue. Vestibulum auctor ornare leo, non suscipit magna
-                    interdum eu. Curabitur pellentesque nibh nibh, at maximus
-                    ante fermentum sit amet. Pellentesque commodo lacus at
-                    sodales sodales. Quisque sagittis orci ut diam
-                    condimentum,vel euismod erat placerat. In iaculis arcu eros,
-                    eget tempus orci facilisis id.Lorem ipsum dolor sit
+                    {inputObjective}
                   </p>
-                  <p><b>FUNDAMENTALS OF GRAPHIC DESIGN</b></p>
+                  <p><b>{inputMaterial}</b></p>
                 </div>
                 <MediaContent />
               </div>
@@ -128,9 +144,9 @@ const OutlineCourse = () => {
               <button 
               className="prev"
               onClick={() => setActiveTab(1)}>Previous</button>
-                <Link to="/InstructorMaterials">
-                    <button>Next</button>
-                </Link>
+              <Link to="/InstructorMaterials">
+                <button type="submit">Next</button>
+              </Link>
               </div>
             </>
           )}

@@ -2,24 +2,16 @@ import { React, useState } from "react";
 import "./CourseMaterials.css";
 import Nav from "../../component/Navbar/Nav";
 import banner from "../../utils/banner.png";
-import Price from "../../component/Price Card/Price";
 import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
 import InstructorPrice from "../../component/Price Card/InstructorPrice";
 import { Link } from "react-router-dom";
-import {useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
 const InstructorMaterials = () => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [value, setValue] = useState('');
-  const navigate = useNavigate();
-
-  const handleSubmit = () => {
-    // 👇️ navigate programmatically
-    localStorage.setItem('price', value);
-    navigate(`/InstructorMaterials2`, value);
-  };
+  const [activeTab, setActiveTab] = useState(0);  
+  const inputTitle = useSelector((state) => state.inputTitle);
   return (
     <>
       <Nav />
@@ -45,21 +37,23 @@ const InstructorMaterials = () => {
               </div>
               <div className="price">
                 <div className="price-container">
-                  <InstructorPrice  onSubmit={setValue} value={value}/>
+                  <InstructorPrice  />
                 </div>
               </div>
               <div className="price-body">
                 <div className="price-title">
-                  <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
+                  <h2>{inputTitle}</h2>
                 </div>
                 <div className="objectivetab-container">
                   <CourseObjective />
-                </div>
-                <div className="outlinebtn2">
+                  <div className="outlinebtn2">
                     <Link to="/CourseOutline">
-                    <button className="prev">Previous</button>
+                      <button className="prev">Previous</button>
+                    </Link> 
+                    <Link to="/InstructorMaterials2">
+                      <button>Next</button>
                     </Link>
-                    <button type="submit" onClick={handleSubmit}>Next</button>
+                </div>
                 </div>
               </div>
             </div>

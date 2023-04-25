@@ -9,6 +9,7 @@ import Nav from '../../component/Navbar/Nav'
 import { faBars, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CourseContent.css'
+import { useSelector } from 'react-redux'
 
 
 const sideMenu = [
@@ -24,6 +25,7 @@ const sideMenu = [
 const CourseContent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const inputTitle = useSelector((state) => state.inputTitle);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -45,7 +47,7 @@ const CourseContent = () => {
           <FontAwesomeIcon icon={faClose} />
           </div>
           <div className="sidenav-title">
-            <h2>Introduction to Graphic Design</h2>
+            <h2>{inputTitle}</h2>
           </div>
           <div className="Sidenav-tab">
           <div className="Menutabs">

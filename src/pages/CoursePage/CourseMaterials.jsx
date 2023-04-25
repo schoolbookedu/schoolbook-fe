@@ -4,7 +4,7 @@ import Nav from "../../component/Navbar/Nav";
 import banner from "../../utils/banner.png";
 import Price from "../../component/Price Card/Price";
 import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
-
+import { useSelector } from 'react-redux';
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
@@ -16,6 +16,7 @@ const CourseMaterials = () => {
   };
 
   const [activeTab, setActiveTab] = useState(0);
+  const inputTitle = useSelector((state) => state.inputTitle);
   return (
     <>
       <Nav />
@@ -46,7 +47,7 @@ const CourseMaterials = () => {
               </div>
               <div className="price-body">
                 <div className="price-title">
-                  <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
+                  <h2>{inputTitle}</h2>
                 </div>
                 <div className="price-followbtn">
                   <span>Tutor: Prof John Tobiloba</span>

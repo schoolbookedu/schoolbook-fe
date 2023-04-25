@@ -101,8 +101,8 @@
 .outline-content .outline-form input[type="text"]{
   padding: 30px 20px;
 }
-.outline-content .form input[type="text"]:last-child{
-  padding-bottom: 300px;
+.outline-content .form textarea[type="text"]{
+  padding:20px 20px 300px 20px
 }
 .outlinebtn,
 .outlinebtn2{
@@ -160,6 +160,9 @@
 
 .preview-text{
   width: 70%;
+}
+.preview-text p{
+  line-height: 32px;
 }
 
 @media (max-width: 900px){
@@ -249,8 +252,8 @@
         .outline-content .form input[type="text"]::placeholder{
           font-size: 12px;
         }
-        .outline-content .form input[type="text"]:last-child{
-          padding-bottom: 150px;
+        .outline-content .form textarea[type="text"]{
+          padding:20px 0px 150px 20px
         }
         .outlinebtn{
           width: 100%;

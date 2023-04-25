@@ -13,10 +13,13 @@ import ChangePass from './pages/Signup/ChangePass';
 import CourseOutline from './pages/Instructor Dash/CourseOutline';
 import InstructorMaterials from './pages/CoursePage/InstructorMaterials';
 import InstructorMaterials2 from './pages/CoursePage/InstructorMaterials2';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 
 function App() {
   return (
+    <Provider store={store}>
     <div className="App">
       <BrowserRouter>
         <Routes>
@@ -30,13 +33,16 @@ function App() {
           <Route path="/ChangePass" element={(<ChangePass />)} />
           
           {/*Instructor Page*/}
+          
           <Route path="/InstructorDashboard" element={(<InstructorDashboard />)} />
           <Route path="/CourseOutline" element={(<CourseOutline/> )} />
           <Route path="/InstructorMaterials" element={(<InstructorMaterials /> )} />
           <Route path="/InstructorMaterials2" element={(<InstructorMaterials2/> )} />
+          
         </Routes>
       </BrowserRouter>
     </div>
+    </Provider>
   );
 }
 

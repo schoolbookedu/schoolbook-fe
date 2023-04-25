@@ -2,10 +2,6 @@ import {React, useState} from 'react'
 import '../DashboardPage/Dashboard.css'
 import './InstructorDashboard.css'
 import Nav from '../../component/Navbar/Nav'
-import Fcourse from '../../component/Featured Courses/Fcourse';
-import Course from '../../component/Courses/Course';
-import Search from '../../component/Searchbar/Search';
-import Progress from '../../component/Courses/Progress';
 import Create from '../../component/Create Courses/Create';
 import Created from '../../component/Featured Courses/Created';
 import OutlineCourse from '../../component/Course Component/OutlineCourse';
@@ -20,6 +16,8 @@ const tab = [
 
 const CourseOutline = () => {
   const [activeTab, setActiveTab] = useState(0);
+  
+
   return (
     <div>
       <Nav />
@@ -40,7 +38,7 @@ const CourseOutline = () => {
         <div className="dashboard-content">
           {activeTab === 0 && 
             <div className='outline'>
-               <OutlineCourse/>
+               <OutlineCourse />
             </div>}
           {activeTab === 1 && 
           <div className='content-container'>
