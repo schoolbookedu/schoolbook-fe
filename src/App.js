@@ -15,6 +15,7 @@ import InstructorMaterials from './pages/CoursePage/InstructorMaterials';
 import InstructorMaterials2 from './pages/CoursePage/InstructorMaterials2';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import InstructorEdit from './pages/Instructor Edit Page/InstructorEdit';
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
           <Route path="/CourseOutline" element={(<CourseOutline/> )} />
           <Route path="/InstructorMaterials" element={(<InstructorMaterials /> )} />
           <Route path="/InstructorMaterials2" element={(<InstructorMaterials2/> )} />
-          
+          <Route path="/InstructorEdit" element={(<InstructorEdit/> )} />
         </Routes>
       </BrowserRouter>
     </div>

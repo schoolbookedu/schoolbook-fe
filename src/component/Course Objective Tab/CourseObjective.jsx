@@ -45,7 +45,6 @@ const CourseObjective = () => {
           )}
           {activeTab === 1 && (
             <div className="outlineCard-container">
-             
                 {cardData.map((card) => (
                   <Link to="/CourseContent" style={{textDecoration: 'none'}}>
                     <OutlineCard
@@ -55,7 +54,6 @@ const CourseObjective = () => {
                     />
                   </Link>
                 ))}
-           
             </div>
           )}
         </div>

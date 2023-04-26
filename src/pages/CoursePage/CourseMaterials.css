@@ -75,6 +75,9 @@
 
 
 @media (max-width: 900px){
+    .price{
+        margin-top: 0px;
+    }
     .price-body{
         width: 90%;
         margin-top: 200px;

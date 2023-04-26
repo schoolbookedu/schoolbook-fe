@@ -5,6 +5,7 @@ import banner from "../../utils/banner.png";
 import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
 import Price2 from "../../component/Price Card/Price2";
 import { useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
@@ -47,7 +48,9 @@ const InstructorMaterials2 = () => {
                   <CourseObjective />
                 </div>
                 <div className="outlinebtn2">
-                    <button type="submit">Upload</button>
+                  <Link to="/InstructorEdit">
+                   <button type="submit">Upload</button>
+                  </Link>
                 </div>
               </div>
             </div>
