@@ -1,8 +1,8 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import "../CoursePage/CourseMaterials.css";
 import Nav from "../../component/Navbar/Nav";
 import banner from "../../utils/banner.png";
-import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
+import InstructorObjective from "../../component/Course Objective Tab/InstructorObjective";
 import { useSelector } from 'react-redux';
 import './InstructorEdit.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +11,10 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 const tab = [{ id: 0, label: "Course Materials" }];
 
 
-const InstructorEdit = () => {
+const InstructorEdit = (props) => {
     const [activeTab, setActiveTab] = useState(0);
     const inputTitle = useSelector((state) => state.inputTitle);
+      
   return (
     <div>
         <Nav />
@@ -39,19 +40,19 @@ const InstructorEdit = () => {
               </div>
               <div className="price-body">
                     <div className="price-title">
-                        <h2>{inputTitle}</h2>
+                        <input value={inputTitle}  />
                         <span>Tutor: Prof John Tobiloba</span>
                     </div>
                     <div className="edit-section">
                     <div className="edit-btn">
-                    <button className="save">Save changes</button>
-                    <button className="edit">Edit {" "}
+                    <button className="save" >Save changes</button>
+                    <button className="edit" >Edit {" "}
                         <FontAwesomeIcon icon= {faPen} />
                     </button>
                 </div>
                     </div>
                 <div className="objectivetab-container">
-                  <CourseObjective />
+                  <InstructorObjective />
                 </div>
                 
               </div>

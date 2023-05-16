@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import { Link } from "react-router-dom";
 import "./Signup.css";
 import logo from "../../utils/logo.png";
@@ -6,6 +6,12 @@ import Tab from "../../component/Student/Tab";
 import RegisterTab from "../../component/Register/RegisterTab";
 
 const Signup = () => {
+  const [activeTab, setActiveTab] = useState('instructor');
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="signup">
       <div className="signup-container">
@@ -16,11 +22,11 @@ const Signup = () => {
                 <img src={logo} alt="logo" />
               </Link>
             </div>
-            <Tab />
+            <Tab activeTab={activeTab} onTabChange={handleTabChange}/>
           </div>
         </div>
         <div className="form">
-          <RegisterTab />
+          <RegisterTab activeTab={activeTab}/>
         </div>
       </div>
     </div>

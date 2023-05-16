@@ -5,13 +5,19 @@ import banner from "../../utils/banner.png";
 import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
 import Price2 from "../../component/Price Card/Price2";
 import { useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
 const InstructorMaterials2 = () => {
   const [activeTab, setActiveTab] = useState(0);
   const inputTitle = useSelector((state) => state.inputTitle);
+  const navigate = useNavigate();
+
+  const handleUpload = () => {
+    navigate("/CreatedCourse");
+  };
+
   return (
     <>
       <Nav />
@@ -48,9 +54,9 @@ const InstructorMaterials2 = () => {
                   <CourseObjective />
                 </div>
                 <div className="outlinebtn2">
-                  <Link to="/InstructorEdit">
-                   <button type="submit">Upload</button>
-                  </Link>
+                  {/* <Link to="/InstructorEdit"> */}
+                   <button onClick={handleUpload}>Upload</button>
+                  {/* </Link> */}
                 </div>
               </div>
             </div>

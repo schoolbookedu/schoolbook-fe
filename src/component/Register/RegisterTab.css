@@ -47,13 +47,14 @@
     border: 1px solid #000;
     margin-bottom: 12px;
   }
+ 
   select,
   ::placeholder{
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
     letter-spacing: 0.1em;
-    color: #E0E0E0;
+    /* color: #E0E0E0; */
   }
   input[type="checkbox"] {
     height: 20px;
@@ -101,6 +102,7 @@
         color: #407BFF;
         text-decoration: none;
     }
+  
 
  
 

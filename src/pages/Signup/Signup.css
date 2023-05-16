@@ -43,6 +43,37 @@
 .passrecover{
     width: 100%;
 }
+.verify{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.verify-page{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.verify-page h2{
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 171.52%;
+}
+.verify-page p{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 60px;
+}
+.verify-page button{
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    background: #407BFF;
+    border-radius: 3px;
+    padding: 25px 100px;
+}
 
 @media (max-width: 900px){
     .signup{
@@ -78,7 +109,29 @@
         height: 15%;
         border-radius: 100%;
     }
+    .verify-page h2{
+        font-size: 30px;
+        line-height: 140%;
+    }
+    .verify-page p{
+        font-size: 20px;
+        line-height: 50px;
+    }
+    .verify-page button{
+        font-size: 22px;
+        padding: 25px 70px;
+    }
 }
 @media (max-width: 480px){
-
+    .verify-page h2{
+        font-size: 28px;
+    }
+    .verify-page p{
+        font-size: 16px;
+        line-height: 40px;
+    }
+    .verify-page button{
+        font-size: 16px;
+        padding: 20px 50px;
+    }
 }

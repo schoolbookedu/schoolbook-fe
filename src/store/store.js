@@ -26,13 +26,15 @@ export default configureStore({
           return state;
       }
     },
-    inputMaterial: (state = '', action) => {
+    inputModule: (state = '', action) => {
       switch (action.type) {
-        case 'UPDATE_MATERIAL_VALUE':
+        case 'UPDATE_MODULE_VALUE':
           return action.payload;
         default:
           return state;
       }
     },
   },
+
+  
 })

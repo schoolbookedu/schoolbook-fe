@@ -16,7 +16,9 @@
     align-items: center;
     padding: 50px 0px;
 }
-
+textarea{
+    line-height: 25px;
+}
 
 .outline{
     width:100%;

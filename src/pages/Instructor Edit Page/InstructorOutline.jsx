@@ -1,0 +1,61 @@
+import { React, useState } from "react";
+import "../CoursePage/CourseMaterials.css";
+import Nav from "../../component/Navbar/Nav";
+import banner from "../../utils/banner.png";
+import { useSelector } from "react-redux";
+import "./InstructorEdit.css";
+import ObjectiveEdit from "../../component/Course Objective Tab/ObjectiveEdit";
+
+const tab = [{ id: 0, label: "Course Materials" }];
+
+const InstructorOutline = (props) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const inputTitle = useSelector((state) => state.inputTitle);
+
+  return (
+    <div>
+      <Nav />
+      <div className="dashboard">
+        <div className="dashboard-container">
+          <div className="dashboard-tab">
+            {tab.map((tab) => (
+              <button
+                key={tab.id}
+                className={activeTab === tab.id ? "active" : ""}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="price-content">
+          {activeTab === 0 && (
+            <div className="course-container">
+              <div className="banner">
+                <img src={banner} alt="banner" />
+              </div>
+              <div className="price-body">
+                <div className="price-title">
+                  <input value={inputTitle} />
+                  <span>Tutor: Prof John Tobiloba</span>
+                </div>
+                <div className="edit-section">
+                  <div className="edit-btn">
+                    <button className="save">Save changes</button>
+                  </div>
+                </div>
+                <div className="objectivetab-container">
+                  <ObjectiveEdit />
+                </div>
+              </div>
+            </div>
+          )}
+          {activeTab === 1 && ""}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default InstructorOutline;

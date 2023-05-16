@@ -16,6 +16,9 @@ import InstructorMaterials2 from './pages/CoursePage/InstructorMaterials2';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import InstructorEdit from './pages/Instructor Edit Page/InstructorEdit';
+import InstructorOutline from './pages/Instructor Edit Page/InstructorOutline';
+import CreatedCourse from './pages/Instructor Dash/CreatedCourse';
+import Verify from './pages/Signup/Verify';
 
 
 function App() {
@@ -25,6 +28,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={(<Signup />)} />
+          <Route path="/Verify" element={(<Verify />)} />
           <Route path="/PassRecover" element={(<PassRecover />)} />
           <Route path="/Newpass" element={(<Newpass />)} />
           <Route path="/Dashboard" element={(<Dashboard />)} />
@@ -37,9 +41,11 @@ function App() {
           
           <Route path="/InstructorDashboard" element={(<InstructorDashboard />)} />
           <Route path="/CourseOutline" element={(<CourseOutline/> )} />
+          <Route path="/CreatedCourse" element={(<CreatedCourse/> )} />
           <Route path="/InstructorMaterials" element={(<InstructorMaterials /> )} />
           <Route path="/InstructorMaterials2" element={(<InstructorMaterials2/> )} />
           <Route path="/InstructorEdit" element={(<InstructorEdit/> )} />
+          <Route path="/InstructorOutline" element={(<InstructorOutline/> )} />
         </Routes>
       </BrowserRouter>
     </div>

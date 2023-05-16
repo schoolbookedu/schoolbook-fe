@@ -61,7 +61,6 @@
   justify-content:flex-start;
   align-items:flex-start;
   padding: 80px 0px;
-  /* background: blue; */
 }
 .outline-list{
   width: 25%;
@@ -91,18 +90,40 @@
   width:100%;
 }
 .outline-content .form,
-.outline-content .outline-form{
+.outline-content .outline-form,
+.outline-content .outline-form2{
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
+
+.outline-form2{
+  margin-top: 20px;
+}
+.Attachfile{
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 50px;
+}
+.addmaterials{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 0px;
+}
+
 .outline-content .form input[type="text"],
 .outline-content .outline-form input[type="text"]{
   padding: 30px 20px;
+  margin-bottom:20px;
 }
 .outline-content .form textarea[type="text"]{
-  padding:20px 20px 300px 20px
+  padding:20px 20px 250px 20px;
+  margin-bottom:20px;
 }
 .outlinebtn,
 .outlinebtn2{
@@ -116,11 +137,20 @@
 
 .outlinebtn button,
 .outlinebtn2 button,
-.outline-form button{
+.outline-form button,
+.Outlinemodule button,
+.Attachfile button{
   font-size: 20px;
   background: #407BFF;
   color: #FFFFFF;
   border: 1px solid #407BFF;
+  padding: 18px 70px;
+}
+.Attachfile .upload{
+  font-size: 20px;
+  background: #E0E0E0;
+  color: #FFFFFF;
+  border: 1px solid #E0E0E0;
   padding: 18px 70px;
 }
 
@@ -139,6 +169,7 @@
   width: 100%;
   margin: 20px 0px;
 }
+
 .outline-create{
   width: 100%;
   display: flex;
@@ -153,17 +184,81 @@
   font-size: 16px;
   color: #E0E0E0;
 }
-
+label{
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 15px;
+}
 .preview-course{
   width: 100%;
 }
-
+.preview-course h2{
+  text-transform: uppercase;
+}
 .preview-text{
   width: 70%;
 }
 .preview-text p{
   line-height: 32px;
 }
+
+.Outlinemodule{
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coverPhoto{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.coverText{
+  width:35%;
+}
+.coverText p{
+  line-height: 30px;
+}
+.coverText span{
+  color:  #585858;
+}
+.coverCreate{
+  display: flex;
+  justify-content: flex-end;
+  width:65%;
+}
+.modulebtn{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 0px;
+}
+
+.modulehover{
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+.modulehover ul{
+  background: #FFFFFF;
+  display: flex;
+}
+.modulehover ul li{
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border: 1px solid #000000;
+  color: #000000;
+}
+.modulebtn button:hover + .modulehover{
+  display: block;
+}
+
+
 
 @media (max-width: 900px){
     .sidenavContent-text{
@@ -203,6 +298,19 @@
     }
     .preview-text p{
       font-size: 16px;
+    }
+    .coverPhoto{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .coverText{
+      width:50%;
+    }
+    
+    .coverCreate{
+      width:50%;
     }
   }
   
@@ -288,6 +396,12 @@
         .preview-text p{
           font-size: 12px;
           line-height: 18px;
+        }
+        .Outlinemodule{
+          height: 40vh;
+        }
+        .modulebtn{
+          padding: 40px 0px;
         }
     }
   
