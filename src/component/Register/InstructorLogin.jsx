@@ -134,7 +134,6 @@ const InstructorLogin = () => {
       useEffect(() => {
         axios.get(UNIVERSITY_URL)
           .then(response => {
-            // console.log(response.data.data.resource)
             const universitiesData = response.data.data.resource;
             setUniversities(universitiesData); 
           })
@@ -148,7 +147,6 @@ const InstructorLogin = () => {
       useEffect(() => {
         axios.get(DEPARTMENT_URL)
           .then(response => {
-            // console.log(response.data.data.resource)
             const departmentData = response.data.data.resource;
             setDepartments(departmentData); 
           })
@@ -205,13 +203,13 @@ const InstructorLogin = () => {
                 <select id="university"  onChange={(e) => setCurrentUniversities(e.target.value)}>
                 <option value={currentUniversities}>Universities</option>
                   {universities.map(university => (
-                     <option key={university._id} value={university.id}>{university.name}</option>
+                     <option key={university._id} value={university._id}>{university.name}</option>
                   ))}
                 </select>  
                 <select id="department"  onChange={(e) => setCurrentDepartment(e.target.value)}>
                   <option value={currentDepartment}>Departments</option>
                   {departments.map(department => (
-                     <option key={department._id} value={department.id}>{department.name}</option>
+                     <option key={department._id} value={department._id}>{department.name}</option>
                   ))}
                 </select>  
                 <input

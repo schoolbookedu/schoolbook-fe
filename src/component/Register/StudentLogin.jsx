@@ -10,7 +10,9 @@ const tabs = [
 ];
 
 const LOGIN_URL = 'api/v1/users/login'
+const REGISTER_URL = "/api/v1/users"
 const UNIVERSITY_URL = '/api/v1/universities'
+const DEPARTMENT_URL = '/api/v1/departments'
 
 const StudentLogin = () => {
   const emailRef = useRef();
@@ -23,7 +25,9 @@ const StudentLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gender, setGender] = useState('');
   const [universities, setUniversities] = useState([]);
-  const [department, setDepartment] = useState('');
+  const [currentUniversities, setCurrentUniversities] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [currentDepartment, setCurrentDepartment] = useState([]);
   const [level, setLevel] = useState('');
   const [password, setPassword] = useState('');
   const [country, setCountry] = useState('');
@@ -39,13 +43,13 @@ const StudentLogin = () => {
     event.preventDefault();
  
     try {
-        const response = await axios.post("/api/v1/users", {
+        const response = await axios.post(REGISTER_URL, {
           fullName,
           email,
           phoneNumber,
           gender,
           universities,
-          department,
+          departments,
           level,
           password,
           country
@@ -104,17 +108,32 @@ const StudentLogin = () => {
         }
       }
 
-      // Getting the universities from the enndpoint
-      useEffect(() => {
-        axios.get(UNIVERSITY_URL)
-          .then(response => {
-            console.log(response.data.data)
-            setUniversities( response.data.data.resource)  
-          })
-          .catch(error => {
-            console.error("There are no university available at this time");
-          });
-      }, []);
+     // Getting the universities from the endpoint
+     useEffect(() => {
+      axios.get(UNIVERSITY_URL)
+        .then(response => {
+          // console.log(response.data.data.resource)
+          const universitiesData = response.data.data.resource;
+          setUniversities(universitiesData); 
+        })
+        .catch(error => {
+          console.error('Error fetching API:', error);
+        });
+    }, []);
+
+
+    // Getting the Department from the endpoint
+    useEffect(() => {
+      axios.get(DEPARTMENT_URL)
+        .then(response => {
+          // console.log(response.data.data.resource)
+          const departmentData = response.data.data.resource;
+          setDepartments(departmentData); 
+        })
+        .catch(error => {
+          console.error('Error fetching API:', error);
+        });
+    }, []);
 
   return (
          <div className="register">     
@@ -161,23 +180,18 @@ const StudentLogin = () => {
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
-                <select id="university" value={universities} onChange={(e) => setUniversities(e.target.value)}>
-                  {/* <option value="">University</option>
+                <select id="university"  onChange={(e) => setCurrentUniversities(e.target.value)}>
+                <option value={currentUniversities}>Universities</option>
                   {universities.map(university => (
-                     <option key={university.id} value={university.id}>{university.name}</option>
-                  ))} */}
-                  <option value="Convenant">Convenant</option>
-                  <option value="Babcock">Babcock</option>
-                  <option value="Bowen">Bowen</option>
-                  <option value="Unilag">Unilag</option>
+                     <option key={university._id} value={university._id}>{university.name}</option>
+                  ))}
                 </select>  
-                <input
-                  type="text"
-                  placeholder="Department"
-                  id="department"
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
-                  />
+                <select id="department"  onChange={(e) => setCurrentDepartment(e.target.value)}>
+                  <option value={currentDepartment}>Departments</option>
+                  {departments.map(department => (
+                     <option key={department._id} value={department._id}>{department.name}</option>
+                  ))}
+                </select> 
                 <select id="level" value={level} onChange={(e) => setLevel(e.target.value)}>
                   <option value="Level">Level</option>
                   <option value="100">100</option>
