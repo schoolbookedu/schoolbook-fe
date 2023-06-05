@@ -35,6 +35,5 @@ export default configureStore({
       }
     },
   },
-
-  
 })
+

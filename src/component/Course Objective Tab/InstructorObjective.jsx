@@ -12,17 +12,17 @@ const tabs = [
 
 const InstructorObjective = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [cards, setCards] = useState([
-    { id: 0, title: "Fundamentals Of Graphic Design ", text: "Course Outline 1" },
-    { id: 1, title: "Elements Of Graphic Design", text: "Course Outline 2" },
-    { id: 2, title: "Principles Of Graphic Design", text: "Course Outline 3" },
-    { id: 3, title: "Tools Of Graphic Design", text: "Course Outline 4" },
-    { id: 4, title: "Business Of Graphic Design", text: "Course Outline 5" },
-    { id: 5, title: "Review", text: "Course Outline 6" },
+  const [courseCards, setcourseCards] = useState([
+    // { id: 0, title: "Fundamentals Of Graphic Design ", text: "Course Outline 1" },
+    // { id: 1, title: "Elements Of Graphic Design", text: "Course Outline 2" },
+    // { id: 2, title: "Principles Of Graphic Design", text: "Course Outline 3" },
+    // { id: 3, title: "Tools Of Graphic Design", text: "Course Outline 4" },
+    // { id: 4, title: "Business Of Graphic Design", text: "Course Outline 5" },
+    // { id: 5, title: "Review", text: "Course Outline 6" },
   ]);
   
   const handleDelete = (id) => {
-    setCards(cards.filter((card) => card.id !== id));
+    setcourseCards(courseCards.filter((card) => card.id !== id));
   };
   
   const handleEdit = (id) => {
@@ -54,7 +54,7 @@ const InstructorObjective = () => {
           )}
           {activeTab === 1 && (
             <div className="outlineCard-container">
-                {cards.map((card) => (
+                {courseCards.map((card) => (
                     <InstructorCard
                       key={card.id}
                       title={card.title}

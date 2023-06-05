@@ -22,6 +22,16 @@ const tab = [
 const CourseOutline = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [currentComponent, setCurrentComponent] = useState('OutlineCourse');
+  const [cards, setCards] = useState([]);
+  const [inputText, setInputText] = useState('');
+
+
+  const addCard = (text) => {
+    setCards([...cards, text]);
+  };
+
+
+
 
   const nextComponent = () => {
     switch (currentComponent) {
@@ -30,6 +40,10 @@ const CourseOutline = () => {
         break;
       case 'OutlineCourse2':
         setCurrentComponent('OutlineCourse3');
+        if (inputText.trim() !== '') {
+          addCard(inputText);
+          setInputText('');
+        }
         break;
       case 'OutlineCourse3':
         setCurrentComponent('OutlineCourse4');
@@ -72,9 +86,9 @@ const CourseOutline = () => {
       case 'OutlineCourse':
         return <OutlineCourse onNext={nextComponent} />;
       case 'OutlineCourse2':
-        return <OutlineCourse2 onNext={nextComponent} onPrevious={previousComponent} />;
+        return <OutlineCourse2 onNext={nextComponent} onPrevious={previousComponent} addCard={addCard} setInputText={setInputText} />;
       case 'OutlineCourse3':
-        return <OutlineCourse3 onNext={nextComponent} onPrevious={previousComponent} />;
+        return <OutlineCourse3 onNext={nextComponent} onPrevious={previousComponent} cards={cards}/>;
       case 'OutlineCourse4':
         return <OutlineCourse4 onNext={nextComponent} onPrevious={previousComponent} />;
       case 'OutlineCourse5':

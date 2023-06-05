@@ -4,32 +4,32 @@ import { faFile, faMusic, faPaperclip, faPlusCircle, faVideo } from "@fortawesom
 import MediaContent from "../Media Content/MediaContent";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Create from "../Create Courses/Create";
+import InputBox from "../Create Courses/InputBox";
 
 const link = [
   { id: 1, list: "Course Intro" },
   { id: 0, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse2 = ({ onNext, onPrevious }) => {
+const OutlineCourse2 = ({ onNext, onPrevious, addCard }) => {
   const [activeTab, setActiveTab] = useState(0);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
+  const [inputText, setInputText] = useState('');
+
+ 
+  const inputTitle = useSelector((state) => state.inputTitle);
+  const inputObjective = useSelector((state) => state.inputObjective);
+  const moduleTitle = useSelector((state) => state.moduleTitle);
+
 
   const handleTitleChange = (event) => {
     dispatch({ type: "UPDATE_TITLE_VALUE", payload: event.target.value });
   };
-  const inputTitle = useSelector((state) => state.inputTitle);
-
   const handleObjectiveChange = (event) => {
     dispatch({ type: "UPDATE_OBJECTIVE_VALUE", payload: event.target.value });
   };
-  const inputObjective = useSelector((state) => state.inputObjective);
 
-  const handleModuleChange = (event) => {
-    dispatch({ type: "UPDATE_MODULE_VALUE", payload: event.target.value });
-  };
-  const moduleTitle = useSelector((state) => state.moduleTitle);
 
   const handleClick = () => {
     // 👇️ open file input box on click of other element
@@ -54,6 +54,12 @@ const OutlineCourse2 = ({ onNext, onPrevious }) => {
     console.log(fileObj);
     console.log(fileObj.name);
   };
+
+  const handleInputChange = (event) => {
+    setInputText(event.target.value);
+  };
+
+
 
   return (
     <>
@@ -91,7 +97,7 @@ const OutlineCourse2 = ({ onNext, onPrevious }) => {
                  <span>(This is the picture that will display as the home cover when your course is viewed)</span>
                </div>
                <div className='coverCreate'>
-                 <Create/>
+                 <InputBox />
                </div>
              </div>
            </div>
@@ -107,7 +113,8 @@ const OutlineCourse2 = ({ onNext, onPrevious }) => {
                 <input 
                     type="text" 
                     placeholder="e.g Introduction to Programming" 
-                    onChange={handleModuleChange}
+                    onChange={handleInputChange}
+                    value={inputText}
                     />
               </div>
               <div className="outline-form">

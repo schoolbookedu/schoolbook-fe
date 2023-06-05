@@ -16,7 +16,7 @@ const videoLink = [
     { id: 0, list: "Introduction to programming" },
   ];
 
-const OutlineCourse3 = ({ onNext, onPrevious }) => {
+const OutlineCourse3 = ({ onNext, onPrevious, cards }) => {
   const [activeTab, setActiveTab] = useState(0);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
@@ -59,6 +59,9 @@ const OutlineCourse3 = ({ onNext, onPrevious }) => {
     console.log(fileObj);
     console.log(fileObj.name);
   };
+
+
+
 
   return (
     <>
@@ -110,13 +113,8 @@ const OutlineCourse3 = ({ onNext, onPrevious }) => {
             <div className="outline-form">
                 <h2>Module Materials</h2>
                 <div className="outlineCard-container">
-              {videoLink.map((card, index) => (
-                <Link to="#" style={{ textDecoration: "none" }}>
-                  <OutlineCard
-                    key={card.index}
-                    title={moduleTitle}
-                  />
-                </Link>
+              {cards.map((card, index) => (
+                <OutlineCard key={index} index={index} text={card.text} />
               ))}
             </div>
             <div className="addmaterials">

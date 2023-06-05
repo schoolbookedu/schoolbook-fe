@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import './OutlineCard.css'
 
 
-const OutlineCard = ({text, title}) => {
+const OutlineCard = ({ index, text }) => {
   return (
     <Link to="/CourseContent" 
     style={{ textDecoration: "none" }}>
     <div className='outlineCard'>
-        <span>{text}</span>
-        <h2>{title}</h2>
+        <span>Module {index}</span>
+        <h2>{text}</h2>
     </div>
     </Link>
   )

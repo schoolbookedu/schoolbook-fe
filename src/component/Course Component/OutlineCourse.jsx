@@ -3,6 +3,7 @@ import MediaContent from "../Media Content/MediaContent";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Create from "../Create Courses/Create";
+import InputBox from "../Create Courses/InputBox";
 
 const link = [
   { id: 0, list: "Course Intro" },
@@ -60,7 +61,7 @@ const OutlineCourse = ({ onNext }) => {
                     <span>(This is the picture that will display as the home cover when your course is viewed)</span>
                   </div>
                   <div className='coverCreate'>
-                    <Create />
+                    <InputBox/>
                   </div>
                 </div>
               </div>

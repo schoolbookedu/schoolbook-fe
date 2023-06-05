@@ -1,4 +1,5 @@
-.create{
+.create,
+.inputbox{
     width: 40%;
     height: 240px;
     display: flex;
@@ -8,6 +9,21 @@
     margin-top: 30px;
     border: 1px dashed #407BFF;
 }
+.inputbox{
+    width: 70%;
+    height: 200px;
+}
+.image-container {
+    width: 100%; 
+    height: 250px; 
+    overflow: hidden;
+  }
+  
+  .resized-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
 @media (max-width: 900px){
     .create{

@@ -1,7 +1,3 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import AuthContext from '../../context/AuthProvider';
-import axios from "../../api/axios";
-import { Link, Navigate } from "react-router-dom";
 import "./RegisterTab.css";
 import InstructorLogin from "./InstructorLogin";
 import StudentLogin from "./StudentLogin";

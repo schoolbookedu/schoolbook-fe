@@ -10,7 +10,7 @@ const tabs = [
 ];
 
 const LOGIN_URL = 'api/v1/users/login'
-const REGISTER_URL = "/api/v1/users"
+const REGISTER_URL = '/api/v1/users'
 const UNIVERSITY_URL = '/api/v1/universities'
 const DEPARTMENT_URL = '/api/v1/departments'
 
@@ -19,69 +19,120 @@ const InstructorLogin = () => {
   const errRef = useRef();
   const Navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
-
-
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [gender, setGender] = useState('');
-  const [universities, setUniversities] = useState([]);
-  const [currentUniversities, setCurrentUniversities] = useState([]);
-  const [departments, setDepartments] = useState([]);
-  const [currentDepartment, setCurrentDepartment] = useState([]);
-  const [password, setPassword] = useState('');
-  const [country, setCountry] = useState('');
-  const [errMsg, setErrMsg] = useState('');
-  const [success, setSuccess] = useState('');
   const [activeTab, setActiveTab] = useState(0);
 
-  
-  const [errors, setErrors] = useState([]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [university, setUniversity] = useState('');
+  const [department, setDepartment] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState('');
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phoneNumber: '',
+    gender: '',
+    userType: '',
+    university,
+    department: '',
+    password: '',
+    country: '',
+    subscribe: '',
+  });
 
+  const [universities, setUniversities] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
-  //Register
-  const handleRegSubmit = async (event) => {
-    event.preventDefault();
- 
-    try {
-        const response = await axios.post(REGISTER_URL, 
-            JSON.stringify(
-                {
-                    fullName,
-                    email,
-                    phoneNumber,
-                    gender,
-                    universities,
-                    departments,
-                    password,
-                    country
-                  }
-            ),
-            {
-                headers: {"Content-Type": "application/json" },
-                withCredentials: false,
-            });
-            setSuccess(true);
-            //clear state and controlled inputs
-            setFullName("");
-            setEmail("");
-            setPhoneNumber("");
-            setGender("");
-            setUniversities("");
-            setDepartments("");
-            setPassword("");
-            setCountry("");
-    } catch (error) {
-        if (!error?.response) {
-            setErrMsg("No Server Response");
-          } else if (error.response?.status === 409) {
-            setErrMsg("Username Taken");
-          } else {
-            setErrMsg("Registration Failed");
-          }
-          errRef.current.focus();
+     // Getting the University from the endpoint
+
+    //Fetch universities data from the API endpoint
+    const fetchUniversityData = async () => {
+      axios.get(UNIVERSITY_URL)
+      .then((response) => {
+        setUniversities(response.data.data.resource);
+      })
+      .catch((error) => {
+        console.error('Error fetching universities:', error);
+      });
     }
+    useEffect(() => {
+      fetchUniversityData()
+  }, []);
+
+      // Getting the Department from the endpoint
+      const fetchDepartmentData = async () => {
+        axios.get(DEPARTMENT_URL)
+          .then(response => {
+            const departmentData = response.data.data.resource;
+            setDepartments(departmentData); 
+          })
+          .catch(error => {
+            console.error('Error fetching API:', error);
+          });
+        }
+        useEffect(() => {
+          fetchDepartmentData()
+      }, []);
+
+
+
+      //Signup
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+
+  // const handleRegSubmit = (e) => {
+  //   e.preventDefault();
+  //   //convert to Json Data
+  //   const jsonData = JSON.stringify(formData);
+  //   // Make API call to your backend server using Axios
+  //   axios.post(REGISTER_URL, jsonData, {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       withCredentials: false,
+  //     },
+  //     })
+  //     .then((response) => {
+  //       // Handle successful signup
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       // Handle error
+  //       console.error(error);
+  //     });
+  // };
+
+ const handleRegSubmit = async () => {
+  const jsonData = JSON.stringify(formData);
+    try {
+      const response = axios.post(
+        REGISTER_URL,
+        formData
+      )
+      .then((response) => {
+        console.log("Data successfully submitted:", response.data);
+        Navigate('/verify');
+     
+      })
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+    };
+
+    // const handleRegSubmit = (event) => {
+    //   event.preventDefault();
+    //   const jsonData = JSON.stringify(formData);
+  
+    //   axios.post(REGISTER_URL, formData)
+    //     .then((response) => {
+    //       console.log("Data successfully submitted:", response.data);
+    //       Navigate('/verify');
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
+    // };
 
 
 
@@ -114,7 +165,7 @@ const InstructorLogin = () => {
       setEmail('');
       setPassword('');
       setSuccess(true);
-      Navigate("InstructorDashboard");
+      Navigate("/InstructorDashboard");
 
     }catch (err){
         if(!err?.response){
@@ -129,31 +180,6 @@ const InstructorLogin = () => {
           errRef.current.focus();
         }
       }
-
-      // Getting the universities from the enndpoint
-      useEffect(() => {
-        axios.get(UNIVERSITY_URL)
-          .then(response => {
-            const universitiesData = response.data.data.resource;
-            setUniversities(universitiesData); 
-          })
-          .catch(error => {
-            console.error('Error fetching API:', error);
-          });
-      }, []);
-
-
-      // Getting the Department from the enndpoint
-      useEffect(() => {
-        axios.get(DEPARTMENT_URL)
-          .then(response => {
-            const departmentData = response.data.data.resource;
-            setDepartments(departmentData); 
-          })
-          .catch(error => {
-            console.error('Error fetching API:', error);
-          });
-      }, []);
 
   return (
          <div className="register">     
@@ -172,73 +198,99 @@ const InstructorLogin = () => {
           {activeTab === 0 && 
               <form onSubmit={handleRegSubmit}>
                 <input 
-                type="text" 
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
                 placeholder="Fullname"
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
                 />
+               
                 <input 
                  type="email" 
+                 name="email"
+                 value={formData.email}
+                 onChange={handleChange}
                  placeholder="Email"
-                 id="email"
-                 value={email}
-                 onChange={(e) => setEmail(e.target.value)}
-                 required
                  />
+         
+                 <input 
+                  type="text"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                 />
+     
                  <input 
                  type="text" 
-                 placeholder="Phone number"
-                 id="PhoneNumber"
-                 value={phoneNumber}
-                 onChange={(e) => setPhoneNumber(e.target.value)}
-                 required
+                 placeholder="user Type"
+                 name="userType"
+                 value={formData.userType}
+                 onChange={handleChange}
                  />
-                <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
+                
+                <select 
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}>
                   <option className="drop" value="">Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                 </select>
-                <select id="university"  onChange={(e) => setCurrentUniversities(e.target.value)}>
-                <option value={currentUniversities}>Universities</option>
-                  {universities.map(university => (
-                     <option key={university._id} value={university._id}>{university.name}</option>
+                <select 
+                  name="universities"
+                  value={university}
+                  onChange={(event) =>
+                    setUniversity(event.target.value)
+                  }
+                  >
+                <option>Select University</option>
+                  {universities.map((item) => (
+                     <option key={item._id} value={item._id}>
+                      {item.name}
+                     </option>
                   ))}
                 </select>  
-                <select id="department"  onChange={(e) => setCurrentDepartment(e.target.value)}>
-                  <option value={currentDepartment}>Departments</option>
-                  {departments.map(department => (
-                     <option key={department._id} value={department._id}>{department.name}</option>
+                <select 
+                  name="departments"  
+                  value={department}
+                  onChange={(event) =>
+                    setDepartment(event.target.value)
+                  }>
+                  <option>Select Departments</option>
+                  {departments.map(item => (
+                     <option key={item._id} value={item._id}>{item.name}</option>
                   ))}
                 </select>  
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   placeholder="Password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="off"
                   />
                 <input
                   type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
                   placeholder="Country"
-                  id="country"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
                   />
                 <div className="check">
-                  <input type="checkbox" id="terms and conditions"/>
+                  <input 
+                    type="checkbox" 
+                    name="subscribe"
+                    value={formData.subscribe}
+                    onChange={handleChange}
+                    />
                   <label>By Registering you agree with the terms and<br/> condition of schoolbook</label> 
                 </div> 
-                {errors.map((error) => (
-                  <div key={error.param}>{error.msg}</div>
-                ))}
                 <div className="formButton">
                 {/* <Link to="/InstructorDashboard"> */}
                   <input type="submit" value="Register"></input> 
                   {/* </Link> */}
-                </div>                   
+                </div>  
+                {/* <div className="message">{message ? <p>{message}</p> : null}</div>                  */}
               </form>
           }
           {activeTab === 1 && 
@@ -264,7 +316,8 @@ const InstructorLogin = () => {
               id="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              required  
+              required 
+              autoComplete="current-password"
               />
             <div className="loginButton">
                 <input type="submit" value="Login" />

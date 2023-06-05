@@ -306,11 +306,10 @@ label{
       align-items: center;
     }
     .coverText{
-      width:50%;
+      width:100%;
     }
-    
     .coverCreate{
-      width:50%;
+      width:100%;
     }
   }
   
