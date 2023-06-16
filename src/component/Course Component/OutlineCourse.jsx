@@ -10,7 +10,7 @@ const link = [
   { id: 1, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse = ({ onNext }) => {
+const OutlineCourse = ({ onNext, cards }) => {
   const [activeTab, setActiveTab] = useState(0);
   const dispatch = useDispatch();
 
@@ -88,7 +88,7 @@ const OutlineCourse = ({ onNext }) => {
                     <b>{inputMaterial}</b>
                   </p>
                 </div>
-                <MediaContent />
+                <MediaContent cards={cards}/>
               </div>
               <div className="outlinebtn2">
                 <button className="prev" onClick={() => setActiveTab(1)}>

@@ -1,20 +1,36 @@
-.outlineCard{
+.outlineCardList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+.outline-card,
+.material-card {
     position: relative;
+    width: 200px;
     height: 60%;
     border-radius: 5px;
     padding: 30px;
     background: #F5F5F5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-.red{
+
+.material-card {
+    height: 40%;
+    width: 100px;
+}
+
+.red {
     position: relative;
 }
-.red .icon{
+
+.red .icon {
     position: absolute;
     top: -20px;
     right: -30px;
     color: #000000;
 }
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -27,27 +43,30 @@
     border-radius: 4px;
     z-index: 1;
 }
-.option{
+
+.option {
     display: flex;
     flex-direction: column;
 }
-.option button{
+
+.option button {
     background: #ffffff;
     padding: 15px 20px;
     text-align: left;
 }
-  .red:hover .dropdown-content {
+
+.red:hover .dropdown-content {
     display: block;
 }
 
-.outlineCard span{
+.outline-card span {
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
     color: #000000;
 }
 
-.outlineCard h2{
+.outline-card h3 {
     font-weight: 700;
     font-size: 24px;
     line-height: 40px;
@@ -55,13 +74,24 @@
     color: #000000;
 }
 
-@media (max-width: 900px){
-    .outlineCard span{
-    font-size: 13px;
-    line-height: 20px;
+.material-card h3 {
+    font-size: 20px;
+    margin: 0px;
 }
 
-.outlineCard h2{
-    font-size: 20px; 
+.outline-card span,
+.outline-card h3,
+.material-card h3 {
+    color: #000000;
 }
+
+@media (max-width: 900px) {
+    .outline-card span {
+        font-size: 13px;
+        line-height: 20px;
+    }
+
+    .outline-card h3 {
+        font-size: 20px;
+    }
 }

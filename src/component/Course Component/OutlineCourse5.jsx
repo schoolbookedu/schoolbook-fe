@@ -1,12 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState, useRef } from "react";
-import { faFile, faMusic, faPaperclip, faPlusCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFile,
+  faMusic,
+  faPaperclip,
+  faPlusCircle,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 import MediaContent from "../Media Content/MediaContent";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Create from "../Create Courses/Create";
 import OutlineCard from "../Outline Card/OutlineCard";
 import VideoCard from "../Video Card/VideoCard";
+import OutlineCardList from "../Outline Card/OutlineCardList";
+import MaterialCardList from "../Outline Card/MaterialCardList";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -14,52 +22,21 @@ const link = [
   { id: 2, list: "Preview" },
 ];
 
-const videoLink = [
-    { id: 0, title: "What is programming " }, 
-];
-
-const OutlineCourse5 = ({ onNext, onPrevious }) => {
+const OutlineCourse5 = ({ onNext, onPrevious, materialCards }) => {
   const [activeTab, setActiveTab] = useState(0);
-//   const inputRef = useRef(null);
   const dispatch = useDispatch();
+  const inputTitle = useSelector((state) => state.inputTitle);
+  const moduleTitle = useSelector((state) => state.moduleTitle);
+  const inputObjective = useSelector((state) => state.inputObjective);
 
   const handleTitleChange = (event) => {
     dispatch({ type: "UPDATE_TITLE_VALUE", payload: event.target.value });
   };
-  const inputTitle = useSelector((state) => state.inputTitle);
-
   const handleObjectiveChange = (event) => {
     dispatch({ type: "UPDATE_OBJECTIVE_VALUE", payload: event.target.value });
   };
-  const inputObjective = useSelector((state) => state.inputObjective);
-
   const handleModuleChange = (event) => {
     dispatch({ type: "UPDATE_MODULE_VALUE", payload: event.target.value });
-  };
-  const moduleTitle = useSelector((state) => state.moduleTitle);
-
-//   const handleClick = () => {
-//     // 👇️ open file input box on click of other element
-//     inputRef.current.click();
-//   };
-
-  const handleFileChange = (event) => {
-    const fileObj = event.target.files && event.target.files[0];
-    if (!fileObj) {
-      return;
-    }
-
-    console.log("fileObj is", fileObj);
-
-    // reset file input
-    event.target.value = null;
-
-    // its now empty
-    console.log(event.target.files);
-
-    // can still access file object here
-    console.log(fileObj);
-    console.log(fileObj.name);
   };
 
   return (
@@ -78,56 +55,59 @@ const OutlineCourse5 = ({ onNext, onPrevious }) => {
         </div>
         <div className="outline-content">
           {activeTab === 1 && (
-           <div className="create-outline">
-           <div className="form">
-             <label>Course Title</label>
-             <input
-               type="text"
-               placeholder="eg: Programming for Beginners"
-               onChange={handleTitleChange}
-             />
-             <label>Course Objective</label>
-             <textarea
-               type="text"
-               placeholder="An overview of what the course is all about..."
-               onChange={handleObjectiveChange}
-             />
-             <div className="coverPhoto">
-               <div className="coverText">
-                 <p><b>Add Course Cover Photo </b><span>(Optional)</span></p>
-                 <span>(This is the picture that will display as the home cover when your course is viewed)</span>
-               </div>
-               <div className='coverCreate'>
-                 <Create/>
-               </div>
-             </div>
-           </div>
-           <div className="outlinebtn">
-             <button onClick={() => setActiveTab(1)}>Next</button>
-           </div>
-         </div>
+            <div className="create-outline">
+              <div className="form">
+                <label>Course Title</label>
+                <input
+                  type="text"
+                  placeholder="eg: Programming for Beginners"
+                  onChange={handleTitleChange}
+                />
+                <label>Course Objective</label>
+                <textarea
+                  type="text"
+                  placeholder="An overview of what the course is all about..."
+                  onChange={handleObjectiveChange}
+                />
+                <div className="coverPhoto">
+                  <div className="coverText">
+                    <p>
+                      <b>Add Course Cover Photo </b>
+                      <span>(Optional)</span>
+                    </p>
+                    <span>
+                      (This is the picture that will display as the home cover
+                      when your course is viewed)
+                    </span>
+                  </div>
+                  <div className="coverCreate">
+                    <Create />
+                  </div>
+                </div>
+              </div>
+              <div className="outlinebtn">
+                <button onClick={() => setActiveTab(1)}>Next</button>
+              </div>
+            </div>
           )}
           {activeTab === 0 && (
             <>
               <div className="outline-form">
                 <label>Module Title</label>
-                <input type="text" placeholder="e.g Introduction to Programming" onChange={handleModuleChange}/>
+                <input
+                  type="text"
+                  placeholder="e.g Introduction to Programming"
+                  onChange={handleModuleChange}
+                />
               </div>
               <div className="outline-form">
                 <h2>Module Materials</h2>
                 <div className="outlineCard-container">
-              {videoLink.map((card, index) => (
-                <Link to="#" style={{ textDecoration: "none" }}>
-                  <VideoCard
-                    key={card.index}
-                    title={card.title}
-                  />
-                </Link>
-              ))}
-            </div>
-            <div className="addmaterials">
-                <button onClick={onNext}>Add Materials</button>
-            </div>
+                  <MaterialCardList materialCards={materialCards} />
+                </div>
+                <div className="addmaterials">
+                  <button onClick={onNext}>Add Materials</button>
+                </div>
               </div>
               <div className="outlinebtn2">
                 <button className="prev" onClick={onPrevious}>

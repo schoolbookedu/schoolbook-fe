@@ -1,20 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState, useRef } from "react";
-import { faFile, faMusic, faPaperclip, faPlusCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import MediaContent from "../Media Content/MediaContent";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Create from "../Create Courses/Create";
+
 
 const link = [
   { id: 1, list: "Course Intro" },
   { id: 0, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse4 = ({ onNext, onPrevious }) => {
-  const [activeTab, setActiveTab] = useState(0);
+const OutlineCourse4 = ({ onNext, onPrevious, materialValue, setMaterialValue, isFileSelected, setIsFileSelected}) => {
+  const [activeTab, setActiveTab] = useState(0)
   const inputRef = useRef(null);
   const dispatch = useDispatch();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const inputTitle = useSelector((state) => state.inputTitle);
+  const inputObjective = useSelector((state) => state.inputObjective);
+  const moduleTitle = useSelector((state) => state.moduleTitle);
 
   const handleTitleChange = (event) => {
     dispatch({ type: "UPDATE_TITLE_VALUE", payload: event.target.value });
@@ -23,30 +28,28 @@ const OutlineCourse4 = ({ onNext, onPrevious }) => {
     dispatch({ type: "UPDATE_OBJECTIVE_VALUE", payload: event.target.value });
   };
 
-  const inputTitle = useSelector((state) => state.inputTitle);
-  const inputObjective = useSelector((state) => state.inputObjective);
-  const moduleTitle = useSelector((state) => state.moduleTitle);
+
 
   const handleClick = () => {
-    // 👇️ open file input box on click of other element
     inputRef.current.click();
   };
 
+  const handleMaterialChange = (event) => {
+    setMaterialValue(event.target.value);
+  };
   const handleFileChange = (event) => {
     const fileObj = event.target.files && event.target.files[0];
     if (!fileObj) {
+      setSelectedFile(null);
+      setIsFileSelected(false);
       return;
     }
-
+    setSelectedFile(fileObj);
+    setIsFileSelected(true);
+  
     console.log("fileObj is", fileObj);
-
-    // reset file input
     event.target.value = null;
-
-    // its now empty
     console.log(event.target.files);
-
-    // can still access file object here
     console.log(fileObj);
     console.log(fileObj.name);
   };
@@ -74,6 +77,7 @@ const OutlineCourse4 = ({ onNext, onPrevious }) => {
                type="text"
                placeholder="eg: Programming for Beginners"
                onChange={handleTitleChange}
+               value={materialValue}
              />
              <label>Course Objective</label>
              <textarea
@@ -98,31 +102,35 @@ const OutlineCourse4 = ({ onNext, onPrevious }) => {
           )}
           {activeTab === 0 && (
             <>
-             <div className="outline-form">
+             {/* <div className="outline-form">
                 <label>Module Title</label>
                 <input type="text" placeholder="e.g Introduction to Programming" />
-              </div>
+              </div> */}
               <div className="outline-form">
                 <h2>Module Materials</h2>
                 <div className="outline-form2">
                     <label>Material Title</label>
-                    <input type="text" placeholder="e.g What is Programming" />
+                    <input type="text" 
+                    placeholder="e.g What is Programming" 
+                    onChange={handleMaterialChange}
+                    value={materialValue}/>
                 </div>
               </div>
               <div className="Attachfile">
-              <label htmlFor="file-input">
-                <button onClick={handleClick}>Attach File  {" "}
-                <FontAwesomeIcon icon={faPaperclip} />
-                <input
-                                style={{ display: "none" }}
-                                ref={inputRef}
-                                type="file"
-                                onChange={handleFileChange}
-                                />
-                </button>
-                </label>
-                <button className="upload">Upload</button>
-              </div>
+                <label htmlFor="file-input">
+                  <button onClick={handleClick}>
+                    Attach File <FontAwesomeIcon icon={faPaperclip} />
+                    <input
+                    style={{ display: "none" }}
+                    ref={inputRef}
+                    type="file"
+                    accept=".doc,.docx,.xml, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf, .txt"
+                    onChange={handleFileChange}
+                />
+          </button>
+        </label>
+        <button className={isFileSelected ? "upload selected" : "upload"}>Upload</button>
+      </div>
              <div className="outlinebtn2">
                 <button className="prev" onClick={onPrevious}>
                   Previous

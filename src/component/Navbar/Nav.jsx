@@ -4,6 +4,22 @@ import logo from '../../utils/logo.png'
 import './Nav.css';
 
 const Nav = () => {
+
+    // const fetchDepartmentData = async () => {
+    //     axios
+    //       .get(DEPARTMENT_URL)
+    //       .then((response) => {
+    //         const departmentData = response.data.data.resource;
+    //         setDepartments(departmentData);
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error fetching API:", error);
+    //       });
+    //   };
+    //   useEffect(() => {
+    //     fetchDepartmentData();
+    //   }, []);
+    
   return (
     <div className='nav'>
         <div className='nav-container'>

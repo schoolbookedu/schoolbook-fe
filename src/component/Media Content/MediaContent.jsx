@@ -32,7 +32,7 @@ const AudioLink = [
   { id: 2, title: "Project Audio 3 " },
 ];
 
-const MediaContent = () => {
+const MediaContent = ({cards}) => {
   const [activeTab, setActiveTab] = useState(0);
   return (
     <>
@@ -54,18 +54,18 @@ const MediaContent = () => {
               <div className="mediaaudio">
               <img src={banner} alt="audiobanner" />
             </div>
-            <div className="outlineCard-container">
-              {videoLink.map((card, index) => (
+            <div className="outlineCardList">
+              {videoLink.map((cards, index) => (
                 <Link to="#" style={{ textDecoration: "none" }}>
                   <VideoCard
-                    key={card.index}
+                    key={cards.index}
                     icon={
                       <FontAwesomeIcon
                         icon={faPlay}
                         style={{ color: "#000000" }}
                       />
                     }
-                    title={card.title}
+                    title={cards.title}
                   />
                 </Link>
               ))}
@@ -88,7 +88,7 @@ const MediaContent = () => {
                   id.
                 </p>
               </div>
-              <div className="outlineCard-container">
+              <div className="outlineCardList">
               {DocumentLink.map((card, index) => (
                 <Link to="#" style={{ textDecoration: "none" }}>
                   <VideoCard
@@ -112,7 +112,7 @@ const MediaContent = () => {
             <div className="mediaaudio">
               <img src={audio} alt="audiobanner" />
             </div>
-            <div className="outlineCard-container">
+            <div className="outlineCardList">
               {AudioLink.map((card, index) => (
                 <Link to="#" style={{ textDecoration: "none" }}>
                   <VideoCard

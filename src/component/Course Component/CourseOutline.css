@@ -152,6 +152,11 @@
   color: #FFFFFF;
   border: 1px solid #E0E0E0;
   padding: 18px 70px;
+  margin-top: -15px;
+}
+.upload.selected {
+  background-color: #407BFF;
+  color: #fff;
 }
 
 .outlinebtn2 .prev{
@@ -163,7 +168,7 @@
 .outline-content .outline-form h2{
   font-size: 22px;
   font-weight: 600;
-  padding: 30px 0px 10px 0px;
+  /* padding: 30px 0px 10px 0px; */
 }
 .outline-form .outline-btn{
   width: 100%;

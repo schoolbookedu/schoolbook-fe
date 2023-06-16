@@ -1,18 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './OutlineCard.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import "./OutlineCard.css";
 
-
-const OutlineCard = ({ index, text }) => {
+const OutlineCard = ({ index, value }) => {
   return (
-    <Link to="/CourseContent" 
-    style={{ textDecoration: "none" }}>
-    <div className='outlineCard'>
+    <Link to="/CourseContent" style={{ textDecoration: "none" }}>
+      <div className="outline-card">
         <span>Module {index}</span>
-        <h2>{text}</h2>
-    </div>
+        <h3>{value}</h3>
+      </div>
     </Link>
-  )
-}
+  );
+};
 
-export default OutlineCard
+export default OutlineCard;

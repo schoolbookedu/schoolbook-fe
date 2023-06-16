@@ -17,24 +17,7 @@ const InputBox = () => {
     inputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
-    const fileObj = event.target.files && event.target.files[0];
-    if (!fileObj) {
-      return;
-    }
 
-    console.log("fileObj is", fileObj);
-
-    // reset file input
-    event.target.value = null;
-
-    // its now empty
-    console.log(event.target.files);
-
-    // can still access file object here
-    console.log(fileObj);
-    console.log(fileObj.name);
-  };
   return (
     <div className="inputbox" onClick={handleClick}>
       <input 
@@ -42,7 +25,7 @@ const InputBox = () => {
         style={{ display: "none" }}
         ref={inputRef}
         onChange={handleImageUpload} 
-        accept="image/*" />
+        accept="image/png, image/gif, image/jpeg"/>
         <FontAwesomeIcon
         icon={faPlusCircle}
         style={{ color: "#407BFF", fontSize: "24px" }}
