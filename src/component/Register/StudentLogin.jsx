@@ -32,7 +32,7 @@ const StudentLogin = () => {
     email: "",
     phoneNumber: "",
     gender: "",
-    userType: "",
+    userType: "Student",
     university,
     department,
     level: "",
@@ -186,13 +186,6 @@ const StudentLogin = () => {
               value={formData.phoneNumber}
               onChange={handleChange}
               placeholder="Phone Number"
-            />
-            <input
-              type="text"
-              placeholder="User Type"
-              name="userType"
-              value={formData.userType}
-              onChange={handleChange}
             />
             <select
               name="gender"

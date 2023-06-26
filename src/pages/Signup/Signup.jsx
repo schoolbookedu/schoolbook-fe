@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import "./Signup.css";
 import logo from "../../utils/logo.png";
 import Tab from "../../component/Student/Tab";
-import RegisterTab from "../../component/Register/RegisterTab";
+import InstructorLogin from "../../component/Register/InstructorLogin";
+import StudentLogin from "../../component/Register/StudentLogin";
 
 const Signup = () => {
   const [activeTab, setActiveTab] = useState('instructor');
@@ -26,7 +27,8 @@ const Signup = () => {
           </div>
         </div>
         <div className="form">
-          <RegisterTab activeTab={activeTab}/>
+        {activeTab === 'instructor' && <InstructorLogin />}
+          {activeTab === 'student' && <StudentLogin />}
         </div>
       </div>
     </div>

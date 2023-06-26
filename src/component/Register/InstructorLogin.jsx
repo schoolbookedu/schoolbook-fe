@@ -32,7 +32,7 @@ const InstructorLogin = () => {
     email: "",
     phoneNumber: "",
     gender: "",
-    userType: "",
+    userType: "Instructor",
     university,
     department,
     password: "",
@@ -97,7 +97,7 @@ const InstructorLogin = () => {
       .post(REGISTER_URL, updatedFormData)
       .then((response) => {
         console.log(response.data); 
-        Navigate("/Verify");
+        Navigate("/verify");
       })
       .catch((error) => {
         console.error(error); 
@@ -185,13 +185,6 @@ const InstructorLogin = () => {
               value={formData.phoneNumber}
               onChange={handleChange}
               placeholder="Phone Number"
-            />
-            <input
-              type="text"
-              placeholder="User Type"
-              name="userType"
-              value={formData.userType}
-              onChange={handleChange}
             />
             <select
               name="gender"

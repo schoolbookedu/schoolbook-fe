@@ -19,6 +19,10 @@ import InstructorEdit from './pages/Instructor Edit Page/InstructorEdit';
 import InstructorOutline from './pages/Instructor Edit Page/InstructorOutline';
 import CreatedCourse from './pages/Instructor Dash/CreatedCourse';
 import Verify from './pages/Signup/Verify';
+import Instructor from './pages/Instructor/Instructor';
+import InstructorLogin from './component/Register/InstructorLogin';
+import StudentLogin from './component/Register/StudentLogin';
+import PrivateRoutes from './utils/PrivateRoutes';
 
 
 function App() {
@@ -27,25 +31,33 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={(<Signup />)} />
-          <Route path="/Verify" element={(<Verify />)} />
-          <Route path="/PassRecover" element={(<PassRecover />)} />
-          <Route path="/Newpass" element={(<Newpass />)} />
-          <Route path="/Dashboard" element={(<Dashboard />)} />
-          <Route path="/CourseMaterials" element={(<CourseMaterials />)} />
-          <Route path="/CourseContent" element={(<CourseContent />)} />
-          <Route path="/Profile" element={(<Profile />)} />
-          <Route path="/ChangePass" element={(<ChangePass />)} />
+          <Route element={<PrivateRoutes />}>
+          <Route path="/instructor" element={(<InstructorLogin/>)} />
+          <Route path="/student" element={(<StudentLogin />)} />
+          <Route path="/verify" element={(<Verify />)} />
+          <Route path="/pass-recover" element={(<PassRecover />)} />
+          <Route path="/new-pass" element={(<Newpass />)} />
+          <Route path="/dashboard" element={(<Dashboard />)} />
+          <Route path="/course-materials" element={(<CourseMaterials />)} />
+          <Route path="/course-content" element={(<CourseContent />)} />
+          <Route path="/profile" element={(<Profile />)} />
+          <Route path="/change-pass" element={(<ChangePass />)} />
           
           {/*Instructor Page*/}
           
-          <Route path="/InstructorDashboard" element={(<InstructorDashboard />)} />
-          <Route path="/CourseOutline" element={(<CourseOutline/> )} />
-          <Route path="/CreatedCourse" element={(<CreatedCourse/> )} />
-          <Route path="/InstructorMaterials" element={(<InstructorMaterials /> )} />
-          <Route path="/InstructorMaterials2" element={(<InstructorMaterials2/> )} />
-          <Route path="/InstructorEdit" element={(<InstructorEdit/> )} />
-          <Route path="/InstructorOutline" element={(<InstructorOutline/> )} />
+          <Route path="/instructor-dashboard" element={(<InstructorDashboard />)} />
+          <Route path="/course-outline" element={(<CourseOutline/> )} />
+          <Route path="/created-course" element={(<CreatedCourse/> )} />
+          <Route path="/instructor-materials" element={(<InstructorMaterials /> )} />
+          <Route path="/instructor-materials-2" element={(<InstructorMaterials2/> )} />
+          <Route path="/instructor-edit" element={(<InstructorEdit/> )} />
+          <Route path="/instructor-Outline" element={(<InstructorOutline/> )} />
+          </Route>
+          
+          <Route exact path="/login" element={(<Instructor />)} />
+          <Route exact path="/register" element={(<Instructor />)} />
+          <Route path="/" element={(<Signup />)} />
+          
         </Routes>
       </BrowserRouter>
     </div>
