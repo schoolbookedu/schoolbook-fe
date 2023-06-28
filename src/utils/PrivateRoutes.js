@@ -1,14 +1,17 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useLayoutEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const PrivateRoutes = () => {
-    const navigate=useNavigate()
+  const navigate = useNavigate();
+  let auth = { token: false };
 
-    let auth = { 'token': false }
-    return (
-        !auth.token ? <Outlet/>
-            :
-            navigate('/')
-    )
-}
+  useLayoutEffect(() => {
+    if (!auth.token) {
+      return navigate("/");
+    }
+  }, [auth.token, navigate]);
 
-export default PrivateRoutes
+  return <Outlet />;
+};
+
+export default PrivateRoutes;
