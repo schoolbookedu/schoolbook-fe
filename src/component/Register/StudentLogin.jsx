@@ -44,6 +44,9 @@ const StudentLogin = () => {
   const [universities, setUniversities] = useState([]);
   const [departments, setDepartments] = useState([]);
 
+  // TODO
+  // const { data, isLoading, error } = useQuery("data", ()=>{});
+
   //Fetch universities data from the API endpoint
   const fetchUniversityData = async () => {
     axios
@@ -97,11 +100,11 @@ const StudentLogin = () => {
     axios
       .post(REGISTER_URL, updatedFormData)
       .then((response) => {
-        console.log(response.data); 
+        console.log(response.data);
         Navigate("/Verify");
       })
       .catch((error) => {
-        console.error(error); 
+        console.error(error);
       });
   };
 
@@ -223,11 +226,7 @@ const StudentLogin = () => {
                 </option>
               ))}
             </select>
-            <select
-              name="level"
-              value={formData.level}
-              onChange={handleChange}
-            >
+            <select name="level" value={formData.level} onChange={handleChange}>
               <option className="drop" value="">
                 Level
               </option>
