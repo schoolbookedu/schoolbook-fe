@@ -1,30 +1,50 @@
 import { axiosInstance } from "../config";
-import { HTTP_METHODS } from "../utils";
-import { endpoints } from "./endpoints";
+import { HTTP_METHODS, USER_TYPE } from "../utils";
+import { endpoints } from ".";
 
 export const mutations = {
+  async forgotPassword(data) {
+    return axiosInstance.request({
+      method: HTTP_METHODS.POST,
+      url: endpoints.FORGOT_PASSWORD,
+      data,
+    });
+  },
   async register(data) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.POST,
       url: endpoints.REGISTER,
       data,
     });
-    return response.data;
+
+    if (response?.data) {
+      return (window.location.href = "/verify");
+    }
+    // return response.data;
   },
 
-  async instructorLogin() {
+  async login(data) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.POST,
       url: endpoints.LOGIN,
+      data,
     });
-    return response.data;
-  },
 
-  async studentLogin() {
-    const response = await axiosInstance.request({
-      method: HTTP_METHODS.POST,
-      url: endpoints.LOGIN,
-    });
-    return response.data;
+    const accessToken = response?.data?.data?.extra?.accessToken;
+    const user = response?.data?.data?.resource;
+    const userType = user?.userType;
+
+    sessionStorage.setItem("accessToken", accessToken);
+    sessionStorage.setItem("userType", userType);
+    sessionStorage.setItem("userId", user?._id);
+
+    switch (userType) {
+      case USER_TYPE.INSTRUCTOR:
+        window.location.href = "/instructor-dashboard";
+        break;
+      default:
+        window.location.href = "/dashboard";
+        break;
+    }
   },
 };

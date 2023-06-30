@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import AuthContext from "../../context/AuthProvider";
-import axios from "../../api/axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useQueries, useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { queries, mutations } from "../../api";
+
 import "./RegisterTab.css";
 
 const tabs = [
@@ -9,24 +10,16 @@ const tabs = [
   { id: 1, label: "Login" },
 ];
 
-const LOGIN_URL = "api/v1/users/login";
-const REGISTER_URL = "/api/v1/users";
-const UNIVERSITY_URL = "/api/v1/universities";
-const DEPARTMENT_URL = "/api/v1/departments";
-
 const InstructorLogin = () => {
-  const emailRef = useRef();
-  const errRef = useRef();
-  const Navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);
+  const { getUniversities, getDepartments } = queries;
+  const { login, register } = mutations;
+
   const [activeTab, setActiveTab] = useState(0);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [university, setUniversity] = useState("");
   const [department, setDepartment] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -40,112 +33,81 @@ const InstructorLogin = () => {
     subscribe: "",
   });
 
-  const [universities, setUniversities] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  const mutation = useMutation(login);
+  const regMutation = useMutation(register);
+  const universitiesAndDepartmentsQuery = useQueries({
+    queries: [
+      { queryKey: ["univerisities"], queryFn: getUniversities },
+      { queryKey: ["departments"], queryFn: getDepartments },
+    ],
+  });
 
-  //Fetch universities data from the API endpoint
-  const fetchUniversityData = async () => {
-    axios
-      .get(UNIVERSITY_URL)
-      .then((response) => {
-        setUniversities(response.data.data.resource);
-      })
-      .catch((error) => {
-        console.error("Error fetching universities:", error);
-      });
-  };
-  useEffect(() => {
-    fetchUniversityData();
-  }, []);
+  if (
+    universitiesAndDepartmentsQuery[0].isLoading ||
+    universitiesAndDepartmentsQuery[1].isLoading
+  ) {
+    return <></>;
+  }
 
-  // Getting the Department from the endpoint
-  const fetchDepartmentData = async () => {
-    axios
-      .get(DEPARTMENT_URL)
-      .then((response) => {
-        const departmentData = response.data.data.resource;
-        setDepartments(departmentData);
-      })
-      .catch((error) => {
-        console.error("Error fetching API:", error);
-      });
-  };
-  useEffect(() => {
-    fetchDepartmentData();
-  }, []);
+  if (
+    universitiesAndDepartmentsQuery[0].isError ||
+    universitiesAndDepartmentsQuery[1].isError
+  ) {
+    return <>Error fetching data</>;
+  }
+
+  const universities = universitiesAndDepartmentsQuery[0].data?.data?.resource;
+  const departments = universitiesAndDepartmentsQuery[1].data?.data?.resource;
 
   //Signup
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
-      university:
-        e.target.name === "universities" ? e.target.value : formData.university,
-      department:
-        e.target.name === "departments" ? e.target.value : formData.department,
+      [name]: value,
+      university: name === "universities" ? value : formData.university,
+      department: name === "departments" ? value : formData.department,
     });
   };
 
   const handleRegSubmit = (e) => {
     e.preventDefault();
+
     const updatedFormData = {
       ...formData,
       university: university,
       department: department,
     };
-    axios
-      .post(REGISTER_URL, updatedFormData)
-      .then((response) => {
-        console.log(response.data); 
-        Navigate("/verify");
-      })
-      .catch((error) => {
-        console.error(error); 
-      });
+    regMutation.mutate(updatedFormData);
+
+    if (mutation.isLoading) {
+      return <div>Creating user...</div>;
+    }
+
+    if (mutation.isError) {
+      return <div>Error creating user</div>;
+    }
+
+    if (mutation.isSuccess) {
+      return <div>User created successfully!</div>;
+    }
   };
-
-  //Login
-  useEffect(() => {
-    emailRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    setErrMsg("");
-  }, [email, password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email, password }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: false,
-        }
-      );
-      // Display accesstoken in the console
-      // console.log(JSON.stringify(response?.data));
-      // console.log(JSON.stringify(response));
-      const accessToken = response?.data.accessToken;
-      const userType = response?.data?.userType;
-      setAuth({ email, password, userType, accessToken });
-      setEmail("");
-      setPassword("");
-      setSuccess(true);
-      Navigate("/InstructorDashboard");
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No server response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Invalid Username or Password");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
-      } else {
-        setErrMsg("Login Failed");
-      }
-      errRef.current.focus();
+    mutation.mutate({ email, password });
+
+    if (mutation.isLoading) {
+      return <div>Creating user...</div>;
+    }
+
+    if (mutation.isError) {
+      return <div>Error creating user</div>;
+    }
+
+    if (mutation.isSuccess) {
+      return <div>User created successfully!</div>;
     }
   };
 
@@ -255,43 +217,31 @@ const InstructorLogin = () => {
         )}
         {activeTab === 1 && (
           <>
-            {success ? (
-              { handleSubmit }
-            ) : (
-              <>
-                <p
-                  ref={errRef}
-                  className={errMsg ? "errmsg" : "offscreen"}
-                  aria-live="assertive"
-                >
-                  {errMsg}
-                </p>
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    id="email"
-                    ref={emailRef}
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    required
-                  />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    required
-                    autoComplete="current-password"
-                  />
-                  <div className="loginButton">
-                    <input type="submit" value="Login" />
-                    <Link to="/PassRecover">Forgot&nbsp;password?</Link>
-                  </div>
-                </form>
-              </>
-            )}
+            <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                id="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                id="password"
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                required
+                autoComplete="current-password"
+              />
+              <div className="loginButton">
+                <input type="submit" value="Login" />
+                <Link to="/pass-recover">Forgot&nbsp;password?</Link>
+              </div>
+            </form>
           </>
         )}
       </div>

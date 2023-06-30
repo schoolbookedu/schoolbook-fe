@@ -6,7 +6,6 @@ import "./index.css";
 import App from "./App";
 import { AuthProvider } from "./context/AuthProvider";
 import "react-toastify/dist/ReactToastify.css";
-import { showToast } from "./component/notifications";
 
 // Create a custom React Query client using the Axios instance
 const queryClient = new QueryClient({
@@ -15,13 +14,11 @@ const queryClient = new QueryClient({
       onError: (error) => {
         console.error("Error:", error);
         // Handle error state or display toast messages
-        showToast(error.message);
       },
     },
     mutations: {
       onError: (error) => {
         console.error("Error:", error);
-        showToast(error.message);
       },
       // Add any other default mutation options if needed
     },

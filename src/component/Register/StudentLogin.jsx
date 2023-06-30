@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
 import axios from "../../api/axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./RegisterTab.css";
 
 const tabs = [
@@ -300,7 +300,7 @@ const StudentLogin = () => {
                   />
                   <div className="loginButton">
                     <input type="submit" value="Login" />
-                    <Link to="/PassRecover">Forgot&nbsp;password?</Link>
+                    <Link to="/pass-recover">Forgot&nbsp;password?</Link>
                   </div>
                 </form>
               </>

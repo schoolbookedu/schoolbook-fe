@@ -3,4 +3,6 @@ export const endpoints = {
   REGISTER: "/users",
   UNIVERSITIES: "/universities",
   DEPARTMENTS: "/departments",
+  GET_USER: "/users",
+  FORGOT_PASSWORD: "/users",
 };

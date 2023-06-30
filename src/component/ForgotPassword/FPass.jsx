@@ -1,33 +1,30 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
 import "../Register/RegisterTab.css";
-import axios from "../../api/axios";
 import "./FPass.css";
+import { useMutation } from "@tanstack/react-query";
+import { mutations } from "../../api";
 
-
-  const FORGOT_PASSWORD = '/api/v1/users'
-
-  const FPass = () => {
+const FPass = () => {
+  const { forgotPassword } = mutations;
   const [email, setEmail] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const mutation = useMutation(forgotPassword);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Make API call to request password reset
-      const response = await axios.post(FORGOT_PASSWORD, {
-        email: email,
-      });
+    mutation.mutate({ email });
 
-      // Display success message
-      setSuccessMessage(response.data.message);
-      setErrorMessage("Invalid Email");
-    } catch (error) {
-      // Display error message
-      setErrorMessage(error.response.data.message);
-      setSuccessMessage("Kindly Check your Email for your new password");
+    if (mutation.isLoading) {
+      return <div>Creating user...</div>;
+    }
+
+    if (mutation.isError) {
+      return <div>Error creating user</div>;
+    }
+
+    if (mutation.isSuccess) {
+      return <div>User created successfully!</div>;
     }
   };
 
@@ -36,8 +33,6 @@ import "./FPass.css";
       <h2>Password Recovery</h2>
       <p>Enter Code Sent to your Email</p>
       <div className="tabForm">
-        {successMessage && <p>{successMessage}</p>}
-        {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleFormSubmit}>
           <input
             type="email"

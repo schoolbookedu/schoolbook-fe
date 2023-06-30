@@ -19,10 +19,10 @@ import InstructorEdit from "./pages/Instructor Edit Page/InstructorEdit";
 import InstructorOutline from "./pages/Instructor Edit Page/InstructorOutline";
 import CreatedCourse from "./pages/Instructor Dash/CreatedCourse";
 import Verify from "./pages/Signup/Verify";
-import Instructor from "./pages/Instructor/Instructor";
 import InstructorLogin from "./component/Register/InstructorLogin";
 import StudentLogin from "./component/Register/StudentLogin";
-import PrivateRoutes from "./utils/PrivateRoutes";
+import PrivateRoutes from "./component/PrivateRoutes";
+import { PublicRoutes } from "./component/PublicRoutes";
 
 function App() {
   return (
@@ -33,9 +33,6 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/instructor" element={<InstructorLogin />} />
               <Route path="/student" element={<StudentLogin />} />
-              <Route path="/verify" element={<Verify />} />
-              <Route path="/pass-recover" element={<PassRecover />} />
-              <Route path="/new-pass" element={<Newpass />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/course-materials" element={<CourseMaterials />} />
               <Route path="/course-content" element={<CourseContent />} />
@@ -65,9 +62,12 @@ function App() {
               />
             </Route>
 
-            <Route exact path="/login" element={<Instructor />} />
-            <Route exact path="/register" element={<Instructor />} />
-            <Route path="/" element={<Signup />} />
+            <Route element={<PublicRoutes />}>
+              <Route path="/verify" element={<Verify />} />
+              <Route path="/pass-recover" element={<PassRecover />} />
+              <Route path="/new-pass" element={<Newpass />} />
+              <Route path="/" element={<Signup />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </div>

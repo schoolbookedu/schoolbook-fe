@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    let authState = window.sessionStorage.getItem("token");
+    let authState = window.sessionStorage.getItem("accessToken");
 
     config.headers.Authorization = `Bearer ${authState}`;
     return config;
@@ -48,10 +48,10 @@ axiosInstance.interceptors.response.use(
       return;
     }
     if (error.response.status >= 300) {
+      const errorMsg =
+        error?.response?.data?.errors[0].msg ?? error?.response?.data?.error;
       return showToast(
-        !!error.response.data.error
-          ? error.response.data.error
-          : "check your internet connection"
+        !!errorMsg ? errorMsg : "Something went wrong, please try again!"
       );
     }
     return Promise.reject(error);
