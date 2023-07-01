@@ -1,10 +1,10 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks";
-import { USER_TYPE } from "../utils";
+import { USER_TYPE, getStorage } from "../utils";
 
 export const PublicRoutes = () => {
   const isAuth = useAuth();
-  const userType = sessionStorage.getItem("userType");
+  const userType = getStorage("userType");
 
   return isAuth ? (
     userType === USER_TYPE.STUDENT ? (

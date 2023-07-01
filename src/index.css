@@ -1,23 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0px;
   padding: 0px;
   background: #fff;
   color: #000000;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
-h2{
+h2 {
   font-weight: 700;
   font-size: 30px;
   line-height: 40px;
   margin: 0px;
 }
-p{
+p {
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
 }
-button{
-  border:none;
+button {
+  border: none;
   cursor: pointer;
   font-weight: 400;
 }

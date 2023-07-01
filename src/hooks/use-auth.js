@@ -1,6 +1,8 @@
+import { getStorage } from "../utils";
+
 export const useAuth = () => {
-  const token = sessionStorage.getItem("accessToken");
-  const userType = sessionStorage.getItem("userType");
+  const token = getStorage("accessToken");
+  const userType = getStorage("userType");
 
   return !!token && !!userType;
 };

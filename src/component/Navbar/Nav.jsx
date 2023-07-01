@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useOverlayLoader } from "../../hooks";
+import { OverlayLoader } from "../../loaders";
+import { queries } from "../../api";
 
 import logo from "../../utils/logo.png";
 import "./Nav.css";
-import { queries } from "../../api";
 
 const Nav = () => {
   const { getUser } = queries;
+  const { show, showing, hide } = useOverlayLoader();
 
   const userId = sessionStorage.getItem("userId");
 
@@ -15,19 +18,25 @@ const Nav = () => {
     ["user"],
     () => getUser(userId),
     {
-      enabled: !!userId,
+      enabled: Boolean(userId),
     }
   );
 
   if (isLoading) {
-    return <></>;
+    <OverlayLoader showing={true} />;
+    return null;
   }
 
   if (isError) {
-    return <>An error occured</>;
+    <OverlayLoader showing={false} />;
+    return <>An error occurred</>;
   }
 
   const user = data?.data?.resource;
+
+  if (user) {
+    <OverlayLoader showing={false} />;
+  }
 
   return (
     <div className="nav">
@@ -38,17 +47,18 @@ const Nav = () => {
           </Link>
         </div>
         {user && (
-          <Link to="/Profile" style={{ textDecoration: "none" }}>
+          <Link to="/profile" style={{ textDecoration: "none" }}>
             <div className="user">
               <span className="userprofile">
-                {user?.fullName?.split(" ")[0]?.charAt(0)}{" "}
-                {user?.fullName?.split(" ")[1]?.charAt(0)}
+                {user.fullName?.split(" ")[0]?.charAt(0) ?? ""}{" "}
+                {user.fullName?.split(" ")[1]?.charAt(0) ?? ""}
               </span>
-              <p> {user?.fullName}</p>
+              <p>{user.fullName}</p>
             </div>
           </Link>
         )}
       </div>
+      <OverlayLoader showing={showing} />
     </div>
   );
 };

@@ -1,7 +1,12 @@
 import { faBars, faClose, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { React, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "../../index";
+import { queries } from "../../api";
+import { OverlayLoader } from "../../loaders";
+import { clearStorage, getStorage } from "../../utils";
 import Completed from "../../component/Featured Courses/Completed";
 import logo from "../../utils/logo.png";
 import "./Profile.css";
@@ -12,15 +17,72 @@ const profileTab = [
 ];
 
 const Profile = () => {
-  const [userFirstName, setUserfirstName] = useState("Oluwaseyi");
-  const [userLastName, setUserLastName] = useState("Ajewole");
-  const [userEmail, setUseremail] = useState("Olubayoseyi10@gmail.com");
-  const [userUniversity, setUseruniversity] = useState(
-    "Bowen University, iwo, Osun state"
-  );
-  const [userPassword, setUserpassword] = useState("Oluwaseyi1234###");
+  const navigate = useNavigate();
+  const [userFirstName, setUserfirstName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
+  const [userEmail, setUseremail] = useState("");
+  const [userUniversity, setUseruniversity] = useState("");
+  const [userPassword, setUserpassword] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const [open, setOpen] = useState(false);
+
+  const { getUser, getUniversity } = queries;
+
+  const userId = getStorage("userId");
+
+  const {
+    data: userData,
+    isLoading: userLoading,
+    isError: userError,
+  } = useQuery(["profile-user"], () => getUser(userId), {
+    enabled: !!userId,
+    onSuccess: (userData) => {
+      const user = userData?.data?.resource;
+      if (user) {
+        // Trigger the second query using the user's university ID
+        queryClient.prefetchQuery(["profile-university", user.university], () =>
+          getUniversity(user.university)
+        );
+      }
+    },
+  });
+
+  const user = userData?.data?.resource;
+
+  const {
+    data: universityData,
+    isLoading: universityLoading,
+    isError: universityError,
+  } = useQuery(
+    ["profile-university", user?.university],
+    () => getUniversity(user?.university),
+    {
+      enabled: !!user?.university,
+    }
+  );
+
+  const university = universityData?.data?.resource;
+
+  useEffect(() => {
+    if (user) {
+      setUserLastName(user?.fullName?.split(" ")[1]);
+      setUserfirstName(user?.fullName?.split(" ")[0]);
+      setUseremail(user?.email);
+      setUseruniversity(user?.university);
+    }
+  }, [user]);
+
+  if (userLoading || universityLoading) {
+    return <OverlayLoader showing={true} />;
+  }
+
+  if (userError || universityError) {
+    <OverlayLoader showing={false} />;
+  }
+
+  if (user || university) {
+    <OverlayLoader showing={false} />;
+  }
 
   const inputchangehandler = (event) => {
     setUserfirstName(event.target.value);
@@ -28,6 +90,11 @@ const Profile = () => {
 
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const handleLogout = () => {
+    clearStorage();
+    navigate("/");
   };
 
   return (
@@ -56,29 +123,29 @@ const Profile = () => {
               <FontAwesomeIcon icon={faClose} />
             </div>
             <div className="user">
-              <span className="userprofile">AO</span>
-              <p>Oluwaseyi</p>
+              <span className="userprofile">
+                {userFirstName?.charAt(0)} {userLastName?.charAt(0)}
+              </span>
+              <p> {user?.fullName}</p>
             </div>
 
             <div className="objective" onClick={() => setOpen(false)}>
               <div className="objective-container">
                 <div className="Sidenav-tab">
                   <div className="Menutabs">
-                    {profileTab.map((menu) => (
+                    {profileTab.map((menu, index) => (
                       <ul
                         className={activeTab === menu.id ? "active" : ""}
                         onClick={() => setActiveTab(menu.id)}
                       >
-                        <li key={menu.id}>{menu.label}</li>
+                        <li key={menu.id + index}>{menu.label}</li>
                       </ul>
                     ))}
                   </div>
                 </div>
               </div>
               <div className="logoutbtn">
-                <Link to="/">
-                  <button>Log Out</button>
-                </Link>
+                <button onClick={handleLogout}>Log Out</button>
               </div>
             </div>
           </div>
@@ -126,7 +193,8 @@ const Profile = () => {
                   type="text"
                   placeholder="Institution"
                   onChange={inputchangehandler}
-                  value={userUniversity}
+                  // value={userUniversity}
+                  defaultValue={university?.name}
                 />
                 <FontAwesomeIcon icon={faPencil} />
               </div>

@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import "react-toastify/dist/ReactToastify.css";
 
 // Create a custom React Query client using the Axios instance
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       onError: (error) => {
