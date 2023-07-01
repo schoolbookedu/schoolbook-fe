@@ -1,24 +1,18 @@
-import { useLayoutEffect } from "react";
-import { Outlet } from "react-router-dom";
-
+import { Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks";
 import { USER_TYPE } from "../utils";
 
 export const PublicRoutes = () => {
-  const token = sessionStorage.getItem("accessToken");
+  const isAuth = useAuth();
   const userType = sessionStorage.getItem("userType");
 
-  useLayoutEffect(() => {
-    if (token && userType) {
-      switch (userType) {
-        case USER_TYPE.INSTRUCTOR:
-          window.location.href = "/instructor-dashboard";
-          break;
-        default:
-          window.location.href = "/dashboard";
-          break;
-      }
-    }
-  }, []);
-
-  return <Outlet />;
+  return isAuth ? (
+    userType === USER_TYPE.STUDENT ? (
+      <Navigate to="/dashboard" replace />
+    ) : (
+      <Navigate to="/instructor-dashboard" replace />
+    )
+  ) : (
+    <Outlet />
+  );
 };

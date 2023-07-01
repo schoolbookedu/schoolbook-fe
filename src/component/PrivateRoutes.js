@@ -1,17 +1,11 @@
-import { useLayoutEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
+
+import { useAuth } from "../hooks";
 
 const PrivateRoutes = () => {
-  const token = sessionStorage.getItem("accessToken");
-  const userType = sessionStorage.getItem("userType");
+  const isAuth = useAuth();
 
-  useLayoutEffect(() => {
-    if (!token || !userType) {
-      return (window.location.href = "/");
-    }
-  }, []);
-
-  return <Outlet />;
+  return isAuth ? <Outlet /> : <Navigate to={"/"} replace={true} />;
 };
 
 export default PrivateRoutes;
