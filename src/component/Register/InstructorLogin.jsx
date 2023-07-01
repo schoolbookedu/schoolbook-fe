@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useQueries, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema, registerSchema } from "../../validators";
 import { queries, mutations } from "../../api";
+import { useOverlayLoader } from "../../hooks";
+import { OverlayLoader } from "../../loaders";
+import { ErrorMessage } from "../error-message";
+import countries from "../../data/countries.json";
 
 import "./RegisterTab.css";
 
@@ -11,30 +18,63 @@ const tabs = [
 ];
 
 const InstructorLogin = () => {
+  const { show, showing, hide } = useOverlayLoader();
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [university, setUniversity] = useState("");
-  const [department, setDepartment] = useState("");
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    gender: "",
-    userType: "Instructor",
-    university,
-    department,
-    password: "",
-    country: "",
-    subscribe: "",
+  const mutation = useMutation(login, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
+  const regMutation = useMutation(register, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
   });
 
-  const mutation = useMutation(login);
-  const regMutation = useMutation(register);
+  const {
+    register: reactHookFormRegRegister,
+    handleSubmit: handleRegSubmit,
+    setValue,
+    formState: { errors: regErrors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      gender: "",
+      userType: "Instructor",
+      university: "",
+      department: "",
+      password: "",
+      country: "Nigeria",
+      subscribe: false,
+    },
+  });
+
+  const {
+    register: reactHookFormRegister,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data) => {
+    mutation.mutate(data);
+  };
+
+  const onRegSubmit = (data) => {
+    regMutation.mutate(data);
+  };
   const universitiesAndDepartmentsQuery = useQueries({
     queries: [
       { queryKey: ["univerisities"], queryFn: getUniversities },
@@ -46,206 +86,222 @@ const InstructorLogin = () => {
     universitiesAndDepartmentsQuery[0].isLoading ||
     universitiesAndDepartmentsQuery[1].isLoading
   ) {
-    return <></>;
+    <OverlayLoader showing={true} />;
+    return null;
   }
 
   if (
     universitiesAndDepartmentsQuery[0].isError ||
     universitiesAndDepartmentsQuery[1].isError
   ) {
-    return <>Error fetching data</>;
+    <OverlayLoader showing={false} />;
+    return <>An error occurred</>;
   }
 
   const universities = universitiesAndDepartmentsQuery[0].data?.data?.resource;
   const departments = universitiesAndDepartmentsQuery[1].data?.data?.resource;
 
-  //Signup
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-      university: name === "universities" ? value : formData.university,
-      department: name === "departments" ? value : formData.department,
-    });
-  };
-
-  const handleRegSubmit = (e) => {
-    e.preventDefault();
-
-    const updatedFormData = {
-      ...formData,
-      university: university,
-      department: department,
-    };
-    regMutation.mutate(updatedFormData);
-
-    if (mutation.isLoading) {
-      return <div>Creating user...</div>;
-    }
-
-    if (mutation.isError) {
-      return <div>Error creating user</div>;
-    }
-
-    if (mutation.isSuccess) {
-      return <div>User created successfully!</div>;
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    mutation.mutate({ email, password });
-
-    if (mutation.isLoading) {
-      return <div>Creating user...</div>;
-    }
-
-    if (mutation.isError) {
-      return <div>Error creating user</div>;
-    }
-
-    if (mutation.isSuccess) {
-      return <div>User created successfully!</div>;
-    }
+  const handleSubscribeChange = (event) => {
+    const { checked } = event.target;
+    setValue("subscribe", checked);
   };
 
   return (
-    <div className="register">
-      <div className="tabForm">
-        <div className="registerTab">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={activeTab === tab.id ? "active" : ""}
-              onClick={() => setActiveTab(tab.id)}
+    <>
+      <div className="register">
+        <div className="tabForm">
+          <div className="registerTab">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={activeTab === tab.id ? "active" : ""}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          {activeTab === 0 && (
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={handleRegSubmit(onRegSubmit)}
             >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-        {activeTab === 0 && (
-          <form onSubmit={handleRegSubmit}>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Fullname"
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <input
-              type="text"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-            >
-              <option className="drop" value="">
-                Gender
-              </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-            <select
-              name="university"
-              value={university}
-              onChange={(event) => setUniversity(event.target.value)}
-            >
-              <option>Select University</option>
-              {universities.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-
-            <select
-              name="department"
-              value={department}
-              onChange={(event) => setDepartment(event.target.value)}
-            >
-              <option>Select Department</option>
-              {departments.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-            />
-            <input
-              type="text"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              placeholder="Country"
-            />
-            <div className="check">
               <input
-                type="checkbox"
-                name="subscribe"
-                value={formData.subscribe}
-                onChange={handleChange}
+                type="text"
+                placeholder="Fullname e.g John Doe"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("fullName")}
               />
-              <label>
-                By Registering you agree with the terms and conditions of
-                schoolbook
-              </label>
-            </div>
-            <div className="formButton">
-              <input type="submit" value="Register" />
-            </div>
-          </form>
-        )}
-        {activeTab === 1 && (
-          <>
-            <form onSubmit={handleSubmit}>
+              {regErrors.fullName && (
+                <ErrorMessage message={regErrors.fullName.message} />
+              )}
+
               <input
                 type="email"
-                placeholder="Email"
-                name="email"
-                id="email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                required
+                placeholder="Email Address"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("email")}
               />
+              {regErrors.email && (
+                <ErrorMessage message={regErrors.email.message} />
+              )}
+
+              <input
+                type="tel"
+                placeholder="Enter phone number"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("phoneNumber")}
+              />
+              {regErrors.phoneNumber && (
+                <ErrorMessage message={regErrors.phoneNumber.message} />
+              )}
+
+              <select
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("gender")}
+              >
+                <option value="" disabled>
+                  Select Gender
+                </option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              {regErrors.gender && (
+                <ErrorMessage message={regErrors.gender.message} />
+              )}
+
+              <select
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("university")}
+              >
+                <option value="" disabled>
+                  Select University
+                </option>
+                {universities.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              {regErrors.university && (
+                <ErrorMessage message={regErrors.university.message} />
+              )}
+
+              <select
+                {...reactHookFormRegRegister("department")}
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              >
+                <option value="" disabled>
+                  Select Department
+                </option>
+                {departments?.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              {regErrors?.department && (
+                <ErrorMessage message={regErrors.department.message} />
+              )}
               <input
                 type="password"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("password")}
                 placeholder="Password"
-                id="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                required
-                autoComplete="current-password"
               />
-              <div className="loginButton">
-                <input type="submit" value="Login" />
-                <Link to="/pass-recover">Forgot&nbsp;password?</Link>
+              {regErrors?.password && (
+                <ErrorMessage message={regErrors.password.message} />
+              )}
+
+              <select
+                {...reactHookFormRegRegister("country")}
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              >
+                <option value="" disabled>
+                  Select Country
+                </option>
+                {countries?.map((item) => (
+                  <option key={item.name} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              {regErrors?.country && (
+                <ErrorMessage message={regErrors.country.message} />
+              )}
+              <div>
+                {regErrors?.subscribe && (
+                  <ErrorMessage message={regErrors.subscribe.message} />
+                )}
+                <div className="check">
+                  <input
+                    type="checkbox"
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    {...reactHookFormRegRegister("subscribe")}
+                    onChange={handleSubscribeChange}
+                  />
+
+                  <label htmlFor="subscribe" className="text-xs">
+                    By Registering you agree with the terms and conditions of
+                    schoolbook
+                  </label>
+                </div>
+              </div>
+              <div className="formButton">
+                <button
+                  type="submit"
+                  className="w-[100%] sm:w-[50%] bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                >
+                  Register
+                </button>{" "}
               </div>
             </form>
-          </>
-        )}
+          )}
+          {activeTab === 1 && (
+            <>
+              <form
+                className="flex flex-col gap-3"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <input
+                  type="email"
+                  {...reactHookFormRegister("email")}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  placeholder="Email Address"
+                />
+                {errors.email?.message && (
+                  <ErrorMessage message={errors.email.message} />
+                )}
+
+                <input
+                  type="password"
+                  {...reactHookFormRegister("password")}
+                  placeholder="******************"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                />
+                {errors.password?.message && (
+                  <ErrorMessage message={errors.password.message} />
+                )}
+
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <button
+                    type="submit"
+                    className="w-[100%] sm:w-[50%] bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Login
+                  </button>
+                  <Link to="/pass-recover">Forgot&nbsp;password?</Link>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+      <OverlayLoader showing={showing} />
+    </>
   );
 };
 
