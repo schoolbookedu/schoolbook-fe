@@ -1,7 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import AuthContext from "../../context/AuthProvider";
-import axios from "../../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useQueries, useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema, registerSchema } from "../../validators";
+import { queries, mutations } from "../../api";
+import { useOverlayLoader } from "../../hooks";
+import { OverlayLoader } from "../../loaders";
+import { ErrorMessage } from "../error-message";
+import countries from "../../data/countries.json";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./RegisterTab.css";
 
 const tabs = [
@@ -15,300 +23,327 @@ const UNIVERSITY_URL = "/api/v1/universities";
 const DEPARTMENT_URL = "/api/v1/departments";
 
 const StudentLogin = () => {
-  const emailRef = useRef();
-  const errRef = useRef();
-  const Navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const { show, showing, hide } = useOverlayLoader();
+  const { getUniversities, getDepartments } = queries;
+  const { login, register } = mutations;
+
   const [activeTab, setActiveTab] = useState(0);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [university, setUniversity] = useState("");
-  const [department, setDepartment] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState("");
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    gender: "",
-    userType: "Student",
-    university,
-    department,
-    level: "",
-    password: "",
-    country: "",
-    subscribe: "",
+  const mutation = useMutation(login, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
   });
-
-  const [universities, setUniversities] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  const regMutation = useMutation(register, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
 
   // TODO
   // const { data, isLoading, error } = useQuery("data", ()=>{});
+  const {
+    register: reactHookFormRegRegister,
+    handleSubmit: handleRegSubmit,
+    setValue,
+    formState: { errors: regErrors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      gender: "",
+      userType: "Student",
+      university: "",
+      department: "",
+      level: "",
+      password: "",
+      country: "Nigeria",
+      subscribe: false,
+    },
+  });
 
-  //Fetch universities data from the API endpoint
-  const fetchUniversityData = async () => {
-    axios
-      .get(UNIVERSITY_URL)
-      .then((response) => {
-        setUniversities(response.data.data.resource);
-      })
-      .catch((error) => {
-        console.error("Error fetching universities:", error);
-      });
-  };
-  useEffect(() => {
-    fetchUniversityData();
-  }, []);
+  const {
+    register: reactHookFormRegister,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  // Getting the Department from the endpoint
-  const fetchDepartmentData = async () => {
-    axios
-      .get(DEPARTMENT_URL)
-      .then((response) => {
-        const departmentData = response.data.data.resource;
-        setDepartments(departmentData);
-      })
-      .catch((error) => {
-        console.error("Error fetching API:", error);
-      });
-  };
-  useEffect(() => {
-    fetchDepartmentData();
-  }, []);
-
-  //Signup
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-      university:
-        e.target.name === "universities" ? e.target.value : formData.university,
-      department:
-        e.target.name === "departments" ? e.target.value : formData.department,
-    });
+  const onSubmit = (data) => {
+    mutation.mutate(data);
   };
 
-  const handleRegSubmit = (e) => {
-    e.preventDefault();
-    const updatedFormData = {
-      ...formData,
-      university: university,
-      department: department,
-    };
-    axios
-      .post(REGISTER_URL, updatedFormData)
-      .then((response) => {
-        console.log(response.data);
-        Navigate("/Verify");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const onRegSubmit = (data) => {
+    regMutation.mutate(data);
   };
+  const universitiesAndDepartmentsQuery = useQueries({
+    queries: [
+      { queryKey: ["univerisities"], queryFn: getUniversities },
+      { queryKey: ["departments"], queryFn: getDepartments },
+    ],
+  });
 
-  //Login
-  useEffect(() => {
-    emailRef.current?.focus();
-  }, []);
+  if (
+    universitiesAndDepartmentsQuery[0].isLoading ||
+    universitiesAndDepartmentsQuery[1].isLoading
+  ) {
+    <OverlayLoader showing={true} />;
+    return null;
+  }
 
-  useEffect(() => {
-    setErrMsg("");
-  }, [email, password]);
+  if (
+    universitiesAndDepartmentsQuery[0].isError ||
+    universitiesAndDepartmentsQuery[1].isError
+  ) {
+    <OverlayLoader showing={false} />;
+    return <>An error occurred</>;
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const universities = universitiesAndDepartmentsQuery[0].data?.data?.resource;
+  const departments = universitiesAndDepartmentsQuery[1].data?.data?.resource;
 
-    try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email, password }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: false,
-        }
-      );
-      // Display accesstoken in the console
-      // console.log(JSON.stringify(response?.data));
-      // console.log(JSON.stringify(response));
-      const accessToken = response?.data.accessToken;
-      const userType = response?.data?.userType;
-      setAuth({ email, password, userType, accessToken });
-      setEmail("");
-      setPassword("");
-      setSuccess(true);
-      Navigate("/InstructorDashboard");
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No server response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Invalid Username or Password");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
-      } else {
-        setErrMsg("Login Failed");
-      }
-      errRef.current.focus();
-    }
+  const handleSubscribeChange = (event) => {
+    const { checked } = event.target;
+    setValue("subscribe", checked);
   };
 
   return (
-    <div className="register">
-      <div className="tabForm">
-        <div className="registerTab">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={activeTab === tab.id ? "active" : ""}
-              onClick={() => setActiveTab(tab.id)}
+    <>
+      <div className="register">
+        <div className="tabForm">
+          <div className="registerTab">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={activeTab === tab.id ? "active" : ""}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          {activeTab === 0 && (
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={handleRegSubmit(onRegSubmit)}
             >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-        {activeTab === 0 && (
-          <form onSubmit={handleRegSubmit}>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              placeholder="Fullname"
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <input
-              type="text"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-            >
-              <option className="drop" value="">
-                Gender
-              </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-            <select
-              name="university"
-              value={university}
-              onChange={(event) => setUniversity(event.target.value)}
-            >
-              <option>Select University</option>
-              {universities.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-
-            <select
-              name="department"
-              value={department}
-              onChange={(event) => setDepartment(event.target.value)}
-            >
-              <option>Select Department</option>
-              {departments.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            <select name="level" value={formData.level} onChange={handleChange}>
-              <option className="drop" value="">
-                Level
-              </option>
-              <option value="100">100</option>
-              <option value="200">200</option>
-              <option value="300">300</option>
-              <option value="400">400</option>
-            </select>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-            />
-            <input
-              type="text"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              placeholder="Country"
-            />
-            <div className="check">
               <input
-                type="checkbox"
-                name="subscribe"
-                value={formData.subscribe}
-                onChange={handleChange}
+                type="text"
+                placeholder="Fullname e.g John Doe"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("fullName")}
               />
-              <label>
-                By Registering you agree with the terms and conditions of
-                schoolbook
-              </label>
-            </div>
-            <div className="formButton">
-              <input type="submit" value="Register" />
-            </div>
-          </form>
-        )}
-        {activeTab === 1 && (
-          <>
-            {success ? (
-              { handleSubmit }
-            ) : (
-              <>
-                <p
-                  ref={errRef}
-                  className={errMsg ? "errmsg" : "offscreen"}
-                  aria-live="assertive"
+              {regErrors.fullName && (
+                <ErrorMessage message={regErrors.fullName.message} />
+              )}
+
+              <input
+                type="email"
+                placeholder="Email Address"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("email")}
+              />
+              {regErrors.email && (
+                <ErrorMessage message={regErrors.email.message} />
+              )}
+
+              <input
+                type="tel"
+                placeholder="Enter phone number"
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("phoneNumber")}
+              />
+              {regErrors.phoneNumber && (
+                <ErrorMessage message={regErrors.phoneNumber.message} />
+              )}
+
+              <select
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("gender")}
+              >
+                <option value="" disabled>
+                  Select Gender
+                </option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              {regErrors.gender && (
+                <ErrorMessage message={regErrors.gender.message} />
+              )}
+
+              <select
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                {...reactHookFormRegRegister("university")}
+              >
+                <option value="" disabled>
+                  Select University
+                </option>
+                {universities.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              {regErrors.university && (
+                <ErrorMessage message={regErrors.university.message} />
+              )}
+
+              <select
+                {...reactHookFormRegRegister("department")}
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              >
+                <option value="" disabled>
+                  Select Department
+                </option>
+                {departments?.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              {regErrors?.department && (
+                <ErrorMessage message={regErrors.department.message} />
+              )}
+              <select
+                {...reactHookFormRegRegister("level")}
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              >
+                <option value="" disabled>
+                  Level
+                </option>
+                <option value="100">100 Level</option>
+                <option value="200">200 Level</option>
+                <option value="300">300 Level</option>
+                <option value="400">400 Level</option>
+              </select>
+              {regErrors?.level && (
+                <ErrorMessage message={regErrors.level.message} />
+              )}
+              <div className="password">
+                <input
+                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...reactHookFormRegRegister("password")}
+                  placeholder="Password"
+                />
+                <div className="showPassword">
+                {showPassword ? (
+                  <FaEyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <FaEye onClick={() => setShowPassword(true)} />
+                )}
+                </div>
+                </div>
+              {regErrors?.password && (
+                <ErrorMessage message={regErrors.password.message} />
+              )}
+
+              <select
+                {...reactHookFormRegRegister("country")}
+                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              >
+                <option value="" disabled>
+                  Select Country
+                </option>
+                {countries?.map((item) => (
+                  <option key={item.name} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              {regErrors?.country && (
+                <ErrorMessage message={regErrors.country.message} />
+              )}
+              <div>
+                {regErrors?.subscribe && (
+                  <ErrorMessage message={regErrors.subscribe.message} />
+                )}
+                <div className="check">
+                  <input
+                    type="checkbox"
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    {...reactHookFormRegRegister("subscribe")}
+                    onChange={handleSubscribeChange}
+                  />
+
+                  <label htmlFor="subscribe" className="text-xs">
+                    By Registering you agree with the terms and conditions of
+                    schoolbook
+                  </label>
+                </div>
+              </div>
+              <div className="formButton">
+                <button
+                  type="submit"
+                  className="w-[100%] sm:w-[50%] bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
                 >
-                  {errMsg}
-                </p>
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    id="email"
-                    ref={emailRef}
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    required
-                  />
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    required
-                    autoComplete="current-password"
-                  />
-                  <div className="loginButton">
-                    <input type="submit" value="Login" />
-                    <Link to="/pass-recover">Forgot&nbsp;password?</Link>
-                  </div>
-                </form>
-              </>
-            )}
-          </>
-        )}
+                  Register
+                </button>{" "}
+              </div>
+            </form>
+          )}
+          {activeTab === 1 && (
+            <>
+              <form
+                className="flex flex-col gap-3"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <input
+                  type="email"
+                  {...reactHookFormRegister("email")}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  placeholder="Email Address"
+                />
+                {errors.email?.message && (
+                  <ErrorMessage message={errors.email.message} />
+                )}
+
+                <div className="password">
+                <input
+                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...reactHookFormRegRegister("password")}
+                  placeholder="Password"
+                />
+                <div className="showPassword">
+                {showPassword ? (
+                  <FaEyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <FaEye onClick={() => setShowPassword(true)} />
+                )}
+                </div>
+                </div>
+                {regErrors?.password && (
+                  <ErrorMessage message={regErrors.password.message} />
+                )}
+
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <button
+                    type="submit"
+                    className="w-[100%] sm:w-[50%] bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Login
+                  </button>
+                  <Link to="/pass-recover">Forgot&nbsp;password?</Link>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+      <OverlayLoader showing={showing} />
+    </>
   );
 };
 

@@ -192,7 +192,7 @@
 label{
   font-size: 18px;
   font-weight: 600;
-  padding-bottom: 15px;
+  /* padding-bottom: 15px; */
 }
 .preview-course{
   width: 100%;

@@ -206,7 +206,7 @@ const Profile = () => {
                     onChange={inputchangehandler}
                     value={userPassword}
                   />
-                  <Link to="/ChangePass" style={{ textDecoration: "none" }}>
+                  <Link to="/change-pass" style={{ textDecoration: "none" }}>
                     <span>Change password</span>
                   </Link>
                 </div>

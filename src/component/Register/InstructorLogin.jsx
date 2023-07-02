@@ -9,7 +9,7 @@ import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
 import { ErrorMessage } from "../error-message";
 import countries from "../../data/countries.json";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./RegisterTab.css";
 
 const tabs = [
@@ -18,6 +18,7 @@ const tabs = [
 ];
 
 const InstructorLogin = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const { show, showing, hide } = useOverlayLoader();
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
@@ -205,12 +206,21 @@ const InstructorLogin = () => {
               {regErrors?.department && (
                 <ErrorMessage message={regErrors.department.message} />
               )}
-              <input
-                type="password"
-                className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                {...reactHookFormRegRegister("password")}
-                placeholder="Password"
-              />
+              <div className="password">
+                <input
+                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...reactHookFormRegRegister("password")}
+                  placeholder="Password"
+                />
+                <div className="showPassword">
+                {showPassword ? (
+                  <FaEyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <FaEye onClick={() => setShowPassword(true)} />
+                )}
+                </div>
+                </div>
               {regErrors?.password && (
                 <ErrorMessage message={regErrors.password.message} />
               )}
@@ -276,12 +286,21 @@ const InstructorLogin = () => {
                   <ErrorMessage message={errors.email.message} />
                 )}
 
+<div className="password">
                 <input
-                  type="password"
-                  {...reactHookFormRegister("password")}
-                  placeholder="******************"
+                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
                   className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...reactHookFormRegRegister("password")}
+                  placeholder="Password"
                 />
+                <div className="showPassword">
+                {showPassword ? (
+                  <FaEyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <FaEye onClick={() => setShowPassword(true)} />
+                )}
+                </div>
+                </div>
                 {errors.password?.message && (
                   <ErrorMessage message={errors.password.message} />
                 )}

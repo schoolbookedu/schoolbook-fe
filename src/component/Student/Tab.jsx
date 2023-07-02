@@ -19,8 +19,9 @@ const Tab = ({ activeTab, onTabChange }) => {
         Student
       </button>
         </div>
-        <div className="tab-content">
-          {activeTab === 'instructor' && <p>Strengthen <br/>Your Learning <br/><span>With Schoolbook</span></p>}
+        {/* className="w-full pt-[80px] bg-red-800" */}
+        <div className="tab-content" >
+          {activeTab === 'instructor' && <p className="text-[40px] text-[#fff] leading-normal font-bold ">Strengthen <br/>Your Learning <br/><span className="text-[#FEEF51]">With Schoolbook</span></p>}
           {activeTab === 'student' && <p>Strengthen <br/>Your Learning <br/><span>With Schoolbook</span></p>}
         </div>
       </div>

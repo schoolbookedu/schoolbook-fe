@@ -52,12 +52,17 @@ export const mutations = {
         case USER_TYPE.INSTRUCTOR:
           window.location.href = "/instructor-dashboard";
           break;
-        default:
+          case USER_TYPE.STUDENT:
           window.location.href = "/dashboard";
+          break;
+          default:
+          window.alert("Invalid User Type"); 
           break;
       }
     }
   },
+
+ 
 
   // course
   async createCourse(data) {

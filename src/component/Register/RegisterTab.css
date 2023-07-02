@@ -115,6 +115,18 @@ input[type="submit"] {
   color: #407bff;
   text-decoration: none;
 }
+.password{
+  position: relative;
+  margin-top: 0px;
+}
+.password input{
+  width: 100%;
+}
+.showPassword{
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
 
 @media (max-width: 900px) {
   .register {
