@@ -214,13 +214,13 @@ const InstructorLogin = () => {
                   placeholder="Password"
                 />
                 <div className="showPassword">
-                {showPassword ? (
-                  <FaEyeSlash onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEye onClick={() => setShowPassword(true)} />
-                )}
+                  {showPassword ? (
+                    <FaEyeSlash onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <FaEye onClick={() => setShowPassword(true)} />
+                  )}
                 </div>
-                </div>
+              </div>
               {regErrors?.password && (
                 <ErrorMessage message={regErrors.password.message} />
               )}
@@ -286,20 +286,20 @@ const InstructorLogin = () => {
                   <ErrorMessage message={errors.email.message} />
                 )}
 
-<div className="password">
-                <input
-                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
-                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                  {...reactHookFormRegRegister("password")}
-                  placeholder="Password"
-                />
-                <div className="showPassword">
-                {showPassword ? (
-                  <FaEyeSlash onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEye onClick={() => setShowPassword(true)} />
-                )}
-                </div>
+                <div className="password">
+                  <input
+                    type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    {...reactHookFormRegister("password")}
+                    placeholder="Password"
+                  />
+                  <div className="showPassword">
+                    {showPassword ? (
+                      <FaEyeSlash onClick={() => setShowPassword(false)} />
+                    ) : (
+                      <FaEye onClick={() => setShowPassword(true)} />
+                    )}
+                  </div>
                 </div>
                 {errors.password?.message && (
                   <ErrorMessage message={errors.password.message} />
