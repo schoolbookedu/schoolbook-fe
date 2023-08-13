@@ -294,6 +294,7 @@ const InstructorLogin = () => {
                 )}
 
                 <div className="password">
+<<<<<<< HEAD
                   <input
                     type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
                     className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
@@ -307,6 +308,21 @@ const InstructorLogin = () => {
                       <FaEye onClick={() => setShowPassword(true)} />
                     )}
                   </div>
+=======
+                <input
+                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...reactHookFormRegister("password")}
+                  placeholder="Password"
+                />
+                <div className="showPassword">
+                {showPassword ? (
+                  <FaEyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <FaEye onClick={() => setShowPassword(true)} />
+                )}
+                </div>
+>>>>>>> cad528e5 (pull new update)
                 </div>
                 {errors.password?.message && (
                   <ErrorMessage message={errors.password.message} />
