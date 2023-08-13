@@ -3,7 +3,7 @@ import { useQueries, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema, registerSchema } from "../../validators";
+import { useFormValidation } from "../../validators";
 import { queries, mutations } from "../../api";
 import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
@@ -11,6 +11,10 @@ import { ErrorMessage } from "../error-message";
 import countries from "../../data/countries.json";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./RegisterTab.css";
+import {
+  loginFieldsToValidate,
+  registerFieldsToValidate,
+} from "./StudentLogin";
 
 const tabs = [
   { id: 0, label: "Register" },
@@ -22,6 +26,10 @@ const InstructorLogin = () => {
   const { show, showing, hide } = useOverlayLoader();
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
+
+  const loginValidators = useFormValidation(loginFieldsToValidate);
+
+  const registerValidators = useFormValidation(registerFieldsToValidate);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -42,7 +50,7 @@ const InstructorLogin = () => {
     setValue,
     formState: { errors: regErrors },
   } = useForm({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerValidators),
     defaultValues: {
       fullName: "",
       email: "",
@@ -62,7 +70,7 @@ const InstructorLogin = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(loginValidators),
     defaultValues: {
       email: "",
       password: "",
@@ -87,8 +95,7 @@ const InstructorLogin = () => {
     universitiesAndDepartmentsQuery[0].isLoading ||
     universitiesAndDepartmentsQuery[1].isLoading
   ) {
-    <OverlayLoader showing={true} />;
-    return null;
+    return <OverlayLoader showing={true} />;
   }
 
   if (

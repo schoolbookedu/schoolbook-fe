@@ -1,31 +1,43 @@
-import { React, useState } from "react";
+import { React } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { mutations } from "../../api";
+import { OverlayLoader } from "../../loaders";
+import { useOverlayLoader } from "../../hooks";
+import { useFormValidation } from "../../validators";
+import { ErrorMessage } from "../error-message";
 import "../Register/RegisterTab.css";
 import "./FPass.css";
-import { useMutation } from "@tanstack/react-query";
-import { mutations } from "../../api";
+
+const forgotPasswordFieldToValidate = ["email"];
 
 const FPass = () => {
   const { forgotPassword } = mutations;
-  const [email, setEmail] = useState("");
+  const { show, showing, hide } = useOverlayLoader();
 
-  const mutation = useMutation(forgotPassword);
+  const validateSchema = useFormValidation(forgotPasswordFieldToValidate);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const mutation = useMutation(forgotPassword, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
 
-    mutation.mutate({ email });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validateSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-    if (mutation.isLoading) {
-      return <div>Creating user...</div>;
-    }
-
-    if (mutation.isError) {
-      return <div>Error creating user</div>;
-    }
-
-    if (mutation.isSuccess) {
-      return <div>User created successfully!</div>;
-    }
+  const onSubmit = (data) => {
+    console.log({ data });
+    mutation.mutate(data);
   };
 
   return (
@@ -33,18 +45,21 @@ const FPass = () => {
       <h2>Password Recovery</h2>
       <p>Enter Code Sent to your Email</p>
       <div className="tabForm">
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+            {...register("email")}
           />
+
+          {errors.email && <ErrorMessage message={errors.email.message} />}
           <div className="formButton">
             <input type="submit" value="Continue" />
           </div>
         </form>
       </div>
+      <OverlayLoader showing={showing} />
     </div>
   );
 };

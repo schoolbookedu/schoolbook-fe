@@ -3,7 +3,7 @@ import { useQueries, useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema, registerSchema } from "../../validators";
+import { useFormValidation } from "../../validators";
 import { queries, mutations } from "../../api";
 import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
@@ -17,16 +17,31 @@ const tabs = [
   { id: 1, label: "Login" },
 ];
 
-const LOGIN_URL = "api/v1/users/login";
-const REGISTER_URL = "/api/v1/users";
-const UNIVERSITY_URL = "/api/v1/universities";
-const DEPARTMENT_URL = "/api/v1/departments";
+export const loginFieldsToValidate = ["email", "password"];
+
+export const registerFieldsToValidate = [
+  "fullName",
+  "email",
+  "phoneNumber",
+  "gender",
+  "userType",
+  "university",
+  "department",
+  "level",
+  "password",
+  "country",
+  "subscribe",
+];
 
 const StudentLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { show, showing, hide } = useOverlayLoader();
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
+
+  const loginValidators = useFormValidation(loginFieldsToValidate);
+
+  const registerValidators = useFormValidation(registerFieldsToValidate);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -49,7 +64,7 @@ const StudentLogin = () => {
     setValue,
     formState: { errors: regErrors },
   } = useForm({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerValidators),
     defaultValues: {
       fullName: "",
       email: "",
@@ -70,7 +85,7 @@ const StudentLogin = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(loginValidators),
     defaultValues: {
       email: "",
       password: "",
@@ -95,8 +110,7 @@ const StudentLogin = () => {
     universitiesAndDepartmentsQuery[0].isLoading ||
     universitiesAndDepartmentsQuery[1].isLoading
   ) {
-    <OverlayLoader showing={true} />;
-    return null;
+    return <OverlayLoader showing={true} />;
   }
 
   if (
@@ -237,13 +251,13 @@ const StudentLogin = () => {
                   placeholder="Password"
                 />
                 <div className="showPassword">
-                {showPassword ? (
-                  <FaEyeSlash onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEye onClick={() => setShowPassword(true)} />
-                )}
+                  {showPassword ? (
+                    <FaEyeSlash onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <FaEye onClick={() => setShowPassword(true)} />
+                  )}
                 </div>
-                </div>
+              </div>
               {regErrors?.password && (
                 <ErrorMessage message={regErrors.password.message} />
               )}
@@ -310,19 +324,19 @@ const StudentLogin = () => {
                 )}
 
                 <div className="password">
-                <input
-                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
-                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                  {...reactHookFormRegRegister("password")}
-                  placeholder="Password"
-                />
-                <div className="showPassword">
-                {showPassword ? (
-                  <FaEyeSlash onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEye onClick={() => setShowPassword(true)} />
-                )}
-                </div>
+                  <input
+                    type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    {...reactHookFormRegRegister("password")}
+                    placeholder="Password"
+                  />
+                  <div className="showPassword">
+                    {showPassword ? (
+                      <FaEyeSlash onClick={() => setShowPassword(false)} />
+                    ) : (
+                      <FaEye onClick={() => setShowPassword(true)} />
+                    )}
+                  </div>
                 </div>
                 {regErrors?.password && (
                   <ErrorMessage message={regErrors.password.message} />

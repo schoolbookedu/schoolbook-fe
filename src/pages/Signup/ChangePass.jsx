@@ -2,21 +2,46 @@ import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Completed from "../../component/Featured Courses/Completed";
 import logo from "../../utils/logo.png";
 import "../User Profile/Profile.css";
+import { useFormValidation } from "../../validators";
+import { ErrorMessage } from "../../component/error-message";
 
 const profileTab = [
   { id: 0, label: "Profile" },
   { id: 1, label: "Completed Courses" },
 ];
 
+const changePasswordFieldToValidate = ["oldPassword", "newPassword"];
+
 const ChangePass = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [open, setOpen] = useState(false);
 
+  const validateSchema = useFormValidation(changePasswordFieldToValidate);
+
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validateSchema),
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log({ data });
+    // mutation.mutate(data);
   };
 
   return (
@@ -76,13 +101,31 @@ const ChangePass = () => {
           {activeTab === 0 && (
             <div className="changepass">
               <h2>Change Password</h2>
-              <form>
-                <input type="password" placeholder="Old Password"></input>
-                <input type="password" placeholder="New Password"></input>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <input
+                  type="password"
+                  placeholder="Old Password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...register("oldPassword")}
+                />
+
+                {errors.oldPassword && (
+                  <ErrorMessage message={errors.oldPassword.message} />
+                )}
+
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...register("newPassword")}
+                />
+
+                {errors.newPassword && (
+                  <ErrorMessage message={errors.newPassword.message} />
+                )}
+
                 <div className="formButton">
-                  <Link to="/">
-                    <input type="submit" value="Change Password"></input>
-                  </Link>
+                  <input type="submit" value="Change Password"></input>
                 </div>
               </form>
             </div>

@@ -3,18 +3,27 @@ import { HTTP_METHODS, USER_TYPE, setStorage } from "../utils";
 import { endpoints } from ".";
 
 export const mutations = {
-  //user
-  async verifyUser(userId) {
+  // auth
+  async ResetPassword(payload) {
     return axiosInstance.request({
       method: HTTP_METHODS.PATCH,
-      url: endpoints.VERIFY_USER + "/" + userId,
+      url: endpoints.auth.resetPassword,
+      data: payload,
+    });
+  },
+
+  async changePassword(payload) {
+    return axiosInstance.request({
+      method: HTTP_METHODS.PATCH,
+      url: endpoints.auth.changePassword,
+      data: payload,
     });
   },
 
   async forgotPassword(data) {
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.FORGOT_PASSWORD,
+      url: endpoints.auth.forgotPassword,
       data,
     });
   },
@@ -22,7 +31,7 @@ export const mutations = {
   async register(data) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.REGISTER,
+      url: endpoints.auth.register,
       data,
     });
 
@@ -34,7 +43,7 @@ export const mutations = {
   async login(data) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.LOGIN,
+      url: endpoints.auth.login,
       data,
     });
 
@@ -52,23 +61,30 @@ export const mutations = {
         case USER_TYPE.INSTRUCTOR:
           window.location.href = "/instructor-dashboard";
           break;
-          case USER_TYPE.STUDENT:
+        case USER_TYPE.STUDENT:
           window.location.href = "/dashboard";
           break;
-          default:
-          window.alert("Invalid User Type"); 
+        default:
+          window.alert("Invalid User Type");
           break;
       }
     }
   },
 
- 
+  //user
+
+  async verifyUser(userId) {
+    return axiosInstance.request({
+      method: HTTP_METHODS.PATCH,
+      url: endpoints.users.verifyUser + "/" + userId,
+    });
+  },
 
   // course
   async createCourse(data) {
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.CREATE_COURSE,
+      url: endpoints.courses.create,
       data,
     });
   },
@@ -76,14 +92,14 @@ export const mutations = {
   async deleteCourse(courseId) {
     return axiosInstance.request({
       method: HTTP_METHODS.DELETE,
-      url: endpoints.DELETE_COURSE + "/" + courseId,
+      url: endpoints.courses.delete + "/" + courseId,
     });
   },
 
   async updateCourse(courseId, data) {
     return axiosInstance.request({
       method: HTTP_METHODS.PATCH,
-      url: endpoints.UPDATE_COURSE + "/" + courseId,
+      url: endpoints.courses.update + "/" + courseId,
       data,
     });
   },
@@ -92,7 +108,7 @@ export const mutations = {
   async createUniversity(data) {
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.CREATE_UNIVERSITY,
+      url: endpoints.universities.create,
       data,
     });
   },
@@ -100,14 +116,14 @@ export const mutations = {
   async deleteUniversity(universityId) {
     return axiosInstance.request({
       method: HTTP_METHODS.DELETE,
-      url: endpoints.DELETE_UNIVERSITY + "/" + universityId,
+      url: endpoints.universities.delete + "/" + universityId,
     });
   },
 
   async updateUniversity(universityId, data) {
     return axiosInstance.request({
       method: HTTP_METHODS.PATCH,
-      url: endpoints.UPDATE_UNIVERSITY + "/" + universityId,
+      url: endpoints.universities.update + "/" + universityId,
       data,
     });
   },
@@ -116,7 +132,7 @@ export const mutations = {
   async createDepartment(data) {
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.CREATE_DEPARTMENT,
+      url: endpoints.departments.create,
       data,
     });
   },
@@ -124,14 +140,14 @@ export const mutations = {
   async deleteDepartment(departmentId) {
     return axiosInstance.request({
       method: HTTP_METHODS.DELETE,
-      url: endpoints.DELETE_DEPARTMENT + "/" + departmentId,
+      url: endpoints.departments.delete + "/" + departmentId,
     });
   },
 
   async updateDepartment(departmentId, data) {
     return axiosInstance.request({
       method: HTTP_METHODS.PATCH,
-      url: endpoints.UPDATE_DEPARTMENT + "/" + departmentId,
+      url: endpoints.departments.update + "/" + departmentId,
       data,
     });
   },

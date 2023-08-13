@@ -6,7 +6,7 @@ export const queries = {
   async getCourse(courseId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_COURSE + "/" + courseId,
+      url: endpoints.courses.get + "/" + courseId,
     });
     return response.data;
   },
@@ -14,7 +14,7 @@ export const queries = {
   async getCourses() {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_COURSES,
+      url: endpoints.courses.get,
     });
     return response.data;
   },
@@ -22,7 +22,7 @@ export const queries = {
   async getUser(userId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_USER + "/" + userId,
+      url: endpoints.users.get + "/" + userId,
     });
     return response.data;
   },
@@ -30,7 +30,7 @@ export const queries = {
   async getUniversity(universityId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_UNIVERSITY + "/" + universityId,
+      url: endpoints.universities.get + "/" + universityId,
     });
     return response.data;
   },
@@ -38,7 +38,7 @@ export const queries = {
   async getUniversities() {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_UNIVERSITIES,
+      url: endpoints.universities.get,
     });
     return response.data;
   },
@@ -46,7 +46,7 @@ export const queries = {
   async getDepartments() {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_DEPARTMENTS,
+      url: endpoints.universities.get,
     });
     return response.data;
   },
@@ -54,7 +54,7 @@ export const queries = {
   async getDepartment(departmentId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.GET_DEPARTMENT + "/" + departmentId,
+      url: endpoints.universities.get + "/" + departmentId,
     });
     return response.data;
   },
