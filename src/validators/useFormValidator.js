@@ -61,6 +61,15 @@ const FormFieldValidationMap = {
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
   },
+  confirmPassword: {
+    rule: Yup.string()
+      .required("Confirm password is required")
+      .oneOf([Yup.ref('newPassword'), null], "Confrim Password  must match with New Password")
+  },
+  passwordResetToken: {
+    rule: Yup.string()
+      .required("Password Reset Token is required")
+  },
   oldPassword: {
     rule: Yup.string()
       .required("Old password is required")
@@ -103,7 +112,7 @@ export const useFormValidation = (fields) => {
   const rules = {};
 
   fields.forEach((field) => {
-    const validationRule = FormFieldValidationMap[field].rule;
+    const validationRule = FormFieldValidationMap[field]?.rule;
     rules[field] = validationRule;
   });
 

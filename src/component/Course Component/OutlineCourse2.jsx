@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState, useRef } from "react";
 import { faFile, faMusic, faVideo } from "@fortawesome/free-solid-svg-icons";
 import MediaContent from "../Media Content/MediaContent";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import InputBox from "../Create Courses/InputBox";
 
@@ -11,20 +10,17 @@ const link = [
   { id: 0, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse2 = ({ onNext, onPrevious, inputValue, setInputValue }) => {
+const OutlineCourse2 = ({
+  onNext,
+  onPrevious,
+  inputValue,
+  setInputValue,
+  courseDetails,
+  setCourseDetails,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
   const inputRef = useRef(null);
-  const dispatch = useDispatch();
-  const inputTitle = useSelector((state) => state.inputTitle);
-  const inputObjective = useSelector((state) => state.inputObjective);
-  const moduleTitle = useSelector((state) => state.moduleTitle);
-
-  const handleTitleChange = (event) => {
-    dispatch({ type: "UPDATE_TITLE_VALUE", payload: event.target.value });
-  };
-  const handleObjectiveChange = (event) => {
-    dispatch({ type: "UPDATE_OBJECTIVE_VALUE", payload: event.target.value });
-  };
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   const handleClick = () => {
     inputRef.current.click();
@@ -32,19 +28,22 @@ const OutlineCourse2 = ({ onNext, onPrevious, inputValue, setInputValue }) => {
 
   const handleFileChange = (event) => {
     const fileObj = event.target.files && event.target.files[0];
+    if (fileObj) {
+      setCourseDetails({
+        ...courseDetails,
+        outlines: { materialTitle: "", materialid: event.target.files[0] },
+      });
+      setSelectedFileName(fileObj.name);
+    }
     if (!fileObj) {
       return;
     }
 
-    console.log("fileObj is", fileObj);
-    event.target.value = null;
-    console.log(event.target.files);
-    console.log(fileObj);
-    console.log(fileObj.name);
-  };
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+    // console.log("fileObj is", fileObj);
+    // event.target.value = null;
+    // console.log(event.target.files);
+    // console.log(fileObj);
+    // console.log(fileObj.name);
   };
 
   return (
@@ -69,13 +68,25 @@ const OutlineCourse2 = ({ onNext, onPrevious, inputValue, setInputValue }) => {
                 <input
                   type="text"
                   placeholder="eg: Programming for Beginners"
-                  onChange={handleTitleChange}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      title: e.target.value,
+                    })
+                  }
                 />
                 <label>Course Objective</label>
                 <textarea
                   type="text"
                   placeholder="An overview of what the course is all about..."
-                  onChange={handleObjectiveChange}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      objectives: e.target.value,
+                    })
+                  }
                 />
                 <div className="coverPhoto">
                   <div className="coverText">
@@ -89,7 +100,10 @@ const OutlineCourse2 = ({ onNext, onPrevious, inputValue, setInputValue }) => {
                     </span>
                   </div>
                   <div className="coverCreate">
-                    <InputBox />
+                    <InputBox
+                      courseDetails={courseDetails}
+                      setCourseDetails={setCourseDetails}
+                    />
                   </div>
                 </div>
               </div>
@@ -101,18 +115,24 @@ const OutlineCourse2 = ({ onNext, onPrevious, inputValue, setInputValue }) => {
           {activeTab === 0 && (
             <>
               <div className="outline-form">
-                <label>Course Module Title</label>
+                <label>Course Material Title</label>
                 <input
                   type="text"
                   placeholder="e.g Introduction to Programming"
-                  onChange={handleInputChange}
-                  value={inputValue}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      outlines: { materialTitle: e.target.value },
+                    })
+                  }
                 />
               </div>
               <div className="outline-form">
-                <h2>Course Module Materials</h2>
+                <h2>Course Materials</h2>
                 <div className="modulebtn">
                   <button>Add Materials</button>
+                  {selectedFileName && <p>{selectedFileName}</p>}
                   <div className="modulehover">
                     <ul>
                       <li onClick={handleClick}>
@@ -166,12 +186,12 @@ const OutlineCourse2 = ({ onNext, onPrevious, inputValue, setInputValue }) => {
           {activeTab === 2 && (
             <>
               <div className="preview-course">
-                <h2>{inputTitle}</h2>
+                <h2>{courseDetails.title}</h2>
                 <div className="preview-text">
                   <p>COURSE OBJECTIVE</p>
-                  <p>{inputObjective}</p>
+                  <p>{courseDetails.objectives}</p>
                   <p>
-                    <b>{moduleTitle}</b>
+                    <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
                 <MediaContent />

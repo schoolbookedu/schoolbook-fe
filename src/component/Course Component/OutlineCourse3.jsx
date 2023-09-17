@@ -1,10 +1,13 @@
 import { React, useState, useRef } from "react";
 import MediaContent from "../Media Content/MediaContent";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Create from "../Create Courses/Create";
-import OutlineCardList from "../Outline Card/OutlineCardList";
 import "./CourseOutline.css";
+import InputBox from "../Create Courses/InputBox";
+import { mutations } from "../../api";
+import { useMutation } from "@tanstack/react-query";
+import { useOverlayLoader } from "../../hooks";
+import { OverlayLoader } from "../../loaders";
+import axios from "axios";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -13,21 +16,31 @@ const link = [
 ];
 const videoLink = [{ id: 0, list: "Introduction to programming" }];
 
-const OutlineCourse3 = ({ onNext, onPrevious, cards }) => {
+const OutlineCourse3 = ({
+  onNext,
+  onPrevious,
+  cards,
+  courseDetails,
+  setCourseDetails,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
-  const inputRef = useRef(null);
-  const dispatch = useDispatch();
-  const inputTitle = useSelector((state) => state.inputTitle);
-  const inputObjective = useSelector((state) => state.inputObjective);
-  const moduleTitle = useSelector((state) => state.moduleTitle);
-  
-  const handleTitleChange = (event) => {
-    dispatch({ type: "UPDATE_TITLE_VALUE", payload: event.target.value });
-  };
-  const handleObjectiveChange = (event) => {
-    dispatch({ type: "UPDATE_OBJECTIVE_VALUE", payload: event.target.value });
-  };
 
+  const { createCourse } = mutations;
+
+  // Inside your component
+  const { show, showing, hide } = useOverlayLoader();
+
+  const mutation = useMutation(createCourse, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
+
+  const createCourseRequest = () => {
+    console.log(courseDetails);
+    const response = mutation.mutate(courseDetails);
+    console.log(response);
+  };
 
   return (
     <>
@@ -51,13 +64,25 @@ const OutlineCourse3 = ({ onNext, onPrevious, cards }) => {
                 <input
                   type="text"
                   placeholder="eg: Programming for Beginners"
-                  onChange={handleTitleChange}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      title: e.target.value,
+                    })
+                  }
                 />
                 <label>Course Objective</label>
                 <textarea
                   type="text"
                   placeholder="An overview of what the course is all about..."
-                  onChange={handleObjectiveChange}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      objectives: e.target.value,
+                    })
+                  }
                 />
                 <div className="coverPhoto">
                   <div className="coverText">
@@ -71,7 +96,10 @@ const OutlineCourse3 = ({ onNext, onPrevious, cards }) => {
                     </span>
                   </div>
                   <div className="coverCreate">
-                    <Create />
+                    <InputBox
+                      courseDetails={courseDetails}
+                      setCourseDetails={setCourseDetails}
+                    />
                   </div>
                 </div>
               </div>
@@ -83,31 +111,35 @@ const OutlineCourse3 = ({ onNext, onPrevious, cards }) => {
           {activeTab === 0 && (
             <>
               <div className="outline-form">
-                <h2>Module Materials</h2>
+                <h2>Price</h2>
                 <div className="outlineCard-container">
-                  <OutlineCardList cards={cards} />
-                </div>
-                <div className="addmaterials">
-                  <button onClick={onPrevious}>Create Course Module </button>
+                  <input
+                    type="text"
+                    placeholder="Course Price"
+                    className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    onChange={(e) =>
+                      setCourseDetails({
+                        ...courseDetails,
+                        price: e.target.value,
+                      })
+                    }
+                  />
                 </div>
               </div>
               <div className="outlinebtn2">
-                <button className="prev" onClick={onPrevious}>
-                  Previous
-                </button>
-                <button onClick={onNext}>Next</button>
+                <button onClick={createCourseRequest}>Submit</button>
               </div>
             </>
           )}
           {activeTab === 2 && (
             <>
               <div className="preview-course">
-                <h2>{inputTitle}</h2>
+                <h2>{courseDetails.title}</h2>
                 <div className="preview-text">
                   <p>COURSE OBJECTIVE</p>
-                  <p>{inputObjective}</p>
+                  <p>{courseDetails.objectives}</p>
                   <p>
-                    <b>{moduleTitle}</b>
+                    <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
                 <MediaContent />
@@ -123,6 +155,7 @@ const OutlineCourse3 = ({ onNext, onPrevious, cards }) => {
             </>
           )}
         </div>
+        <OverlayLoader showing={showing} />
       </div>
     </>
   );

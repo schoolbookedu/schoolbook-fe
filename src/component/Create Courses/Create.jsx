@@ -7,7 +7,7 @@ import {faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 const Create = () => {
   return (
     <div className='create'>
-      <Link to="/CourseOutline">
+      <Link to="/course-outline">
         <FontAwesomeIcon icon={faPlusCircle} style={{color:"#407BFF", fontSize:"24px"}}/>
       </Link>
     </div>

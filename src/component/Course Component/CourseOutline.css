@@ -238,6 +238,7 @@ label{
 .modulebtn{
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 80px 0px;

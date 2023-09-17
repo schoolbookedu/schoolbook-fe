@@ -4,6 +4,10 @@ import './InstructorDashboard.css'
 import Nav from '../../component/Navbar/Nav'
 import Create from '../../component/Create Courses/Create';
 import Created from '../../component/Featured Courses/Created';
+import { queries } from "../../api";
+import { useQuery } from "@tanstack/react-query";
+import { OverlayLoader } from "../../loaders";
+
 
 
 
@@ -14,6 +18,18 @@ const tab = [
 ];
 const InstructorDashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const {getCourses} = queries;
+  const {data, isLoading, isError} = useQuery({
+    queryKey: ["courses"], queryFn: getCourses 
+});
+if (
+  isLoading
+) {
+  return <OverlayLoader showing={true} />;
+}
+console.log(data.data)
+
+
   return (
     <div>
       <Nav />
@@ -42,11 +58,11 @@ const InstructorDashboard = () => {
           <h2>COURSE CREATED</h2>
           </div>
           <div className='fcourse-container'> 
-          <div className='fcourse-scroll'>
-            <Created/>
-            <Created/>
-            <Created/>
-          </div> 
+          <div className="fcourse-scroll">
+                  {data?.data?.resource?.length>0 ? <>
+                  {data.data.resource.map((resource) => <Created key={resource?.id} resource={resource}/>)}
+                  </> : <>No items created</>}
+                </div>
           </div>
           </div>}
           {activeTab === 1 && 
@@ -58,16 +74,11 @@ const InstructorDashboard = () => {
           {activeTab === 2 && 
             <div className='fcourse-container'> 
               <div className='instcourse-container'>
-              <div className='fcourse-scroll'>
-              <Created/>
-              <Created/>
-              <Created/>
-            </div> 
-            <div className='fcourse-scroll'>
-              <Created/>
-              <Created/>
-              <Created/>
-            </div> 
+              <div className="fcourse-scroll">
+                  {data?.data?.resource?.length>0 ? <>
+                  {data.data.resource.map((resource) => <Created key={resource?.id} resource={resource}/>)}
+                  </> : <>No items created</>}
+                </div>
               </div>
             </div>}
         </div>

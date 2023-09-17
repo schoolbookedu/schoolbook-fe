@@ -25,3 +25,7 @@ button {
   cursor: pointer;
   font-weight: 400;
 }
+
+.outline {
+  outline-style: none;
+}

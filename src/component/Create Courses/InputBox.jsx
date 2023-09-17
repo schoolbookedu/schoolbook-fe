@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import "./Create.css";
 
-const InputBox = () => {
+const InputBox = ({courseDetails, setCourseDetails}) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const inputRef = useRef(null);
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         setSelectedImage(URL.createObjectURL(file));
+        setCourseDetails({...courseDetails,thumbnail:event.target.files[0]})
       };
 
   const handleClick = () => {
@@ -25,6 +26,7 @@ const InputBox = () => {
         style={{ display: "none" }}
         ref={inputRef}
         onChange={handleImageUpload} 
+        // onChange={(e) => }
         accept="image/png, image/gif, image/jpeg"/>
         <FontAwesomeIcon
         icon={faPlusCircle}

@@ -9,7 +9,7 @@ import { useFormValidation } from "../../validators";
 import { ErrorMessage } from "../error-message";
 import "../Register/RegisterTab.css";
 import "./FPass.css";
-
+import {useNavigate} from 'react-router-dom'
 const forgotPasswordFieldToValidate = ["email"];
 
 const FPass = () => {
@@ -23,6 +23,10 @@ const FPass = () => {
     onSuccess: () => hide(),
     onError: () => hide(),
   });
+
+  const navigate = useNavigate()
+
+
 
   const {
     register,
@@ -38,6 +42,7 @@ const FPass = () => {
   const onSubmit = (data) => {
     console.log({ data });
     mutation.mutate(data);
+    navigate ('/new-pass');
   };
 
   //  handleFormSubmit = async (e) => {

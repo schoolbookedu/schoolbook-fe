@@ -47,6 +47,7 @@ axiosInstance.interceptors.response.use(
     if (!error?.response?.data) {
       return;
     }
+    console.log(error)
     if (error.response.status >= 300) {
       const errorMsg =
         error?.response?.data?.errors[0].msg ?? error?.response?.data?.error;

@@ -1,8 +1,6 @@
-import { React, useState} from "react";
+import { React, useState } from "react";
 import MediaContent from "../Media Content/MediaContent";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Create from "../Create Courses/Create";
 import InputBox from "../Create Courses/InputBox";
 
 const link = [
@@ -10,20 +8,8 @@ const link = [
   { id: 1, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse = ({ onNext, cards }) => {
+const OutlineCourse = ({ onNext, cards, courseDetails, setCourseDetails }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const dispatch = useDispatch();
-
-  const handleTitleChange = (event) => {
-    dispatch({ type: "UPDATE_TITLE_VALUE", payload: event.target.value });
-  };
-  const inputTitle = useSelector((state) => state.inputTitle);
-
-  const handleObjectiveChange = (event) => {
-    dispatch({ type: "UPDATE_OBJECTIVE_VALUE", payload: event.target.value });
-  };
-  const inputObjective = useSelector((state) => state.inputObjective);
-  const inputMaterial = useSelector((state) => state.inputMaterial);
 
   return (
     <>
@@ -47,21 +33,42 @@ const OutlineCourse = ({ onNext, cards }) => {
                 <input
                   type="text"
                   placeholder="eg: Programming for Beginners"
-                  onChange={handleTitleChange}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      title: e.target.value,
+                    })
+                  }
                 />
                 <label>Course Objective</label>
                 <textarea
                   type="text"
                   placeholder="An overview of what the course is all about..."
-                  onChange={handleObjectiveChange}
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      objectives: e.target.value,
+                    })
+                  }
                 />
                 <div className="coverPhoto">
                   <div className="coverText">
-                    <p><b>Add Course Cover Photo </b><span>(Optional)</span></p>
-                    <span>(This is the picture that will display as the home cover when your course is viewed)</span>
+                    <p>
+                      <b>Add Course Cover Photo </b>
+                      <span>(Optional)</span>
+                    </p>
+                    <span>
+                      (This is the picture that will display as the home cover
+                      when your course is viewed)
+                    </span>
                   </div>
-                  <div className='coverCreate'>
-                    <InputBox/>
+                  <div className="coverCreate">
+                    <InputBox
+                      courseDetails={courseDetails}
+                      setCourseDetails={setCourseDetails}
+                    />
                   </div>
                 </div>
               </div>
@@ -73,22 +80,22 @@ const OutlineCourse = ({ onNext, cards }) => {
           {activeTab === 1 && (
             <>
               <div className="Outlinemodule">
-              <button onClick={onNext}>Course Module</button>
+                <button onClick={onNext}>Course Module</button>
               </div>
             </>
           )}
           {activeTab === 2 && (
             <>
               <div className="preview-course">
-                <h2>{inputTitle}</h2>
+                <h2>{courseDetails.title}</h2>
                 <div className="preview-text">
                   <p>COURSE OBJECTIVE</p>
-                  <p>{inputObjective}</p>
+                  <p>{courseDetails.objectives}</p>
                   <p>
-                    <b>{inputMaterial}</b>
+                    <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
-                <MediaContent cards={cards}/>
+                <MediaContent cards={cards} />
               </div>
               <div className="outlinebtn2">
                 <button className="prev" onClick={() => setActiveTab(1)}>

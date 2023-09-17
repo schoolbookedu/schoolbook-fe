@@ -6,7 +6,7 @@ export const mutations = {
   // auth
   async ResetPassword(payload) {
     return axiosInstance.request({
-      method: HTTP_METHODS.PATCH,
+      method: HTTP_METHODS.POST,
       url: endpoints.auth.resetPassword,
       data: payload,
     });
@@ -52,7 +52,7 @@ export const mutations = {
       const accessToken = payload?.extra?.accessToken;
       const user = payload?.resource;
       const userType = user?.userType;
-
+      // alert(userType)
       setStorage("accessToken", accessToken);
       setStorage("userType", userType);
       setStorage("userId", user?._id);

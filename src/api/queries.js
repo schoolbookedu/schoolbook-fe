@@ -46,7 +46,7 @@ export const queries = {
   async getDepartments() {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.universities.get,
+      url: endpoints.departments.get,
     });
     return response.data;
   },
@@ -54,7 +54,7 @@ export const queries = {
   async getDepartment(departmentId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.universities.get + "/" + departmentId,
+      url: endpoints.departments.get + "/" + departmentId,
     });
     return response.data;
   },

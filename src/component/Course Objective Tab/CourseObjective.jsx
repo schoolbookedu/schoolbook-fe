@@ -11,7 +11,7 @@ const tabs = [
 
 
 
-const CourseObjective = ({cards}) => {
+const CourseObjective = ({cards, objectives}) => {
   const [activeTab, setActiveTab] = useState(0);
   // const [cards, setCards] = useState([
   //   { id: 0, title: "Fundamentals Of Graphic Design ", text: "Course Outline 1" },
@@ -42,7 +42,7 @@ const CourseObjective = ({cards}) => {
           {activeTab === 0 && (
             <div className="objective-content">
               <p>
-               {inputObjective}
+               {objectives}
               </p>
             </div>
           )}
