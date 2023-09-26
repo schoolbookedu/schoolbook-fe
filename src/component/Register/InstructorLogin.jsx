@@ -11,10 +11,7 @@ import { ErrorMessage } from "../error-message";
 import countries from "../../data/countries.json";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./RegisterTab.css";
-import {
-  loginFieldsToValidate,
-  registerFieldsToValidate,
-} from "./StudentLogin";
+import { loginFieldsToValidate } from "./StudentLogin";
 
 const tabs = [
   { id: 0, label: "Register" },
@@ -27,6 +24,18 @@ const InstructorLogin = () => {
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
 
+  const registerFieldsToValidate = [
+    "fullName",
+    "email",
+    "phoneNumber",
+    "gender",
+    "userType",
+    "university",
+    "department",
+    "password",
+    "country",
+    "subscribe",
+  ];
   const loginValidators = useFormValidation(loginFieldsToValidate);
 
   const registerValidators = useFormValidation(registerFieldsToValidate);
@@ -45,8 +54,8 @@ const InstructorLogin = () => {
   });
 
   const {
-    register: reactHookFormRegRegister,  //Error Line
-    handleSubmit: handleRegSubmit,   //Error Line
+    register: reactHookFormRegRegister, //Error Line
+    handleSubmit: handleRegSubmit, //Error Line
     setValue,
     formState: { errors: regErrors },
   } = useForm({
@@ -82,6 +91,7 @@ const InstructorLogin = () => {
   };
 
   const onRegSubmit = (data) => {
+    console.log({ data });
     regMutation.mutate(data);
   };
   const universitiesAndDepartmentsQuery = useQueries({
@@ -294,19 +304,19 @@ const InstructorLogin = () => {
                 )}
 
                 <div className="password">
-                <input
-                  type={showPassword ? "text" : "password"} 
-                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                  {...reactHookFormRegister("password")}
-                  placeholder="Password"
-                />
-                <div className="showPassword">
-                {showPassword ? (
-                  <FaEyeSlash onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEye onClick={() => setShowPassword(true)} />
-                )}
-                </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    {...reactHookFormRegister("password")}
+                    placeholder="Password"
+                  />
+                  <div className="showPassword">
+                    {showPassword ? (
+                      <FaEyeSlash onClick={() => setShowPassword(false)} />
+                    ) : (
+                      <FaEye onClick={() => setShowPassword(true)} />
+                    )}
+                  </div>
                 </div>
                 {errors.password?.message && (
                   <ErrorMessage message={errors.password.message} />
@@ -332,4 +342,3 @@ const InstructorLogin = () => {
 };
 
 export default InstructorLogin;
-

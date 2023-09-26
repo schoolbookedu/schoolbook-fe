@@ -1,21 +1,40 @@
-import React from 'react'
-import img from '../../utils/img.png'
-import './Course.css'
+import React from "react";
+import img from "../../utils/img.png";
+import "./Course.css";
+import EmptyMessage from "../../component/EmptyMessage";
 
-const Course = () => {
+// temp data
+
+const courses = [];
+
+// TODO
+// 1. Get the list of courses that belongs to the user
+const Courses = () => {
   return (
-    <div className='course'>
-        <div className='course-img'>
-          <img src={img} alt='course'/>
-        </div>
-        <div className='course-title'>
-          <div className='text'>
-            <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
-            <span>Tutor: Prof John Tobiloba</span>
-          </div>
-        </div>
-    </div>
-  )
-}
+    <>
+      {courses.length > 0 ? (
+        courses?.map((course) => <Course key={course?.id} course={course} />)
+      ) : (
+        <EmptyMessage content="You have not enrolled for a course yet" />
+      )}
+    </>
+  );
+};
 
-export default Course
+const Course = ({ course }) => {
+  return (
+    <div key={course?.id} className="course">
+      <div className="course-img">
+        <img src={img} alt="course" />
+      </div>
+      <div className="course-title">
+        <div className="text">
+          <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
+          <span>Tutor: Prof John Tobiloba</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Courses;
