@@ -56,7 +56,7 @@ console.log(data.data)
           <div className='fcourse-container'> 
           <div className='fcourse-scroll'>
           {data?.data?.resource?.length>0 ? <>
-                  {data.data.resource.map((resource) => <Fcourse key={resource?.id} resource={resource}/>)}
+                  {data?.data?.resource.map((resource) => <Fcourse key={resource?.id} resource={resource}/>)}
                   </> : <>No courses available</>}
           </div> 
           </div>

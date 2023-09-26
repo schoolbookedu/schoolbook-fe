@@ -31,6 +31,7 @@ const CourseOutline = () => {
     objectives: "",
     thumbnail: "",
     price: "",
+    courseCode: "",
     outlines: {
       materialTitle: "",
       materialid: "",
