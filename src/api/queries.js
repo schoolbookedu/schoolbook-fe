@@ -3,6 +3,13 @@ import { HTTP_METHODS } from "../utils";
 import { endpoints } from ".";
 
 export const queries = {
+  async getTutorCourses() {
+    const response = await axiosInstance.request({
+      method: HTTP_METHODS.GET,
+      url: endpoints.courses.tutorCourses,
+    });
+    return response.data;
+  },
   async getCourse(courseId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,

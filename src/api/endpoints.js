@@ -37,5 +37,6 @@ export const endpoints = {
     update: COURSES,
     delete: COURSES,
     create: COURSES,
+    tutorCourses: COURSES + "/tutor/my-courses",
   },
 };
