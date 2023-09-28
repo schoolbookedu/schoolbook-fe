@@ -11,7 +11,6 @@ import { ErrorMessage } from "../error-message";
 import countries from "../../data/countries.json";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./RegisterTab.css";
-import { loginFieldsToValidate } from "./StudentLogin";
 
 const tabs = [
   { id: 0, label: "Register" },

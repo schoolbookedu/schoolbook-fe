@@ -17,25 +17,6 @@ const tabs = [
   { id: 1, label: "Login" },
 ];
 
-<<<<<<< Updated upstream
-export const loginFieldsToValidate = ["email", "password"];
-
-export const registerFieldsToValidate = [
-  "fullName",
-  "email",
-  "phoneNumber",
-  "gender",
-  "userType",
-  "university",
-  "department",
-  "level",
-  "password",
-  "country",
-  "subscribe",
-];
-
-=======
->>>>>>> Stashed changes
 const StudentLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { show, showing, hide } = useOverlayLoader();
@@ -327,21 +308,6 @@ const StudentLogin = () => {
                 )}
 
                 <div className="password">
-<<<<<<< Updated upstream
-                  <input
-                    type={showPassword ? "text" : "password"} 
-                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                    {...reactHookFormRegister("password")}
-                    placeholder="Password"
-                  />
-                  <div className="showPassword">
-                    {showPassword ? (
-                      <FaEyeSlash onClick={() => setShowPassword(false)} />
-                    ) : (
-                      <FaEye onClick={() => setShowPassword(true)} />
-                    )}
-                  </div>
-=======
                 <input
                   type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
                   className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
@@ -355,7 +321,6 @@ const StudentLogin = () => {
                   <FaEye onClick={() => setShowPassword(true)} />
                 )}
                 </div>
->>>>>>> Stashed changes
                 </div>
                 {regErrors?.password && (
                   <ErrorMessage message={regErrors.password.message} />
