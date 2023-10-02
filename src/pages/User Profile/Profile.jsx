@@ -25,7 +25,6 @@ const Profile = () => {
   const [userPassword, setUserpassword] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const [open, setOpen] = useState(false);
-
   const { getUser, getUniversity } = queries;
 
   const userId = getStorage("userId");
@@ -142,10 +141,10 @@ const Profile = () => {
                       </ul>
                     ))}
                   </div>
+                  <div className="logoutbtn absolute bottom-0 left-24">
+                    <button onClick={handleLogout}>Log Out</button>
+                  </div>
                 </div>
-              </div>
-              <div className="logoutbtn">
-                <button onClick={handleLogout}>Log Out</button>
               </div>
             </div>
           </div>

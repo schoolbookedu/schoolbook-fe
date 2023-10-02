@@ -31,20 +31,34 @@ const OutlineCourse2 = ({
     if (fileObj) {
       setCourseDetails({
         ...courseDetails,
-        outlines: { materialTitle: "", materialid: event.target.files[0] },
+        outlines: { materialTitle: "", materialId: event.target.files[0] },
       });
       setSelectedFileName(fileObj.name);
     }
     if (!fileObj) {
       return;
     }
-
-    // console.log("fileObj is", fileObj);
-    // event.target.value = null;
-    // console.log(event.target.files);
-    // console.log(fileObj);
-    // console.log(fileObj.name);
   };
+
+  // const handleFileChange = (event) => {
+  //   const fileObj = event.target.files && event.target.files[0];
+  //   if (fileObj) {
+  //     const reader = new FileReader();
+  
+  //     reader.onload = (e) => {
+  //       const materialIdString = e.target.result.split(',')[1]; // Extract the base64 part
+  //       setCourseDetails({
+  //         ...courseDetails,
+  //         outlines: { materialTitle: "", materialId: materialIdString },
+  //       });
+  //     };
+  
+  //     reader.readAsDataURL(fileObj);
+  
+  //     setSelectedFileName(fileObj.name);
+  //   }
+  // };
+  
 
   return (
     <>
@@ -64,7 +78,9 @@ const OutlineCourse2 = ({
           {activeTab === 1 && (
             <div className="create-outline">
               <div className="form">
-                <label>Course Title</label>
+              <div className="flex flex-col md:flex-row justify-between">
+              <div className="flex flex-col w-full md:w-[65%]">
+              <label>Course Title</label>
                 <input
                   type="text"
                   placeholder="eg: Programming for Beginners"
@@ -76,6 +92,22 @@ const OutlineCourse2 = ({
                     })
                   }
                 />
+                </div>
+                 <div className="flex flex-col w-full md:w-[30%]">
+                 <label>Course Code</label>
+                 <input
+                  type="text"
+                  placeholder="Course code"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      courseCode: e.target.value,
+                    })
+                  }
+                />  
+                </div>
+                  </div>
                 <label>Course Objective</label>
                 <textarea
                   type="text"

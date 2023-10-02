@@ -17,22 +17,6 @@ const tabs = [
   { id: 1, label: "Login" },
 ];
 
-export const loginFieldsToValidate = ["email", "password"];
-
-export const registerFieldsToValidate = [
-  "fullName",
-  "email",
-  "phoneNumber",
-  "gender",
-  "userType",
-  "university",
-  "department",
-  "level",
-  "password",
-  "country",
-  "subscribe",
-];
-
 const StudentLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { show, showing, hide } = useOverlayLoader();
@@ -44,6 +28,25 @@ const StudentLogin = () => {
   const registerValidators = useFormValidation(registerFieldsToValidate);
 
   const [activeTab, setActiveTab] = useState(0);
+
+  const registerFieldsToValidate = [
+    "fullName",
+    "email",
+    "phoneNumber",
+    "gender",
+    "userType",
+    "university",
+    "department",
+    "level",
+    "password",
+    "country",
+    "subscribe",
+  ];
+
+  const loginFieldsToValidate = [
+    "email",
+    "password",
+  ];
 
   const mutation = useMutation(login, {
     onMutate: () => show(),
@@ -324,19 +327,19 @@ const StudentLogin = () => {
                 )}
 
                 <div className="password">
-                  <input
-                    type={showPassword ? "text" : "password"} 
-                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                    {...reactHookFormRegister("password")}
-                    placeholder="Password"
-                  />
-                  <div className="showPassword">
-                    {showPassword ? (
-                      <FaEyeSlash onClick={() => setShowPassword(false)} />
-                    ) : (
-                      <FaEye onClick={() => setShowPassword(true)} />
-                    )}
-                  </div>
+                <input
+                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  {...reactHookFormRegister("password")}
+                  placeholder="Password"
+                />
+                <div className="showPassword">
+                {showPassword ? (
+                  <FaEyeSlash onClick={() => setShowPassword(false)} />
+                ) : (
+                  <FaEye onClick={() => setShowPassword(true)} />
+                )}
+                </div>
                 </div>
                 {regErrors?.password && (
                   <ErrorMessage message={regErrors.password.message} />

@@ -60,7 +60,9 @@ const OutlineCourse3 = ({
           {activeTab === 1 && (
             <div className="create-outline">
               <div className="form">
-                <label>Course Title</label>
+              <div className="flex flex-col md:flex-row justify-between">
+              <div className="flex flex-col w-full md:w-[65%]">
+              <label>Course Title</label>
                 <input
                   type="text"
                   placeholder="eg: Programming for Beginners"
@@ -72,6 +74,22 @@ const OutlineCourse3 = ({
                     })
                   }
                 />
+                </div>
+                 <div className="flex flex-col w-full md:w-[30%]">
+                 <label>Course Code</label>
+                 <input
+                  type="text"
+                  placeholder="Course code"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      courseCode: e.target.value,
+                    })
+                  }
+                />  
+                </div>
+                  </div>
                 <label>Course Objective</label>
                 <textarea
                   type="text"

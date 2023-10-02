@@ -40,13 +40,15 @@ const FPasstwo = () => {
   const { ResetPassword } = mutations;
   const mutation = useMutation(ResetPassword, {
     onMutate: () => show(),
-    onSuccess: () => hide(),
+    onSuccess: () => {hide();
+      alert('Password reset successful');
+      navigate("/");
+     },
     onError: () => hide(),
   });
 
   const NewPassword = (data) => {
     mutation.mutate(data);
-    navigate("/");
   };
   return (
     <div className="register">
@@ -55,7 +57,7 @@ const FPasstwo = () => {
         <form onSubmit={handleSubmit(NewPassword)}>
           <input
             type="text"
-            className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+            className="border border-gray-300 rounded-md py-2 px-3 mb-4 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
             placeholder="Code"
             {...register("passwordResetToken")}
           />
@@ -65,7 +67,7 @@ const FPasstwo = () => {
           <div className="w-full flex flex-row relative">
             <input
               type={showPassword ? "text" : "password"}
-              className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
               placeholder="Enter New Password"
               {...register("newPassword")}
             />
@@ -83,7 +85,7 @@ const FPasstwo = () => {
           <div className="w-full flex flex-row relative">
             <input
               type={showPassword ? "text" : "password"}
-              className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
               placeholder="Confirm New Password"
               {...register("confirmPassword")}
             />
@@ -101,7 +103,7 @@ const FPasstwo = () => {
           <div className="flex flex-row justify-center px-0 md:px-10">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-10 rounded"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-10 mb-4 rounded"
             >
               Submit
             </button>

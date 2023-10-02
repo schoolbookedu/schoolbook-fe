@@ -11,7 +11,6 @@ import { ErrorMessage } from "../error-message";
 import countries from "../../data/countries.json";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./RegisterTab.css";
-import { loginFieldsToValidate } from "./StudentLogin";
 
 const tabs = [
   { id: 0, label: "Register" },
@@ -36,6 +35,11 @@ const InstructorLogin = () => {
     "country",
     "subscribe",
   ];
+
+  const loginFieldsToValidate = [
+    "email",
+    "password",
+  ];
   const loginValidators = useFormValidation(loginFieldsToValidate);
 
   const registerValidators = useFormValidation(registerFieldsToValidate);
@@ -54,8 +58,8 @@ const InstructorLogin = () => {
   });
 
   const {
-    register: reactHookFormRegRegister, //Error Line
-    handleSubmit: handleRegSubmit, //Error Line
+    register: reactHookFormRegRegister, 
+    handleSubmit: handleRegSubmit,
     setValue,
     formState: { errors: regErrors },
   } = useForm({
@@ -75,7 +79,7 @@ const InstructorLogin = () => {
   });
 
   const {
-    register: reactHookFormRegister, //Error Line
+    register: reactHookFormRegister, 
     handleSubmit,
     formState: { errors },
   } = useForm({
