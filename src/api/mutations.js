@@ -104,6 +104,15 @@ export const mutations = {
     });
   },
 
+  // materials
+  async createMaterial(data) {
+    return axiosInstance.request({
+      method: HTTP_METHODS.POST,
+      url: endpoints.materials.create,
+      data,
+    });
+  },
+
   // university
   async createUniversity(data) {
     return axiosInstance.request({
