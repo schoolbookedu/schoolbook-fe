@@ -31,20 +31,34 @@ const OutlineCourse2 = ({
     if (fileObj) {
       setCourseDetails({
         ...courseDetails,
-        outlines: { materialTitle: "", materialid: event.target.files[0] },
+        outlines: { materialTitle: "", materialId: event.target.files[0] },
       });
       setSelectedFileName(fileObj.name);
     }
     if (!fileObj) {
       return;
     }
-
-    // console.log("fileObj is", fileObj);
-    // event.target.value = null;
-    // console.log(event.target.files);
-    // console.log(fileObj);
-    // console.log(fileObj.name);
   };
+
+  // const handleFileChange = (event) => {
+  //   const fileObj = event.target.files && event.target.files[0];
+  //   if (fileObj) {
+  //     const reader = new FileReader();
+  
+  //     reader.onload = (e) => {
+  //       const materialIdString = e.target.result.split(',')[1]; // Extract the base64 part
+  //       setCourseDetails({
+  //         ...courseDetails,
+  //         outlines: { materialTitle: "", materialId: materialIdString },
+  //       });
+  //     };
+  
+  //     reader.readAsDataURL(fileObj);
+  
+  //     setSelectedFileName(fileObj.name);
+  //   }
+  // };
+  
 
   return (
     <>

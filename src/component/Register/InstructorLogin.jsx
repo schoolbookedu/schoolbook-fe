@@ -35,6 +35,11 @@ const InstructorLogin = () => {
     "country",
     "subscribe",
   ];
+
+  const loginFieldsToValidate = [
+    "email",
+    "password",
+  ];
   const loginValidators = useFormValidation(loginFieldsToValidate);
 
   const registerValidators = useFormValidation(registerFieldsToValidate);
@@ -53,8 +58,8 @@ const InstructorLogin = () => {
   });
 
   const {
-    register: reactHookFormRegRegister, //Error Line
-    handleSubmit: handleRegSubmit, //Error Line
+    register: reactHookFormRegRegister, 
+    handleSubmit: handleRegSubmit,
     setValue,
     formState: { errors: regErrors },
   } = useForm({
@@ -74,7 +79,7 @@ const InstructorLogin = () => {
   });
 
   const {
-    register: reactHookFormRegister, //Error Line
+    register: reactHookFormRegister, 
     handleSubmit,
     formState: { errors },
   } = useForm({

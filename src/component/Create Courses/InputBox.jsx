@@ -6,12 +6,21 @@ import "./Create.css";
 const InputBox = ({courseDetails, setCourseDetails}) => {
     const [selectedImage, setSelectedImage] = useState(null);
     const inputRef = useRef(null);
-
-    const handleImageUpload = (event) => {
+      const handleImageUpload = (event) => {
         const file = event.target.files[0];
         setSelectedImage(URL.createObjectURL(file));
-        setCourseDetails({...courseDetails,thumbnail:event.target.files[0]})
-      };
+        const reader = new FileReader();
+    
+        reader.onload = (e) => {
+            const thumbnailString = e.target.result;
+            setCourseDetails({
+                ...courseDetails,
+                thumbnail: thumbnailString,
+            });
+        };
+    
+        reader.readAsDataURL(file);
+    };
 
   const handleClick = () => {
     // 👇️ open file input box on click of other element

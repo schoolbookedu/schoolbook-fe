@@ -29,6 +29,25 @@ const StudentLogin = () => {
 
   const [activeTab, setActiveTab] = useState(0);
 
+  const registerFieldsToValidate = [
+    "fullName",
+    "email",
+    "phoneNumber",
+    "gender",
+    "userType",
+    "university",
+    "department",
+    "level",
+    "password",
+    "country",
+    "subscribe",
+  ];
+
+  const loginFieldsToValidate = [
+    "email",
+    "password",
+  ];
+
   const mutation = useMutation(login, {
     onMutate: () => show(),
     onSuccess: () => hide(),

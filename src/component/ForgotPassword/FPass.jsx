@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage } from "../error-message";
 import { mutations } from "../../api";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../validators";
+import { loginSchema, useFormValidation } from "../../validators";
 import "../Register/RegisterTab.css";
 import "./FPass.css";
 import { useOverlayLoader } from "../../hooks";
@@ -14,6 +14,12 @@ import { OverlayLoader } from "../../loaders";
 const FPass = () => {
   const { forgotPassword } = mutations;
   const { show, showing, hide } = useOverlayLoader();
+
+  const forgotPasswordToValidate = [
+    "email"
+  ];
+
+  const loginSchema = useFormValidation(forgotPasswordToValidate);
 
   const mutation = useMutation(forgotPassword,
     {
