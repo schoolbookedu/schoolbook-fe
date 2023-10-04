@@ -16,6 +16,12 @@ const link = [
 ];
 const videoLink = [{ id: 0, list: "Introduction to programming" }];
 
+const mediaType = {
+  VIDEO: "Video",
+  AUDIO: "Audio",
+  DOCUMENT: "Document",
+};
+
 const OutlineCourse3 = ({
   onNext,
   onPrevious,
@@ -48,15 +54,21 @@ const OutlineCourse3 = ({
     const materialOutlines = courseDetails?.outlines;
 
     if (materialOutlines?.materialId) {
+      const fileType = materialOutlines?.materialId?.type;
+
+      const createMaterialPayload = {
+        title: materialOutlines?.materialTitle || "MAN",
+        mediaURL: materialOutlines?.materialId,
+        type: fileType?.includes("video")
+          ? mediaType.VIDEO
+          : fileType?.includes("audio")
+          ? mediaType.AUDIO
+          : mediaType.DOCUMENT,
+      };
+
       //create
       const material = materialMutation.mutate({
-        title: courseDetails?.outlines?.materialTitle ?? "",
-        mediaURL: courseDetails?.outlines?.materialId,
-        type: materialOutlines?.materialId?.includes("mp4")
-          ? "Video"
-          : materialOutlines?.materialId?.includes("audio")
-          ? "Audio"
-          : "Document",
+        ...createMaterialPayload,
       });
 
       console.log({ material });
