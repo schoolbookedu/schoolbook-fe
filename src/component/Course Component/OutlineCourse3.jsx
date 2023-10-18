@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
 import axios from "axios";
+import { showToast } from "../notifications";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -15,6 +16,12 @@ const link = [
   { id: 2, list: "Preview" },
 ];
 const videoLink = [{ id: 0, list: "Introduction to programming" }];
+
+const mediaType = {
+  VIDEO: "Video",
+  AUDIO: "Audio",
+  DOCUMENT: "Document",
+};
 
 const OutlineCourse3 = ({
   onNext,
@@ -42,29 +49,69 @@ const OutlineCourse3 = ({
     onError: () => hide(),
   });
 
-  const createCourseRequest = () => {
-    // console.log(courseDetails);
+  const createCourseRequest = async () => {
+    // console.log({ courseDetails });
 
     const materialOutlines = courseDetails?.outlines;
-
     if (materialOutlines?.materialId) {
+      const fileType = materialOutlines?.materialId?.type;
+      const formData = new FormData()
+      formData.append("title",materialOutlines.materialTitle)
+      formData.append('mediaURL', materialOutlines.materialId)
+      formData.append('type', 
+      fileType?.includes("video")
+      ? mediaType.VIDEO
+      : fileType?.includes("audio")
+      ? mediaType.AUDIO
+      : mediaType.DOCUMENT)
+      console.log("Good")
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      // const createMaterialPayload = {
+      //   title: materialOutlines?.materialTitle || "MAN",
+      //   mediaURL: materialOutlines?.materialId,
+      //   type: fileType?.includes("video")
+      //     ? mediaType.VIDEO
+      //     : fileType?.includes("audio")
+      //     ? mediaType.AUDIO
+      //     : mediaType.DOCUMENT,
+      // };
+      //   console.log({createMaterialPayload})
       //create
-      const material = materialMutation.mutate({
-        title: courseDetails?.outlines?.materialTitle ?? "",
-        mediaURL: courseDetails?.outlines?.materialId,
-        type: materialOutlines?.materialId?.includes("mp4")
-          ? "Video"
-          : materialOutlines?.materialId?.includes("audio")
-          ? "Audio"
-          : "Document",
-      });
+      const material = materialMutation.mutate(
+        formData,
+      );
 
-      console.log( material );
+      console.log({ material });
+
       // courseDetails.outlines.materialId = material?.data?.id;
-    }
 
-    const response = mutation.mutate(courseDetails);
-    console.log(response);
+      // const response = mutation.mutate(courseDetails);
+      // console.log(response);
+
+      if (material?.id) {
+        const createCoursePayload = {
+          ...courseDetails,
+          outlines: {
+            ...courseDetails?.outlines,
+            materialId: material?.id,
+          },
+        };
+
+        const course = await mutation.mutate({
+          ...createCoursePayload,
+        });
+
+        console.log({ course });
+
+        if (course?.id) {
+          onNext();
+        }
+      }
+    } else {
+      return showToast("Please upload a course material", { type: "error" });
+    }
   };
 
   return (

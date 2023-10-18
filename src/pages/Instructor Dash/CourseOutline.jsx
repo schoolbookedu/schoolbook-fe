@@ -35,6 +35,7 @@ const CourseOutline = () => {
     outlines: {
       materialTitle: "",
       materialId: "",
+      materialType: ""
     },
   });
   console.log({ courseDetails });
