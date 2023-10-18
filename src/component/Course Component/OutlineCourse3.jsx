@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
 import axios from "axios";
+import { showToast } from "../notifications";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -15,6 +16,12 @@ const link = [
   { id: 2, list: "Preview" },
 ];
 const videoLink = [{ id: 0, list: "Introduction to programming" }];
+
+const mediaType = {
+  VIDEO: "Video",
+  AUDIO: "Audio",
+  DOCUMENT: "Document",
+};
 
 const OutlineCourse3 = ({
   onNext,
@@ -25,10 +32,16 @@ const OutlineCourse3 = ({
 }) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const { createCourse } = mutations;
+  const { createCourse, createMaterial } = mutations;
 
   // Inside your component
   const { show, showing, hide } = useOverlayLoader();
+
+  const materialMutation = useMutation(createMaterial, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
 
   const mutation = useMutation(createCourse, {
     onMutate: () => show(),
@@ -36,10 +49,58 @@ const OutlineCourse3 = ({
     onError: () => hide(),
   });
 
-  const createCourseRequest = () => {
-    console.log(courseDetails);
-    const response = mutation.mutate(courseDetails);
-    console.log(response);
+  const createCourseRequest = async () => {
+    console.log({ courseDetails });
+
+    const materialOutlines = courseDetails?.outlines;
+
+    if (materialOutlines?.materialId) {
+      const fileType = materialOutlines?.materialId?.type;
+
+      const createMaterialPayload = {
+        title: materialOutlines?.materialTitle || "MAN",
+        mediaURL: materialOutlines?.materialId,
+        type: fileType?.includes("video")
+          ? mediaType.VIDEO
+          : fileType?.includes("audio")
+          ? mediaType.AUDIO
+          : mediaType.DOCUMENT,
+      };
+
+      //create
+      const material = await materialMutation.mutate({
+        ...createMaterialPayload,
+      });
+
+      console.log({ material });
+
+      // courseDetails.outlines.materialId = material?.data?.id;
+
+      // const response = mutation.mutate(courseDetails);
+      // console.log(response);
+
+      if (material?.id) {
+        const createCoursePayload = {
+          ...courseDetails,
+          outlines: {
+            ...courseDetails?.outlines,
+            materialId: material?.id,
+          },
+        };
+
+        const course = await mutation.mutate({
+          ...createCoursePayload,
+        });
+
+        console.log({ course });
+
+        if (course?.id) {
+          onNext();
+        }
+      }
+    } else {
+      return showToast("Please upload a course material", { type: "error" });
+    }
   };
 
   return (
@@ -60,36 +121,36 @@ const OutlineCourse3 = ({
           {activeTab === 1 && (
             <div className="create-outline">
               <div className="form">
-              <div className="flex flex-col md:flex-row justify-between">
-              <div className="flex flex-col w-full md:w-[65%]">
-              <label>Course Title</label>
-                <input
-                  type="text"
-                  placeholder="eg: Programming for Beginners"
-                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                  onChange={(e) =>
-                    setCourseDetails({
-                      ...courseDetails,
-                      title: e.target.value,
-                    })
-                  }
-                />
-                </div>
-                 <div className="flex flex-col w-full md:w-[30%]">
-                 <label>Course Code</label>
-                 <input
-                  type="text"
-                  placeholder="Course code"
-                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                  onChange={(e) =>
-                    setCourseDetails({
-                      ...courseDetails,
-                      courseCode: e.target.value,
-                    })
-                  }
-                />  
-                </div>
+                <div className="flex flex-col md:flex-row justify-between">
+                  <div className="flex flex-col w-full md:w-[65%]">
+                    <label>Course Title</label>
+                    <input
+                      type="text"
+                      placeholder="eg: Programming for Beginners"
+                      className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                      onChange={(e) =>
+                        setCourseDetails({
+                          ...courseDetails,
+                          title: e.target.value,
+                        })
+                      }
+                    />
                   </div>
+                  <div className="flex flex-col w-full md:w-[30%]">
+                    <label>Course Code</label>
+                    <input
+                      type="text"
+                      placeholder="Course code"
+                      className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                      onChange={(e) =>
+                        setCourseDetails({
+                          ...courseDetails,
+                          courseCode: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
                 <label>Course Objective</label>
                 <textarea
                   type="text"
