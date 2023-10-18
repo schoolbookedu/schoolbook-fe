@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
 import axios from "axios";
+import { showToast } from "../notifications";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -48,8 +49,8 @@ const OutlineCourse3 = ({
     onError: () => hide(),
   });
 
-  const createCourseRequest = () => {
-    console.log(courseDetails);
+  const createCourseRequest = async () => {
+    console.log({ courseDetails });
 
     const materialOutlines = courseDetails?.outlines;
 
@@ -67,17 +68,39 @@ const OutlineCourse3 = ({
       };
 
       //create
-      const material = materialMutation.mutate({
+      const material = await materialMutation.mutate({
         ...createMaterialPayload,
       });
 
       console.log({ material });
 
-      courseDetails.outlines.materialId = material?.data?.id;
-    }
+      // courseDetails.outlines.materialId = material?.data?.id;
 
-    const response = mutation.mutate(courseDetails);
-    console.log(response);
+      // const response = mutation.mutate(courseDetails);
+      // console.log(response);
+
+      if (material?.id) {
+        const createCoursePayload = {
+          ...courseDetails,
+          outlines: {
+            ...courseDetails?.outlines,
+            materialId: material?.id,
+          },
+        };
+
+        const course = await mutation.mutate({
+          ...createCoursePayload,
+        });
+
+        console.log({ course });
+
+        if (course?.id) {
+          onNext();
+        }
+      }
+    } else {
+      return showToast("Please upload a course material", { type: "error" });
+    }
   };
 
   return (
