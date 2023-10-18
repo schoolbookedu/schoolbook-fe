@@ -106,9 +106,11 @@ export const mutations = {
 
   // materials
   async createMaterial(data) {
+    console.log({data})
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
       url: endpoints.materials.create,
+      headers: {"Content-Type": "multipart/form-data"},
       data,
     });
   },

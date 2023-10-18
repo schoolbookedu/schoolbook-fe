@@ -50,27 +50,38 @@ const OutlineCourse3 = ({
   });
 
   const createCourseRequest = async () => {
-    console.log({ courseDetails });
+    // console.log({ courseDetails });
 
     const materialOutlines = courseDetails?.outlines;
-
     if (materialOutlines?.materialId) {
       const fileType = materialOutlines?.materialId?.type;
-
-      const createMaterialPayload = {
-        title: materialOutlines?.materialTitle || "MAN",
-        mediaURL: materialOutlines?.materialId,
-        type: fileType?.includes("video")
-          ? mediaType.VIDEO
-          : fileType?.includes("audio")
-          ? mediaType.AUDIO
-          : mediaType.DOCUMENT,
-      };
-
+      const formData = new FormData()
+      formData.append("title",materialOutlines.materialTitle)
+      formData.append('mediaURL', materialOutlines.materialId)
+      formData.append('type', 
+      fileType?.includes("video")
+      ? mediaType.VIDEO
+      : fileType?.includes("audio")
+      ? mediaType.AUDIO
+      : mediaType.DOCUMENT)
+      console.log("Good")
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      // const createMaterialPayload = {
+      //   title: materialOutlines?.materialTitle || "MAN",
+      //   mediaURL: materialOutlines?.materialId,
+      //   type: fileType?.includes("video")
+      //     ? mediaType.VIDEO
+      //     : fileType?.includes("audio")
+      //     ? mediaType.AUDIO
+      //     : mediaType.DOCUMENT,
+      // };
+      //   console.log({createMaterialPayload})
       //create
-      const material = await materialMutation.mutate({
-        ...createMaterialPayload,
-      });
+      const material = materialMutation.mutate(
+        formData,
+      );
 
       console.log({ material });
 
