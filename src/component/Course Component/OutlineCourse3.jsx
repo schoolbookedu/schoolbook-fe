@@ -43,7 +43,7 @@ const OutlineCourse3 = ({
   });
 
   const createCourseRequest = () => {
-    console.log(courseDetails);
+    // console.log(courseDetails);
 
     const materialOutlines = courseDetails?.outlines;
 
@@ -59,9 +59,8 @@ const OutlineCourse3 = ({
           : "Document",
       });
 
-      console.log({ material });
-
-      courseDetails.outlines.materialId = material?.data?.id;
+      console.log( material );
+      // courseDetails.outlines.materialId = material?.data?.id;
     }
 
     const response = mutation.mutate(courseDetails);

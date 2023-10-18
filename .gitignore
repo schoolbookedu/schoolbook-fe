@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # ENVIRONMENT
 node_modules
 .env
-=======
-.node_modules
->>>>>>> 54e053b2 (stash)
 node_modules
