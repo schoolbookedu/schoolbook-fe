@@ -23,12 +23,6 @@ const StudentLogin = () => {
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
 
-  const loginValidators = useFormValidation(loginFieldsToValidate);
-
-  const registerValidators = useFormValidation(registerFieldsToValidate);
-
-  const [activeTab, setActiveTab] = useState(0);
-
   const registerFieldsToValidate = [
     "fullName",
     "email",
@@ -47,6 +41,12 @@ const StudentLogin = () => {
     "email",
     "password",
   ];
+
+  const loginValidators = useFormValidation(loginFieldsToValidate);
+  const registerValidators = useFormValidation(registerFieldsToValidate);
+  const [activeTab, setActiveTab] = useState(0);
+
+  
 
   const mutation = useMutation(login, {
     onMutate: () => show(),
