@@ -40,10 +40,10 @@ const CourseOutline = () => {
   });
   console.log({ courseDetails });
 
-  const { getCourses } = queries;
+  const { getTutorCourses } = queries;
   const { data, isLoading, isError } = useQuery({
     queryKey: ["courses"],
-    queryFn: getCourses,
+    queryFn: getTutorCourses,
   });
   if (isLoading) {
     return <OverlayLoader showing={true} />;
@@ -182,7 +182,7 @@ const CourseOutline = () => {
                   {data?.data?.resource?.length > 0 ? (
                     <>
                       {data.data.resource.map((resource) => (
-                        <Created key={resource?.id} resource={resource} />
+                        <Created key={resource?._id} resource={resource} />
                       ))}
                     </>
                   ) : (

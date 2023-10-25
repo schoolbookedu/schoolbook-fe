@@ -50,7 +50,7 @@ const OutlineCourse3 = ({
   });
 
   const createCourseRequest = async () => {
-    // console.log({ courseDetails });
+    console.log({ courseDetails });
 
     const materialOutlines = courseDetails?.outlines;
     if (materialOutlines?.materialId) {
@@ -64,50 +64,34 @@ const OutlineCourse3 = ({
       : fileType?.includes("audio")
       ? mediaType.AUDIO
       : mediaType.DOCUMENT)
-      console.log("Good")
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }
-      // const createMaterialPayload = {
-      //   title: materialOutlines?.materialTitle || "MAN",
-      //   mediaURL: materialOutlines?.materialId,
-      //   type: fileType?.includes("video")
-      //     ? mediaType.VIDEO
-      //     : fileType?.includes("audio")
-      //     ? mediaType.AUDIO
-      //     : mediaType.DOCUMENT,
-      // };
-      //   console.log({createMaterialPayload})
-      //create
-      const material = materialMutation.mutate(
+      const material = await materialMutation.mutateAsync(
         formData,
       );
 
       console.log({ material });
 
-      // courseDetails.outlines.materialId = material?.data?.id;
-
-      // const response = mutation.mutate(courseDetails);
-      // console.log(response);
-
-      if (material?.id) {
+      if (material?._id) {
         const createCoursePayload = {
           ...courseDetails,
           outlines: {
             ...courseDetails?.outlines,
-            materialId: material?.id,
+            materialId: material?._id,
           },
         };
-
-        const course = await mutation.mutate({
+        console.log({createCourse})
+        const course = await mutation.mutateAsync({
           ...createCoursePayload,
         });
-
-        console.log({ course });
-
-        if (course?.id) {
-          onNext();
+        if (course?._id){
+          showToast("Course created Successful", { type: "success"});
+          setActiveTab(2)
+          return;
         }
+        
+        console.log({ course });
       }
     } else {
       return showToast("Please upload a course material", { type: "error" });
