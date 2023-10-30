@@ -105,11 +105,11 @@ export const mutations = {
     });
   },
 
-  async enrollCourse(courseId, data) {
+  async enrollCourse(courseId) {
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
-      url: endpoints.courses.create + "/" + courseId,
-      data,
+      url: endpoints.courses.enroll,
+      data:{courseId},
     });
   },
 

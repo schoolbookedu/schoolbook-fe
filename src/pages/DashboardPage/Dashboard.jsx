@@ -17,11 +17,17 @@ const tab = [
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const { getCourses } = queries;
+  const { getCourses, getTutorCourses  } = queries;
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["courses"],
-    queryFn: getCourses,
+    queryKey: ["courses", "tutor-courses"],
+    queryFn: getCourses, getTutorCourses,
   });
+
+
+  // if (isLoading) {
+  //   return <OverlayLoader showing={true} />;
+  // }
+
   const [search, setSearch] = useState("");
 
   const [courses, setCourses] = useState([]);
@@ -62,6 +68,9 @@ const Dashboard = () => {
     handleSearch,
   };
 
+
+
+
   return (
     <>
       <Nav />
@@ -92,7 +101,7 @@ const Dashboard = () => {
                 {filteredCourses?.length > 0 ? (
                   <div className="fcourse-scroll">
                     {filteredCourses?.map((resource) => (
-                      <Fcourse key={resource?.id} resource={resource} />
+                      <Fcourse key={resource?._id} resource={resource} />
                     ))}
                   </div>
                 ) : (

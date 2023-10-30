@@ -57,7 +57,7 @@ const InstructorDashboard = () => {
                 {data?.data?.resource?.length > 0 ? (
                   <div className="fcourse-scroll">
                     {data.data.resource.map((resource) => (
-                      <Created key={resource?.id} resource={resource} />
+                      <Created key={resource?._id} resource={resource} />
                     ))}
                   </div>
                 ) : (
