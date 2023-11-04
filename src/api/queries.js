@@ -26,10 +26,10 @@ export const queries = {
     return response.data;
   },
 
-  async getTutorCourses() {
+  async getStudentCourses() {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
-      url: endpoints.courses.tutorCourses,
+      url: endpoints.courses.studentCourses,
     });
     return response.data;
   },
