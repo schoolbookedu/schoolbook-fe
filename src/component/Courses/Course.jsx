@@ -29,7 +29,7 @@ const Course = ({ course }) => {
       </div>
       <div className="course-title">
         <div className="text">
-          <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
+          <h2>{course?.title}</h2>
           <span>Tutor: Prof John Tobiloba</span>
         </div>
       </div>
