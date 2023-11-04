@@ -26,6 +26,13 @@ export const queries = {
     return response.data;
   },
 
+  async getStudentCourses() {
+    const response = await axiosInstance.request({
+      method: HTTP_METHODS.GET,
+      url: endpoints.courses.studentCourses,
+    });
+    return response.data;
+  },
   async getUser(userId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,

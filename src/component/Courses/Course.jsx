@@ -2,14 +2,33 @@ import React from "react";
 import img from "../../utils/img.png";
 import "./Course.css";
 import EmptyMessage from "../../component/EmptyMessage";
+import { queries } from "../../api";
+import { useQuery } from "@tanstack/react-query";
 
-// temp data
-
-const courses = [];
-
-// TODO
-// 1. Get the list of courses that belongs to the user
 const Courses = () => {
+  const { getStudentCourses } = queries;
+  const {
+    data: courses,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["student-courses"],
+    queryFn: getStudentCourses,
+  });
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div className="flex items-center justify-center ">{error}</div>;
+  }
+
+  console.log({ courses });
   return (
     <>
       {courses.length > 0 ? (
@@ -29,7 +48,7 @@ const Course = ({ course }) => {
       </div>
       <div className="course-title">
         <div className="text">
-          <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
+          <h2>{course?.title}</h2>
           <span>Tutor: Prof John Tobiloba</span>
         </div>
       </div>

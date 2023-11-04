@@ -39,6 +39,8 @@ export const endpoints = {
     delete: COURSES,
     create: COURSES,
     tutorCourses: COURSES + "/tutor/my-courses",
+    enroll: COURSES + "/enroll",
+    studentCourses: COURSES + "/student/my-courses",
   },
   materials: {
     get: MATERIALS,

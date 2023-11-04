@@ -81,7 +81,7 @@ const courseId = id;
                  <h2>{course.title}</h2>
                 </div>
                 <div className="price-followbtn">
-                  <span>Tutor: Prof John Tobiloba</span>
+                  <span>Tutor: {course?.tutor?.fullName}</span>
                   <button
                     className={isFollowed ? "followed" : "follow"}
                     onClick={handleClick}

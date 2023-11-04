@@ -26,19 +26,27 @@ const OutlineCourse2 = ({
     inputRef.current.click();
   };
 
+  //Sending as base 64
   const handleFileChange = (event) => {
     const fileObj = event.target.files && event.target.files[0];
+    
     if (fileObj) {
       const materialType = event.target.accept;
       
-      setCourseDetails({
-        ...courseDetails,
-        outlines: {
-          materialId: fileObj,
-          materialTitle: courseDetails?.outlines?.materialTitle,
-          materialType: materialType,
-        },
-      });
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        setCourseDetails({
+          ...courseDetails,
+          outlines: {
+            materialId: reader.result, // This will contain the base64 data
+            materialTitle: courseDetails?.outlines?.materialTitle,
+            materialType: materialType,
+          },
+        });
+      };
+  
+      reader.readAsDataURL(fileObj); // This reads the file as a data URL
       setSelectedFileName(fileObj.name);
     }
   };
@@ -158,7 +166,7 @@ const OutlineCourse2 = ({
                           style={{ display: "none" }}
                           ref={inputRef}
                           type="file"
-                          accept="video/mp4,video/x-m4v,video/*"
+                         // accept="video/.mp4,video/.x-m4v,video/*"
                           onChange={handleFileChange}
                         />
                       </li>
@@ -170,7 +178,7 @@ const OutlineCourse2 = ({
                           style={{ display: "none" }}
                           ref={inputRef}
                           type="file"
-                          accept=".mp3,audio/*"
+                         // accept=".mp3,audio/*"
                           onChange={handleFileChange}
                         />
                       </li>
@@ -182,7 +190,7 @@ const OutlineCourse2 = ({
                           style={{ display: "none" }}
                           ref={inputRef}
                           type="file"
-                          accept=".doc,.docx,.xml, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf, .txt"
+                         // accept=".doc,.docx,.xml, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf, .txt"
                           onChange={handleFileChange}
                         />
                       </li>
