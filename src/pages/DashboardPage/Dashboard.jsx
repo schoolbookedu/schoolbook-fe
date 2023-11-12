@@ -17,12 +17,12 @@ const tab = [
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const { getCourses, getTutorCourses  } = queries;
+  const { getCourses, getTutorCourses } = queries;
   const { data, isLoading, isError } = useQuery({
     queryKey: ["courses", "tutor-courses"],
-    queryFn: getCourses, getTutorCourses,
+    queryFn: getCourses,
+    getTutorCourses,
   });
-
 
   // if (isLoading) {
   //   return <OverlayLoader showing={true} />;
@@ -67,9 +67,6 @@ const Dashboard = () => {
     search,
     handleSearch,
   };
-
-
-
 
   return (
     <>
