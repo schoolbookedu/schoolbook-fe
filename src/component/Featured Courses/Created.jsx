@@ -1,22 +1,20 @@
-import React from 'react'
-import img from '../../utils/img.png'
+import React from "react";
 
-
-const Created = ({resource}) => {
-
+const Created = ({ resource }) => {
+  const alt = `${resource?.title} by ${resource?.tutor?.fullName}`;
   return (
-    <div className='fcourse'>
-      <div className='fcourse-img'>
-        <img src={resource?.thumbmail} alt="course" />
+    <div className="fcourse">
+      <div className="fcourse-img">
+        <img src={resource?.thumbmail} alt={alt} />
       </div>
-      <div className='fcourse-text'>
+      <div className="fcourse-text">
         <h2>{resource?.title}</h2>
-        <div className='fcourse-span'>
+        <div className="fcourse-span">
           <span>Tutor: {resource?.tutor?.fullName}</span>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Created
+export default Created;

@@ -7,12 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Courses = () => {
   const { getStudentCourses } = queries;
-  const {
-    data: courses,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["student-courses"],
     queryFn: getStudentCourses,
   });
@@ -25,13 +20,17 @@ const Courses = () => {
   }
 
   if (isError) {
-    return <div className="flex items-center justify-center ">{error}</div>;
+    return (
+      <div className="flex items-center justify-center ">
+        Unable to fetch your courses, please reloading this page
+      </div>
+    );
   }
-
+  const courses = data?.resources ?? [];
   console.log({ courses });
   return (
     <>
-      {courses.length > 0 ? (
+      {courses?.length > 0 ? (
         courses?.map((course) => <Course key={course?.id} course={course} />)
       ) : (
         <EmptyMessage content="You have not enrolled for a course yet" />

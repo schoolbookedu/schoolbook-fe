@@ -12,7 +12,6 @@ export const showToast = (message, type = "error") => {
     case "warning":
       toast.warning(message);
       break;
-    case "error":
     default:
       toast.error(message);
       break;
