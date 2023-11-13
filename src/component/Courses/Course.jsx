@@ -26,7 +26,7 @@ const Courses = () => {
       </div>
     );
   }
-  const courses = data?.resources ?? [];
+  const courses = data?.data?.resource ?? [];
   console.log({ courses });
   return (
     <>
