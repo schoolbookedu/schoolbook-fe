@@ -113,7 +113,7 @@ const OutlineCourse = ({ onNext, cards, courseDetails, setCourseDetails }) => {
                     <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
-                <MediaContent cards={cards} />
+                {/* <MediaContent cards={cards} /> */}
               </div>
               <div className="outlinebtn2">
                 <button className="prev" onClick={() => setActiveTab(1)}>

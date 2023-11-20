@@ -26,13 +26,6 @@ export const queries = {
     return response.data;
   },
 
-  async getTutorCourses() {
-    const response = await axiosInstance.request({
-      method: HTTP_METHODS.GET,
-      url: endpoints.courses.tutorCourses,
-    });
-    return response.data;
-  },
   async getUser(userId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
