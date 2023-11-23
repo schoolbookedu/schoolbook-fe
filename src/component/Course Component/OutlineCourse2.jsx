@@ -220,11 +220,8 @@ const OutlineCourse2 = ({
                 {/* <MediaContent /> */}
               </div>
               <div className="outlinebtn2">
-                <button className="prev" onClick={() => setActiveTab(1)}>
-                  Previous
-                </button>
-                <Link to="/InstructorMaterials">
-                  <button type="submit">Next</button>
+              <Link to="/Instructor-dashboard">
+                  <button type="submit">Finish</button>
                 </Link>
               </div>
             </>
