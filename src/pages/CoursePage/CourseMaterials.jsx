@@ -13,23 +13,24 @@ const tab = [{ id: 0, label: "Course Materials" }];
 
 const CourseMaterials = () => {
   const [isFollowed, setIsFollowed] = useState(false);
-const {id}  = useParams();
-const courseId = id;
+  const { id } = useParams();
+  const courseId = id;
   console.log(courseId);
 
-  const {
-    data,
-    isLoading,
-    isError
-  } = useQuery(["course"], () => getCourse(courseId), {
-    enabled: !!courseId,})
+  const { data, isLoading, isError } = useQuery(
+    ["course"],
+    () => getCourse(courseId),
+    {
+      enabled: !!courseId,
+    }
+  );
 
   const course = useMemo(() => {
-    if(data) {
-      return data.data.resource
+    if (data) {
+      return data?.data?.resource;
     }
-    return null
-  },[data])
+    return null;
+  }, [data]);
 
   const handleClick = () => {
     setIsFollowed(!isFollowed);
@@ -37,16 +38,11 @@ const courseId = id;
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const {getCourse} = queries;
+  const { getCourse } = queries;
 
-  if (
-  isLoading
-) {
-  return <OverlayLoader showing={true} />;
-}
-
-
-
+  if (isLoading) {
+    return <OverlayLoader showing={true} />;
+  }
 
   return (
     <>
@@ -73,12 +69,12 @@ const courseId = id;
               </div>
               <div className="price">
                 <div className="price-container">
-                  <Price price={course?.price}/>
+                  <Price price={course?.price} />
                 </div>
               </div>
               <div className="price-body">
                 <div className="price-title">
-                 <h2>{course.title}</h2>
+                  <h2>{course.title}</h2>
                 </div>
                 <div className="price-followbtn">
                   <span>Tutor: {course?.tutor?.fullName}</span>

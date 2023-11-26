@@ -15,7 +15,7 @@ export const queries = {
       method: HTTP_METHODS.GET,
       url: endpoints.courses.get + "/" + courseId,
     });
-    return response.data;
+    return response?.data;
   },
 
   async getCourses() {
@@ -23,9 +23,16 @@ export const queries = {
       method: HTTP_METHODS.GET,
       url: endpoints.courses.get,
     });
-    return response.data;
+    return response?.data;
   },
 
+  async getStudentCourses() {
+    const response = await axiosInstance.request({
+      method: HTTP_METHODS.GET,
+      url: endpoints.courses.studentCourses,
+    });
+    return response?.data;
+  },
   async getUser(userId) {
     const response = await axiosInstance.request({
       method: HTTP_METHODS.GET,
@@ -39,7 +46,7 @@ export const queries = {
       method: HTTP_METHODS.GET,
       url: endpoints.universities.get + "/" + universityId,
     });
-    return response.data;
+    return response?.data;
   },
 
   async getUniversities() {
@@ -47,7 +54,7 @@ export const queries = {
       method: HTTP_METHODS.GET,
       url: endpoints.universities.get,
     });
-    return response.data;
+    return response?.data;
   },
 
   async getDepartments() {
