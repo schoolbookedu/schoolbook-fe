@@ -8,7 +8,7 @@ const link = [
   { id: 1, list: "Outline" },
   { id: 2, list: "Preview" },
 ];
-const OutlineCourse = ({ onNext, cards, courseDetails, setCourseDetails }) => {
+const OutlineCourse = ({ onNext, cards, courseDetails, setCourseDetails}) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -113,14 +113,11 @@ const OutlineCourse = ({ onNext, cards, courseDetails, setCourseDetails }) => {
                     <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
-                <MediaContent cards={cards} />
+                {/* <MediaContent cards={cards} /> */}
               </div>
               <div className="outlinebtn2">
-                <button className="prev" onClick={() => setActiveTab(1)}>
-                  Previous
-                </button>
-                <Link to="/InstructorMaterials">
-                  <button type="submit">Next</button>
+                <Link to="/Instructor-dashboard">
+                  <button type="submit">Finish</button>
                 </Link>
               </div>
             </>

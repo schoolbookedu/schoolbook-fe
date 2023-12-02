@@ -5,7 +5,7 @@ const Created = ({ resource }) => {
   return (
     <div className="fcourse">
       <div className="fcourse-img">
-        <img src={resource?.thumbmail} alt={alt} />
+        <img src={resource?.thumbnail} alt={alt} />
       </div>
       <div className="fcourse-text">
         <h2>{resource?.title}</h2>
@@ -14,6 +14,7 @@ const Created = ({ resource }) => {
         </div>
       </div>
     </div>
+    
   );
 };
 
