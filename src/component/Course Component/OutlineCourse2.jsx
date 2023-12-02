@@ -20,6 +20,7 @@ const OutlineCourse2 = ({
 }) => {
   const [activeTab, setActiveTab] = useState(0);
   const inputRef = useRef(null);
+  
   const [selectedFileName, setSelectedFileName] = useState("");
 
   const handleClick = () => {

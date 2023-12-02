@@ -65,13 +65,13 @@ const CourseMaterials = () => {
           {activeTab === 0 && (
             <div className="course-container">
               <div className="banner">
-                <img src={banner} alt="banner" />
+                <img src={course?.thumbnail} alt="banner"/>
               </div>
-              <div className="price">
+              {/* <div className="price">
                 <div className="price-container">
                   <Price price={course?.price} />
                 </div>
-              </div>
+              </div> */}
               <div className="price-body">
                 <div className="price-title">
                   <h2>{course.title}</h2>
