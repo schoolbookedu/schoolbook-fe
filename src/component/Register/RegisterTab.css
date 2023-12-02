@@ -116,7 +116,7 @@ input[type="submit"] {
   text-decoration: none;
 }
 .password{
-  position: relative;
+  /* position: relative; */
   margin-top: 0px;
 }
 .password input{

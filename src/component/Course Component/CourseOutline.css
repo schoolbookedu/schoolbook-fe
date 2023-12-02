@@ -235,7 +235,7 @@ label{
   justify-content: flex-end;
   width:65%;
 }
-.modulebtn{
+/* .modulebtn{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -261,6 +261,38 @@ label{
   color: #000000;
 }
 .modulebtn button:hover + .modulehover{
+  display: block;
+} */
+.modulebtn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 0px;
+}
+
+.modulehover {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.modulehover ul {
+  background: #FFFFFF;
+  display: flex;
+}
+
+.modulehover ul li {
+  display: flex;
+  flex-direction: column;
+  padding: 30px; /* Fix: Add missing space after 30px */
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+/* Updated hover effect */
+.modulebtn:hover .modulehover {
   display: block;
 }
 
