@@ -43,7 +43,7 @@ const Course = ({ course }) => {
   return (
     <div key={course?.id} className="course">
       <div className="course-img">
-        <img src={img} alt="course" />
+        <img src={course?.thumbnail} alt="course" />
       </div>
       <div className="course-title">
         <div className="text">
