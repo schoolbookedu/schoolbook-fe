@@ -51,7 +51,7 @@
     margin-bottom: 10px;
 }
 input[type="range"] {
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
     margin-right: 15px;
     height: 25px;
     background: #E0E0E0;

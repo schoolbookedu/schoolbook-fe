@@ -35,12 +35,12 @@ const Fcourse = ({resource}) => {
   
 
   
-
+  const alt = `${resource?.title} by ${resource?.tutor?.fullName}`;
   
   return (
     <div className='fcourse'>
       <div className='fcourse-img'>
-        <img src={img} alt="course" />
+        <img src={resource?.thumbnail} alt={alt} />
       </div>
       <div className='fcourse-text'>
         <h2 className='uppercase'>{resource?.title}</h2>
