@@ -235,34 +235,6 @@ label{
   justify-content: flex-end;
   width:65%;
 }
-/* .modulebtn{
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 80px 0px;
-}
-
-.modulehover{
-  display: none;
-  position: absolute;
-  z-index: 1;
-}
-.modulehover ul{
-  background: #FFFFFF;
-  display: flex;
-}
-.modulehover ul li{
-  display: flex;
-  flex-direction: column;
-  padding: 30px;
-  border: 1px solid #000000;
-  color: #000000;
-}
-.modulebtn button:hover + .modulehover{
-  display: block;
-} */
 .modulebtn {
   position: relative;
   display: flex;
@@ -437,9 +409,47 @@ label{
         .Outlinemodule{
           height: 40vh;
         }
-        .modulebtn{
+        /* .modulebtn{
+          padding: 40px 0px;
+        } */
+
+        .outlinebtn button,
+        .outlinebtn2 button,
+        .outline-form button,
+        .Outlinemodule button,
+        .Attachfile button{
+          font-size: 12px;
+          background: #407BFF;
+          color: #FFFFFF;
+          border: 1px solid #407BFF;
+          padding: 10px 20px;
+        }
+
+        .modulebtn {
           padding: 40px 0px;
         }
+        
+        .modulehover {
+          margin-left: -80px;
+        }
+        
+        .modulehover ul {
+          background: #FFFFFF;
+          display: flex;
+          padding-left: 0px;
+        }
+        
+        .modulehover ul li {
+          display: flex;
+          flex-direction: column;
+          padding: 10px 20px; /* Fix: Add missing space after 30px */
+          border: 1px solid #000000;
+          color: #000000;
+        }
+        
     }
   
   
+
+
+
