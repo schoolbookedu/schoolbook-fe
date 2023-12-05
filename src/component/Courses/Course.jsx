@@ -48,7 +48,7 @@ const Course = ({ course }) => {
       <div className="course-title">
         <div className="text">
           <h2>{course?.title}</h2>
-          <span>Tutor: Prof John Tobiloba</span>
+          <span>{course?.tutor?.fullName}</span>
         </div>
       </div>
     </div>
