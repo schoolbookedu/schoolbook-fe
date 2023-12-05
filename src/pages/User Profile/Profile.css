@@ -272,3 +272,8 @@
         border-radius: 5px;
     }
 }
+@media (max-width: 300px){
+    .profile-id{
+        width: 100%;
+    }
+}

@@ -2,15 +2,48 @@ import React from "react";
 import img from "../../utils/img.png";
 import "./Course.css";
 import EmptyMessage from "../../component/EmptyMessage";
+import { queries } from "../../api";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const coursesInProgress = [];
 
 const Progress = () => {
+  const navigate = useNavigate();
+
+  const viewCourse = (courseId) => {
+    navigate(`/course-materials/${courseId}`);
+  };
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["student-courses"],
+    // queryFn: getStudentCourses,
+  });
+
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center ">
+        Unable to fetch your courses, please reload this page
+      </div>
+    );
+  }
+
+  const courses = data?.data?.resource ?? [];
+  console.log({ courses });
+
   return (
     <>
-      {coursesInProgress.length > 0 ? (
-        coursesInProgress?.map((course) => (
-          <Course key={course?.id} course={course} />
+      {courses?.length > 0 ? (
+        courses?.map((course) => (
+          <Course key={course?.id} course={course} onViewCourse={viewCourse} />
         ))
       ) : (
         <EmptyMessage content=" You have no course in progress" />
@@ -19,16 +52,20 @@ const Progress = () => {
   );
 };
 
-const Course = ({ course }) => {
+const Course = ({ course, onViewCourse }) => {
   return (
-    <div className="progress-container">
+    <div
+      key={course?.id}
+      className="progress-container"
+      onClick={() => onViewCourse(course?._id)}
+    >
       <div className="course-img">
-        <img src={img} alt="course" />
+        <img src={course?.thumbnail} alt="course" />
       </div>
       <div className="course-title">
         <div className="text">
-          <h2>INTRODUCTION TO GRAPHIC DESIGN</h2>
-          <span>Tutor: Prof John Tobiloba</span>
+          <h2>{course?.title}</h2>
+          <span>{course?.tutor?.fullName}</span>
           <div className="progress">
             <span>40% completed</span>
             <input type="range" value="40" min="0" max="100" id="range" />

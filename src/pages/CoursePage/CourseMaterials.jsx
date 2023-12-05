@@ -61,7 +61,7 @@ const CourseMaterials = () => {
             ))}
           </div>
         </div>
-        <div className="price-content">
+        <div className="price-content w-full">
           {activeTab === 0 && (
             <div className="course-container">
               <div className="banner">
