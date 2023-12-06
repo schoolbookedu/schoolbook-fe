@@ -40,6 +40,13 @@ export const queries = {
     });
     return response.data;
   },
+  async getMaterial(userId) {
+    const response = await axiosInstance.request({
+      method: HTTP_METHODS.GET,
+      url: endpoints.materials.get + "/" + userId,
+    });
+    return response.data;
+  },
 
   async getUniversity(universityId) {
     const response = await axiosInstance.request({
