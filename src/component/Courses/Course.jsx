@@ -22,7 +22,7 @@ const Courses = () => {
   if (isError) {
     return (
       <div className="flex items-center justify-center ">
-        Unable to fetch your courses, please reloading this page
+        Unable to fetch your courses, please try reloading this page
       </div>
     );
   }

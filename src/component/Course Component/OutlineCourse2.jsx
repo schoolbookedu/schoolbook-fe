@@ -159,7 +159,7 @@ const OutlineCourse2 = ({
                   {selectedFileName && <p>{selectedFileName}</p>}
                   <div className="modulehover">
                     <ul>
-                      <li onClick={handleClick}>
+                      {/* <li onClick={handleClick}>
                         <FontAwesomeIcon icon={faVideo} />
                         <br />
                         <span>Video</span>
@@ -194,7 +194,43 @@ const OutlineCourse2 = ({
                          // accept=".doc,.docx,.xml, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf, .txt"
                           onChange={handleFileChange}
                         />
-                      </li>
+                      </li> */}
+                      <li onClick={handleClick}>
+  <FontAwesomeIcon icon={faVideo} />
+  <br />
+  <span>Add Video</span>
+  <input
+    style={{ display: "none" }}
+    ref={inputRef}
+    type="file"
+    accept=".mp4,.mp3/*"
+    onChange={handleFileChange}
+  />
+</li>
+<li onClick={handleClick}>
+  <FontAwesomeIcon icon={faMusic} />
+  <br />
+  <span>Add Audio</span>
+  <input
+    style={{ display: "none" }}
+    ref={inputRef}
+    type="file"
+    accept="audio/*"
+    onChange={handleFileChange}
+  />
+</li>
+<li onClick={handleClick}>
+  <FontAwesomeIcon icon={faFile} />
+  <br />
+  <span>Add Document</span>
+  <input
+    style={{ display: "none" }}
+    ref={inputRef}
+    type="file"
+    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.txt"
+    onChange={handleFileChange}
+  />
+</li>
                     </ul>
                   </div>
                 </div>
