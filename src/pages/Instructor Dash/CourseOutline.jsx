@@ -11,6 +11,7 @@ import OutlineCourse6 from "../../component/Course Component/OutlineCourse6";
 import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { OverlayLoader } from "../../loaders";
+import { useNavigate } from "react-router-dom";
 
 const tab = [
   { id: 1, label: "Home" },
@@ -19,6 +20,7 @@ const tab = [
 ];
 
 const CourseOutline = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [currentComponent, setCurrentComponent] = useState("OutlineCourse");
   const [inputValue, setInputValue] = useState("");
@@ -49,6 +51,10 @@ const CourseOutline = () => {
     return <OverlayLoader showing={true} />;
   }
   console.log(data.data);
+
+  const viewCourse = (courseId) => {
+    navigate(`/course-materials/${courseId}`);
+  };
 
   const nextComponent = () => {
     if (currentComponent === "OutlineCourse") {
@@ -178,17 +184,22 @@ const CourseOutline = () => {
           {activeTab === 2 && (
             <div className="fcourse-container">
               <div className="instcourse-container">
+              {data?.data?.resource?.length > 0 ? (
                 <div className="fcourse-scroll">
-                  {data?.data?.resource?.length > 0 ? (
-                    <>
-                      {data.data.resource.map((resource) => (
+                 {data.data.resource.map((resource) => (
+                    <div
+                    key={resource?._id}
+                    className="created-course"
+                    onClick={() => viewCourse(resource?._id)}>
+                      
                         <Created key={resource?._id} resource={resource} />
-                      ))}
-                    </>
+                     
+                    </div>
+                     ))}
+                     </div>
                   ) : (
                     <>No items created</>
                   )}
-                </div>
               </div>
             </div>
           )}

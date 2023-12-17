@@ -2,7 +2,9 @@ import React from 'react'
 
 const Document = ({documentUrl}) => {
   return (
-    <div>Document</div>
+    <div>Display Document Data:
+        {documentUrl}
+    </div>
   )
 }
 
