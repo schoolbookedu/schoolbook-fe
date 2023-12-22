@@ -87,9 +87,13 @@ const OutlineCourse3 = ({
         });
         if (course?._id){
           showToast("Course created Successful", { type: "success"});
-          setActiveTab(2)
+          setActiveTab(2);
           return;
-        }
+        }else{
+          showToast("Failed", {type: "Fail" } );
+          };
+         
+        
         
         console.log({ course });
       }
@@ -140,7 +144,7 @@ const OutlineCourse3 = ({
                       onChange={(e) =>
                         setCourseDetails({
                           ...courseDetails,
-                          courseCode: e.target.value,
+                          courseCode: e.target.value, 
                         })
                       }
                     />

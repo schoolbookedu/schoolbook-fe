@@ -88,7 +88,7 @@ const CourseMaterials = () => {
                 <div className="objectivetab-container">
                   <CourseObjective
                     objectives={course?.objectives}
-                    materials={course?.outlines}
+                    materials={course?.outlines?.[0]?.materialId}
                   />
                 </div>
               </div>
