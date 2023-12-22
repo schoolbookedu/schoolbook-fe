@@ -22,7 +22,7 @@ const Courses = () => {
   if (isError) {
     return (
       <div className="flex items-center justify-center ">
-        Unable to fetch your courses, please reloading this page
+        Unable to fetch your courses, please try reloading this page
       </div>
     );
   }
@@ -43,12 +43,12 @@ const Course = ({ course }) => {
   return (
     <div key={course?.id} className="course">
       <div className="course-img">
-        <img src={img} alt="course" />
+        <img src={course?.thumbnail} alt="course" />
       </div>
       <div className="course-title">
         <div className="text">
           <h2>{course?.title}</h2>
-          <span>Tutor: Prof John Tobiloba</span>
+          <span>{course?.tutor?.fullName}</span>
         </div>
       </div>
     </div>

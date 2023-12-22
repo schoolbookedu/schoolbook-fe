@@ -56,6 +56,7 @@
     display: flex;
     justify-content: center;
     align-items: center; */
+    bottom: 40px;
 }
 .logoutbtn button{
     padding: 20px 70px;
@@ -230,7 +231,7 @@
 }
 @media (max-width: 480px){
     .profile-id{
-        width: 200px;
+        width: 350px;
     }
     .fullname{
         display: flex;
@@ -253,7 +254,7 @@
         font-size: 18px;
     }
     .logoutbtn button{
-        padding: 20px 50px;
+        padding: 10px 50px;
         }
     .pass span{
         font-size: 12px;
@@ -269,5 +270,10 @@
         width: 150px;
         font-size: 14px;
         border-radius: 5px;
+    }
+}
+@media (max-width: 300px){
+    .profile-id{
+        width: 100%;
     }
 }

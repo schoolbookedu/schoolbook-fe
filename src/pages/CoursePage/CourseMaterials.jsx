@@ -15,7 +15,7 @@ const CourseMaterials = () => {
   const [isFollowed, setIsFollowed] = useState(false);
   const { id } = useParams();
   const courseId = id;
-  console.log(courseId);
+  // console.log(courseId);
 
   const { data, isLoading, isError } = useQuery(
     ["course"],
@@ -61,20 +61,20 @@ const CourseMaterials = () => {
             ))}
           </div>
         </div>
-        <div className="price-content">
+        <div className="price-content w-full">
           {activeTab === 0 && (
             <div className="course-container">
               <div className="banner">
-                <img src={banner} alt="banner" />
+                <img src={course?.thumbnail} alt="banner" />
               </div>
-              <div className="price">
+              {/* <div className="price">
                 <div className="price-container">
                   <Price price={course?.price} />
                 </div>
-              </div>
+              </div> */}
               <div className="price-body">
                 <div className="price-title">
-                  <h2>{course.title}</h2>
+                  <h2>{course?.title}</h2>
                 </div>
                 <div className="price-followbtn">
                   <span>Tutor: {course?.tutor?.fullName}</span>
@@ -86,7 +86,10 @@ const CourseMaterials = () => {
                   </button>
                 </div>
                 <div className="objectivetab-container">
-                  <CourseObjective objectives={course?.objectives} />
+                  <CourseObjective
+                    objectives={course?.objectives}
+                    materials={course?.outlines?.[0]?.materialId}
+                  />
                 </div>
               </div>
             </div>

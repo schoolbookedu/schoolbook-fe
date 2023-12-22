@@ -87,9 +87,13 @@ const OutlineCourse3 = ({
         });
         if (course?._id){
           showToast("Course created Successful", { type: "success"});
-          setActiveTab(2)
+          setActiveTab(2);
           return;
-        }
+        }else{
+          showToast("Failed", {type: "Fail" } );
+          };
+         
+        
         
         console.log({ course });
       }
@@ -140,7 +144,7 @@ const OutlineCourse3 = ({
                       onChange={(e) =>
                         setCourseDetails({
                           ...courseDetails,
-                          courseCode: e.target.value,
+                          courseCode: e.target.value, 
                         })
                       }
                     />
@@ -216,14 +220,11 @@ const OutlineCourse3 = ({
                     <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
-                <MediaContent />
+                {/* <MediaContent /> */}
               </div>
               <div className="outlinebtn2">
-                <button className="prev" onClick={() => setActiveTab(1)}>
-                  Previous
-                </button>
-                <Link to="/InstructorMaterials">
-                  <button type="submit">Next</button>
+              <Link to="/Instructor-dashboard">
+                  <button type="submit">Finish</button>
                 </Link>
               </div>
             </>

@@ -19,20 +19,66 @@ const OutlineCourse2 = ({
   setCourseDetails,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const inputRef = useRef(null);
+  const videoInputRef = useRef(null);
+const audioInputRef = useRef(null);
+const documentInputRef = useRef(null);
+  
   const [selectedFileName, setSelectedFileName] = useState("");
 
-  const handleClick = () => {
+  const handleClick = (inputRef) => {
     inputRef.current.click();
   };
 
   //Sending as base 64
+  // const handleFileChange = (event) => {
+  //   const fileObj = event.target.files && event.target.files[0];
+    
+  //   if (fileObj) {
+  //     const materialType = event.target.accept;
+      
+  //     const reader = new FileReader();
+  
+  //     reader.onload = () => {
+  //       setCourseDetails({
+  //         ...courseDetails,
+  //         outlines: {
+  //           materialId: reader.result, // This will contain the base64 data
+  //           materialTitle: courseDetails?.outlines?.materialTitle,
+  //           materialType: materialType,
+  //         },
+  //       });
+  //     };
+  
+  //     reader.readAsDataURL(fileObj); // This reads the file as a data URL
+  //     setSelectedFileName(fileObj.name);
+  //   }
+  // };
+
+
   const handleFileChange = (event) => {
     const fileObj = event.target.files && event.target.files[0];
-    
+  
     if (fileObj) {
-      const materialType = event.target.accept;
-      
+      let materialType;
+  
+      // Check the file type and set materialType accordingly
+      if (fileObj.type.startsWith("audio/")) {
+        materialType = "audio";
+      } else if (fileObj.type.startsWith("video/")) {
+        materialType = "video";
+      } else if (
+        fileObj.type.startsWith("application/") ||
+        fileObj.type.startsWith("text/") ||
+        fileObj.type === "application/pdf"
+      ) {
+        materialType = "document";
+      } else {
+        // Handle the case where an invalid file type is selected
+        console.log("Invalid file type. Please select an audio, video, or document file.");
+        // Optionally, you can provide feedback to the user
+        return;
+      }
+  
       const reader = new FileReader();
   
       reader.onload = () => {
@@ -50,7 +96,7 @@ const OutlineCourse2 = ({
       setSelectedFileName(fileObj.name);
     }
   };
-
+  
   return (
     <>
       <div className="outline-container">
@@ -158,7 +204,7 @@ const OutlineCourse2 = ({
                   {selectedFileName && <p>{selectedFileName}</p>}
                   <div className="modulehover">
                     <ul>
-                      <li onClick={handleClick}>
+                      {/* <li onClick={handleClick}>
                         <FontAwesomeIcon icon={faVideo} />
                         <br />
                         <span>Video</span>
@@ -193,7 +239,43 @@ const OutlineCourse2 = ({
                          // accept=".doc,.docx,.xml, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf, .txt"
                           onChange={handleFileChange}
                         />
-                      </li>
+                      </li> */}
+<li onClick={() => handleClick(videoInputRef)}>
+  <FontAwesomeIcon icon={faVideo} />
+  <br />
+  <span>Add Video</span>
+  <input
+    style={{ display: "none" }}
+    ref={videoInputRef}
+    type="file"
+    accept=".mp4,.mp3/*"
+    onChange={handleFileChange}
+  />
+</li>
+<li onClick={() => handleClick(audioInputRef)}>
+  <FontAwesomeIcon icon={faMusic} />
+  <br />
+  <span>Add Audio</span>
+  <input
+    style={{ display: "none" }}
+    ref={audioInputRef}
+    type="file"
+    accept="audio/*"
+    onChange={handleFileChange}
+  />
+</li>
+<li onClick={() => handleClick(documentInputRef)}>
+  <FontAwesomeIcon icon={faFile} />
+  <br />
+  <span>Add Document</span>
+  <input
+    style={{ display: "none" }}
+    ref={documentInputRef}
+    type="file"
+    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.txt"
+    onChange={handleFileChange}
+  />
+</li>
                     </ul>
                   </div>
                 </div>
@@ -217,14 +299,11 @@ const OutlineCourse2 = ({
                     <b>{courseDetails.outlines.materialTitle}</b>
                   </p>
                 </div>
-                <MediaContent />
+                {/* <MediaContent /> */}
               </div>
               <div className="outlinebtn2">
-                <button className="prev" onClick={() => setActiveTab(1)}>
-                  Previous
-                </button>
-                <Link to="/InstructorMaterials">
-                  <button type="submit">Next</button>
+              <Link to="/Instructor-dashboard">
+                  <button type="submit">Finish</button>
                 </Link>
               </div>
             </>
