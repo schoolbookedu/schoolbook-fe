@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import ReactAudioPlayer from "react-audio-player";
 
-const Audio = ({audioUrl}) => {
+const Audio = ({ audioUrl }) => {
   return (
-    <div>Audio</div>
-  )
-}
+    <div>
+      <ReactAudioPlayer 
+      src={audioUrl}
+      autoPlay 
+      controls 
+      className="w-full"
+      />
+    </div>
+  );
+};
 
-export default Audio
+export default Audio;

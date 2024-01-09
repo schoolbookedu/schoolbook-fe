@@ -1,10 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Audio from "./Audio";
 import Video from "./Video";
 import Document from "./Document";
 import OutlineCardList from "../Outline Card/OutlineCardList";
-
-
+import { mediaType } from "../../utils";
 
 const tabs = [
   { id: 0, label: "Course Objectives" },
@@ -14,64 +13,53 @@ const tabs = [
 const CourseObjective = ({ objectives, materials }) => {
   const [activeTab, setActiveTab] = useState(0);
 
-console.log(materials)
+  console.log(materials);
+//todo pass material title
+  const MaterialComponent = ({material}) => {
+    const { type:materialType, title, mediaURL } = material?.materialId;
+    console.log({materialType, mediaURL})
+    const type = materialType?.toString()?.toLowerCase()
+    return type === mediaType.AUDIO?.toString()?.toLowerCase()? <Audio audioUrl={mediaURL}/> : type === mediaType.VIDEO?.toString()?.toLowerCase()? <Video videoUrl={mediaURL}/> : <Document documentUrl={mediaURL} title={title}/> 
+  };
 
-const materialComponent = (material) => {
-  const { type, materialId } = material;
-  if (type === "audio") {
-    return <Audio audioUrl={""} audioId={materialId} />;
-  } else if (type === "video") {
-    return <Video videoUrl={""} videoId={materialId} />;
-  } else if (type === "document") {
-    return <Document documentUrl={""} documentId={materialId} />;
-  } 
-  else {
-    return (
-      <>
-        This course does not have a material Url.  <br/><br/>MaterialId: {materialId}
-      </>
-    );
-  }
-
-
-};
-
-
-return (
-  <>
-    <div className="objective">
-      <div className="objective-container">
-        <div className="objectiveTab">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={activeTab === tab.id ? "active" : ""}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-        {activeTab === 0 && (
-          <div className="objective-content">
-            <p>{objectives}</p>
+  return (
+    <>
+      <div className="objective">
+        <div className="objective-container">
+          <div className="objectiveTab">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={activeTab === tab.id ? "active" : ""}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
-        )}
-        {activeTab === 1 && (
-          <div className="outlineCard-container">
-            <div className="outlineCardList">
-              {materials.map((material) => (
-                <div key={material._id} className="mt-8">
-                  {materialComponent(material)}
-                </div>
-              ))}
+          {activeTab === 0 && (
+            <div className="objective-content">
+              <p>{objectives}</p>
             </div>
-          </div>
-        )}
+          )}
+          {activeTab === 1 && (
+            <div className="outlineCard-container">
+                {!!materials?.length ? (
+                  <>
+                    {materials?.map((material) => (
+                     <div key={material.materialId} className="mt-8">
+                     {<MaterialComponent material={material} />}
+                   </div>
+                    ))}
+                  </>
+                ) : (
+                  <h2>You have no material </h2>
+                )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 };
 export default CourseObjective;
-

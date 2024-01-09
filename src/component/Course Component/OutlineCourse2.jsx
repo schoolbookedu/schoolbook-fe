@@ -4,6 +4,7 @@ import { faFile, faMusic, faVideo } from "@fortawesome/free-solid-svg-icons";
 import MediaContent from "../Media Content/MediaContent";
 import { Link } from "react-router-dom";
 import InputBox from "../Create Courses/InputBox";
+import { mediaType } from "../../utils";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -63,22 +64,22 @@ const documentInputRef = useRef(null);
   
       // Check the file type and set materialType accordingly
       if (fileObj.type.startsWith("audio/")) {
-        materialType = "audio";
+        materialType = mediaType.AUDIO;
       } else if (fileObj.type.startsWith("video/")) {
-        materialType = "video";
+        materialType = mediaType.VIDEO;
       } else if (
         fileObj.type.startsWith("application/") ||
         fileObj.type.startsWith("text/") ||
         fileObj.type === "application/pdf"
       ) {
-        materialType = "document";
+        materialType = mediaType.DOCUMENT;
       } else {
         // Handle the case where an invalid file type is selected
         console.log("Invalid file type. Please select an audio, video, or document file.");
         // Optionally, you can provide feedback to the user
         return;
       }
-  
+        console.log({materialType})
       const reader = new FileReader();
   
       reader.onload = () => {

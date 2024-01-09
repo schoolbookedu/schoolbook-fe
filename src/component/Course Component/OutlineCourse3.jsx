@@ -9,6 +9,7 @@ import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
 import axios from "axios";
 import { showToast } from "../notifications";
+import { getFileType } from "../../utils/get-media-type";
 
 const link = [
   { id: 1, list: "Course Intro" },
@@ -31,7 +32,7 @@ const OutlineCourse3 = ({
   setCourseDetails,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
-
+  console.log({courseDetails});
   const { createCourse, createMaterial } = mutations;
 
   // Inside your component
@@ -48,22 +49,21 @@ const OutlineCourse3 = ({
     onSuccess: () => hide(),
     onError: () => hide(),
   });
-
+    
   const createCourseRequest = async () => {
     console.log({ courseDetails });
-
+ 
     const materialOutlines = courseDetails?.outlines;
     if (materialOutlines?.materialId) {
-      const fileType = materialOutlines?.materialId?.type;
+      const fileType = materialOutlines?.materialType;
+      console.log(fileType)
       const formData = new FormData()
       formData.append("title",materialOutlines.materialTitle)
       formData.append('mediaURL', materialOutlines.materialId)
-      formData.append('type', 
-      fileType?.includes("video")
-      ? mediaType.VIDEO
-      : fileType?.includes("audio")
-      ? mediaType.AUDIO
-      : mediaType.DOCUMENT)
+      formData.append ('type',fileType)
+    
+     // formData.append('type', 
+      //getFileType (materialOutlines?.materialId))
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }
