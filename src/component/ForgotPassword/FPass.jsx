@@ -9,6 +9,7 @@ import "../Register/RegisterTab.css";
 import "./FPass.css";
 import { useOverlayLoader } from "../../hooks";
 import { OverlayLoader } from "../../loaders";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 const FPass = () => {
@@ -20,11 +21,14 @@ const FPass = () => {
   ];
 
   const loginSchema = useFormValidation(forgotPasswordToValidate);
-
+  const navigate = useNavigate();
   const mutation = useMutation(forgotPassword,
     {
       onMutate: () => show(),
-      onSuccess: () => hide(),
+      onSuccess: () => {
+        hide();
+        navigate("/new-pass"); 
+    },
       onError: () => hide(),
     });
 
@@ -63,6 +67,7 @@ const FPass = () => {
                 <button
                   type="submit"
                   className="w-[100%] sm:w-[50%] bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-5"
+                  // onClick={newPassword}
                 >
                   Continue
                 </button>

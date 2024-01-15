@@ -1,19 +1,21 @@
-import React from 'react'
-import ReactPlayer from 'react-player'
+import React from "react";
+import ReactPlayer from "react-player";
 
-const Video = ({videoUrl}) => {
+const Video = ({ videoUrl, title }) => {
   return (
+   
     <div>
-        <ReactPlayer
-          className='react-player'
-          controls='true'
-          playing
-          url={videoUrl}
-          width='100%'
-          height='100%'
-        />
+       <h2>{title}</h2>
+      <ReactPlayer
+        className="react-player"
+        controls="true"
+        playing
+        url={videoUrl}
+        width="100%"
+        height="100%"
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Video
+export default Video;

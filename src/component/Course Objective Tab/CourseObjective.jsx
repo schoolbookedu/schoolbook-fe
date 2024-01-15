@@ -14,12 +14,18 @@ const CourseObjective = ({ objectives, materials }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   console.log(materials);
-//todo pass material title
-  const MaterialComponent = ({material}) => {
-    const { type:materialType, title, mediaURL } = material?.materialId;
-    console.log({materialType, mediaURL})
-    const type = materialType?.toString()?.toLowerCase()
-    return type === mediaType.AUDIO?.toString()?.toLowerCase()? <Audio audioUrl={mediaURL}/> : type === mediaType.VIDEO?.toString()?.toLowerCase()? <Video videoUrl={mediaURL}/> : <Document documentUrl={mediaURL} title={title}/> 
+  const MaterialComponent = ({ material }) => {
+    console.log({ material });
+    const { type: materialType, title, mediaURL } = material?.materialId;
+    console.log({ materialType, mediaURL, title });
+    const type = materialType?.toString()?.toLowerCase();
+    return type === mediaType.AUDIO?.toString()?.toLowerCase() ? (
+      <Audio audioUrl={mediaURL} />
+    ) : type === mediaType.VIDEO?.toString()?.toLowerCase() ? (
+      <Video videoUrl={mediaURL} />
+    ) : (
+      <Document documentUrl={mediaURL} title={title} />
+    );
   };
 
   return (
@@ -44,17 +50,17 @@ const CourseObjective = ({ objectives, materials }) => {
           )}
           {activeTab === 1 && (
             <div className="outlineCard-container">
-                {!!materials?.length ? (
-                  <>
-                    {materials?.map((material) => (
-                     <div key={material.materialId} className="mt-8">
-                     {<MaterialComponent material={material} />}
-                   </div>
-                    ))}
-                  </>
-                ) : (
-                  <h2>You have no material </h2>
-                )}
+              {!!materials?.length ? (
+                <>
+                  {materials?.map((material) => (
+                    <div key={material.materialId} className="mt-8">
+                      {<MaterialComponent material={material} />}
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <h2>You have no material </h2>
+              )}
             </div>
           )}
         </div>
