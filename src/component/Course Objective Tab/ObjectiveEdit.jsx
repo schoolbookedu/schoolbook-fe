@@ -13,15 +13,6 @@ const tabs = [
   const ObjectiveEdit = ({setEditModule}) => {
 
   const [activeTab, setActiveTab] = useState(0);
-  // const [editmodule, setEditModule] = useState(false);
-  // const setCards = [
-  //   { id: 0, title: "Fundamentals Of Graphic Design ", text: "Course Outline 1" },
-  //   { id: 1, title: "Elements Of Graphic Design", text: "Course Outline 2" },
-  //   { id: 2, title: "Principles Of Graphic Design", text: "Course Outline 3" },
-  //   { id: 3, title: "Tools Of Graphic Design", text: "Course Outline 4" },
-  //   { id: 4, title: "Business Of Graphic Design", text: "Course Outline 5" },
-  //   { id: 5, title: "Review", text: "Course Outline 6" },
-  // ];
   
   const inputObjective = useSelector((state) => state.inputObjective);
   const inputMaterial = useSelector((state) => state.inputMaterial);

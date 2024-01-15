@@ -14,7 +14,6 @@ const CourseObjective = ({ objectives, materials }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   console.log(materials);
-  //todo pass material title
   const MaterialComponent = ({ material }) => {
     console.log({ material });
     const { type: materialType, title, mediaURL } = material?.materialId;
