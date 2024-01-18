@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./CourseMaterials.css";
 import Nav from "../../component/Navbar/Nav";
 import banner from "../../utils/banner.png";
@@ -13,6 +13,8 @@ const tab = [{ id: 0, label: "Course Materials" }];
 
 const CourseMaterials = () => {
   const [isFollowed, setIsFollowed] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
   const { id } = useParams();
   const courseId = id;
   // console.log(courseId);
@@ -39,10 +41,21 @@ const CourseMaterials = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const { getCourse } = queries;
+  useEffect(()=>{
+    if (course?.title){
+      setEditTitle(course?.title);
+    }
+},[])
 
   if (isLoading) {
     return <OverlayLoader showing={true} />;
   }
+
+  const editText=()=>{
+      setEdit(!edit);
+  }
+
+
 
   return (
     <>
@@ -74,21 +87,27 @@ const CourseMaterials = () => {
               </div> */}
               <div className="price-body">
                 <div className="price-title">
-                  <h2>{course?.title}</h2>
+                  <input type="text"  value={course?.title} onChange={(e)=>setEditTitle(e.target.value)}/>
                 </div>
                 <div className="price-followbtn">
                   <span>Tutor: {course?.tutor?.fullName}</span>
-                  <button
+                  {/* <button
                     className={isFollowed ? "followed" : "follow"}
                     onClick={handleClick}
                   >
                     {isFollowed ? "Followed" : "Follow"}
-                  </button>
+                  </button> */}
+                    <div className="flex justify-between">
+                  <button className="followed"
+                  onClick={editText}>Edit</button>
+                  <button className="follow">Save</button>
+                </div>
                 </div>
                 <div className="objectivetab-container">
                   <CourseObjective
                     objectives={course?.objectives}
                     materials={course?.outlines}
+                    edit={edit}
                   />
                 </div>
               </div>

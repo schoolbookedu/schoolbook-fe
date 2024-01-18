@@ -103,7 +103,7 @@ const OutlineCourse5 = ({ onNext, onPrevious, materialCards }) => {
               <div className="outline-form">
                 <h2>Module Materials</h2>
                 <div className="outlineCard-container">
-                  <MaterialCardList materialCards={materialCards} />
+                  {/* <MaterialCardList materialCards={materialCards} /> */}
                 </div>
                 <div className="addmaterials">
                   <button onClick={onNext}>Add Materials</button>

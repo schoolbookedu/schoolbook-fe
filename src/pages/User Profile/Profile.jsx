@@ -10,6 +10,7 @@ import { clearStorage, getStorage } from "../../utils";
 import Completed from "../../component/Featured Courses/Completed";
 import logo from "../../utils/logo.png";
 import "./Profile.css";
+import OutlineCourse4 from "../../component/Course Component/OutlineCourse4";
 
 const profileTab = [
   { id: 0, label: "Profile" },
@@ -214,7 +215,8 @@ const Profile = () => {
           )}
           {activeTab === 1 && (
             <div className="completed-courses">
-              <Completed />
+              {/* <Completed /> */}
+              <OutlineCourse4/>
             </div>
           )}
         </div>

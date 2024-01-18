@@ -10,7 +10,7 @@ const tabs = [
   { id: 1, label: "Course Outlines" },
 ];
 
-const CourseObjective = ({ objectives, materials }) => {
+const CourseObjective = ({ objectives, materials, edit }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   console.log(materials);
@@ -45,7 +45,7 @@ const CourseObjective = ({ objectives, materials }) => {
           </div>
           {activeTab === 0 && (
             <div className="objective-content">
-              <p>{objectives}</p>
+              <input type="text" value={edit ? "true":objectives} readOnly={edit} />
             </div>
           )}
           {activeTab === 1 && (
