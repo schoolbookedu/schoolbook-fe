@@ -17,9 +17,9 @@ import OutlineCardList from "../Outline Card/OutlineCardList";
 import MaterialCardList from "../Outline Card/MaterialCardList";
 
 const link = [
-  { id: 1, list: "Course Intro" },
-  { id: 0, list: "Outline" },
-  { id: 2, list: "Preview" },
+  { id: 0, list: "Course Intro" },
+  { id: 1, list: "Course Module" },
+  { id: 2, list: "Course Preview" },
 ];
 
 const OutlineCourse5 = ({ onNext, onPrevious, materialCards }) => {

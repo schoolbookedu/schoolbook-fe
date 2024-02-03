@@ -3,6 +3,7 @@ import Nav from "../../component/Navbar/Nav";
 import Create from "../../component/Create Courses/Create";
 import Created from "../../component/Featured Courses/Created";
 import OutlineCourse from "../../component/Course Component/OutlineCourse";
+import OutlineCourse1 from "../../component/Course Component/OutlineCourse1";
 import OutlineCourse2 from "../../component/Course Component/OutlineCourse2";
 import OutlineCourse3 from "../../component/Course Component/OutlineCourse3";
 import OutlineCourse5 from "../../component/Course Component/OutlineCourse5";
@@ -12,6 +13,9 @@ import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { OverlayLoader } from "../../loaders";
 import { useNavigate } from "react-router-dom";
+import EmptyMessage from "../../component/EmptyMessage";
+import InputBox from "../../component/Create Courses/InputBox";
+// import InputBox from "../Create Courses/InputBox";
 
 const tab = [
   { id: 1, label: "Home" },
@@ -102,7 +106,17 @@ const CourseOutline = () => {
           courseDetails={courseDetails}
         />
       );
-    } else if (currentComponent === "OutlineCourse2") {
+    } else if (currentComponent === "OutlineCourse1") {
+      return (
+        <OutlineCourse1
+          onNext={nextComponent}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          setCourseDetails={setCourseDetails}
+          courseDetails={courseDetails}
+        />
+      );
+       } else if (currentComponent === "OutlineCourse2") {
       return (
         <OutlineCourse2
           onNext={nextComponent}
@@ -172,7 +186,78 @@ const CourseOutline = () => {
         </div>
         <div className="dashboard-content">
           {activeTab === 0 && (
-            <div className="outline">{renderComponent()}</div>
+            // <div className="outline">{renderComponent()}</div>
+            <div className="outline-container">
+            <div className="outline-content">
+              <div className="create-outline">
+                <div className="form">
+                  <div className="flex flex-col md:flex-row justify-between">
+                    <div className="flex flex-col w-full md:w-[65%]">
+                      <label>Course Title</label>
+                      <input
+                        type="text"
+                        placeholder="eg: Programming for Beginners"
+                        className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                        onChange={(e) =>
+                          setCourseDetails({
+                            ...courseDetails,
+                            title: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col w-full md:w-[30%]">
+                      <label>Course Code</label>
+                      <input
+                        type="text"
+                        placeholder="Course code"
+                        className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                        onChange={(e) =>
+                          setCourseDetails({
+                            ...courseDetails,
+                            courseCode: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <label>Course Objective</label>
+                  <textarea
+                    type="text"
+                    placeholder="An overview of what the course is all about..."
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    onChange={(e) =>
+                      setCourseDetails({
+                        ...courseDetails,
+                        objectives: e.target.value,
+                      })
+                    }
+                  />
+                  <div className="coverPhoto">
+                    <div className="coverText">
+                      <p>
+                        <b>Add Course Cover Photo </b>
+                        <span>(Optional)</span>
+                      </p>
+                      <span>
+                        (This is the picture that will display as the home cover
+                        when your course is viewed)
+                      </span>
+                    </div>
+                    <div className="coverCreate">
+                      <InputBox
+                        courseDetails={courseDetails}
+                        setCourseDetails={setCourseDetails}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="outlinebtn">
+                  <button onClick={() => setActiveTab(2)}>Create Course</button>
+                </div>
+              </div>
+          </div>
+          </div>
           )}
           {activeTab === 1 && (
             <div className="content-container">
@@ -182,26 +267,31 @@ const CourseOutline = () => {
             </div>
           )}
           {activeTab === 2 && (
+            <div className="flex flex-col mt-[100px]">
+            <div className="flex justify-between align-center">
+              <h2>Created Course</h2>
+              <button onClick={() => setActiveTab(0)}>Create Course</button>
+            </div>
             <div className="fcourse-container">
-              <div className="instcourse-container">
-              {data?.data?.resource?.length > 0 ? (
-                <div className="fcourse-scroll">
-                 {data.data.resource.map((resource) => (
-                    <div
+            {data?.data?.resource?.length > 0 ? (
+              <div className="fcourse-container-grid ">
+                {data.data.resource.map((resource) => (
+                  <div
                     key={resource?._id}
                     className="created-course"
-                    onClick={() => viewCourse(resource?._id)}>
-                      
-                        <Created key={resource?._id} resource={resource} />
-                     
-                    </div>
-                     ))}
-                     </div>
-                  ) : (
-                    <>No items created</>
-                  )}
+                    onClick={() => viewCourse(resource?._id)}
+                  >
+                    <Created resource={resource} />
+                  </div>
+                ))}
               </div>
-            </div>
+            ) : (
+              <>
+                <EmptyMessage content="You have not created a course yet" />
+              </>
+            )}
+          </div>
+          </div>
           )}
         </div>
       </div>

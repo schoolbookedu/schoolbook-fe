@@ -1,43 +1,36 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState, useRef } from "react";
-import MediaContent from "../Media Content/MediaContent";
+import { faFile, faMusic, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import "./CourseOutline.css";
 import InputBox from "../Create Courses/InputBox";
+import { mediaType } from "../../utils";
+import { showToast } from "../notifications";
 import { mutations } from "../../api";
 import { useMutation } from "@tanstack/react-query";
 import { useOverlayLoader } from "../../hooks";
-import { OverlayLoader } from "../../loaders";
-import axios from "axios";
-import { showToast } from "../notifications";
-import { getFileType } from "../../utils/get-media-type";
 
 const link = [
-  { id: 0, list: "Course Intro" },
-  { id: 1, list: "Course Module" },
-  { id: 2, list: "Course Preview" },
+    { id: 0, list: "Course Intro" },
+    { id: 1, list: "Course Module" },
+    { id: 2, list: "Course Preview" },
 ];
-const videoLink = [{ id: 0, list: "Introduction to programming" }];
-
-const mediaType = {
-  VIDEO: "Video",
-  AUDIO: "Audio",
-  DOCUMENT: "Document",
-};
-
-const OutlineCourse3 = ({
+const OutlineCourse1 = ({
   onNext,
   onPrevious,
-  cards,
+  inputValue,
+  setInputValue,
   courseDetails,
   setCourseDetails,
 }) => {
   const [activeTab, setActiveTab] = useState(0);
-  console.log({courseDetails});
+  const videoInputRef = useRef(null);
+  const audioInputRef = useRef(null);
+  const documentInputRef = useRef(null);
+
+  const [selectedFileName, setSelectedFileName] = useState("");
+
   const { createCourse, createMaterial } = mutations;
-
-  // Inside your component
   const { show, showing, hide } = useOverlayLoader();
-
   const materialMutation = useMutation(createMaterial, {
     onMutate: () => show(),
     onSuccess: () => hide(),
@@ -49,7 +42,55 @@ const OutlineCourse3 = ({
     onSuccess: () => hide(),
     onError: () => hide(),
   });
-    
+
+  const handleClick = (inputRef) => {
+    inputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const fileObj = event.target.files && event.target.files[0];
+
+    if (fileObj) {
+      let materialType;
+
+      // Check the file type and set materialType accordingly
+      if (fileObj.type.startsWith("audio/")) {
+        materialType = mediaType.AUDIO;
+      } else if (fileObj.type.startsWith("video/")) {
+        materialType = mediaType.VIDEO;
+      } else if (
+        fileObj.type.startsWith("application/") ||
+        fileObj.type.startsWith("text/") ||
+        fileObj.type === "application/pdf"
+      ) {
+        materialType = mediaType.DOCUMENT;
+      } else {
+        // Handle the case where an invalid file type is selected
+        console.log(
+          "Invalid file type. Please select an audio, video, or document file."
+        );
+        // Optionally, you can provide feedback to the user
+        return;
+      }
+      console.log({ materialType });
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setCourseDetails({
+          ...courseDetails,
+          outlines: {
+            materialId: reader.result, // This will contain the base64 data
+            materialTitle: courseDetails?.outlines?.materialTitle,
+            materialType: materialType,
+          },
+        });
+      };
+
+      reader.readAsDataURL(fileObj); // This reads the file as a data URL
+      setSelectedFileName(fileObj.name);
+    }
+  };
+
   const createCourseRequest = async () => {
     console.log({ courseDetails });
  
@@ -144,7 +185,7 @@ const OutlineCourse3 = ({
                       onChange={(e) =>
                         setCourseDetails({
                           ...courseDetails,
-                          courseCode: e.target.value, 
+                          courseCode: e.target.value,
                         })
                       }
                     />
@@ -189,23 +230,72 @@ const OutlineCourse3 = ({
           {activeTab === 0 && (
             <>
               <div className="outline-form">
-                <h2>Price</h2>
-                <div className="outlineCard-container">
-                  <input
-                    type="text"
-                    placeholder="Course Price"
-                    className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                    onChange={(e) =>
-                      setCourseDetails({
-                        ...courseDetails,
-                        price: e.target.value,
-                      })
-                    }
-                  />
+                <label>Course Module Title</label>
+                <input
+                  type="text"
+                  placeholder="e.g Introduction to Programming"
+                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                  onChange={(e) =>
+                    setCourseDetails({
+                      ...courseDetails,
+                      outlines: { materialTitle: e.target.value },
+                    })
+                  }
+                />
+              </div>
+              <div className="outline-form">
+                <h2>Course Module Materials</h2>
+                <div className="modulebtn">
+                  <button>Add Materials</button>
+                  {selectedFileName && <span style={{fontSize: "12px", textAlign: "center"}}>{selectedFileName}</span>}
+                  <div className="modulehover">
+                    <ul>
+                      <li onClick={() => handleClick(videoInputRef)}>
+                        <FontAwesomeIcon icon={faVideo} />
+                        <br />
+                        <span>Add Video</span>
+                        <input
+                          style={{ display: "none" }}
+                          ref={videoInputRef}
+                          type="file"
+                          accept=".mp4,.mp3/*"
+                          onChange={handleFileChange}
+                        />
+                      </li>
+                      <li onClick={() => handleClick(audioInputRef)}>
+                        <FontAwesomeIcon icon={faMusic} />
+                        <br />
+                        <span>Add Audio</span>
+                        <input
+                          style={{ display: "none" }}
+                          ref={audioInputRef}
+                          type="file"
+                          accept="audio/*"
+                          onChange={handleFileChange}
+                        />
+                      </li>
+                      <li onClick={() => handleClick(documentInputRef)}>
+                        <FontAwesomeIcon icon={faFile} />
+                        <br />
+                        <span>Add Document</span>
+                        <input
+                          style={{ display: "none" }}
+                          ref={documentInputRef}
+                          type="file"
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.txt"
+                          onChange={handleFileChange}
+                        />
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div className="outlinebtn2">
-                <button onClick={createCourseRequest}>Submit</button>
+                {/* <button className="prev" onClick={onPrevious}>
+                  Previous
+                </button>
+                <button onClick={onNext}>Next</button> */}
+                 <button onClick={createCourseRequest}>Submit</button>
               </div>
             </>
           )}
@@ -223,17 +313,16 @@ const OutlineCourse3 = ({
                 {/* <MediaContent /> */}
               </div>
               <div className="outlinebtn2">
-              <Link to="/Instructor-dashboard">
+                <Link to="/Instructor-dashboard">
                   <button type="submit">Finish</button>
                 </Link>
               </div>
             </>
           )}
         </div>
-        <OverlayLoader showing={showing} />
       </div>
     </>
   );
 };
 
-export default OutlineCourse3;
+export default OutlineCourse1;

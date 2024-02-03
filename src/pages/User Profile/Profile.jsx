@@ -132,10 +132,10 @@ const Profile = () => {
             <div className="objective" onClick={() => setOpen(false)}>
               <div className="objective-container">
                 <div className="Sidenav-tab">
-                  <div className="Menutabs">
+                  <div className="profile-menutabs">
                     {profileTab.map((menu, index) => (
                       <ul
-                        className={activeTab === menu.id ? "active" : ""}
+                        className={activeTab === menu.id ? "active-list" : ""}
                         onClick={() => setActiveTab(menu.id)}
                       >
                         <li key={menu.id + index}>{menu.label}</li>
@@ -215,8 +215,8 @@ const Profile = () => {
           )}
           {activeTab === 1 && (
             <div className="completed-courses">
-              {/* <Completed /> */}
-              <OutlineCourse4/>
+              <Completed />
+              {/* <OutlineCourse4/> */}
             </div>
           )}
         </div>

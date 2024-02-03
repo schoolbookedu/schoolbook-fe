@@ -10,9 +10,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useOverlayLoader } from "../../hooks";
 
 const link = [
-  { id: 1, list: "Course Intro" },
-  { id: 0, list: "Outline" },
-  { id: 2, list: "Preview" },
+  { id: 0, list: "Course Intro" },
+  { id: 1, list: "Course Module" },
+  { id: 2, list: "Course Preview" },
 ];
 const OutlineCourse2 = ({
   onNext,
@@ -158,7 +158,7 @@ const OutlineCourse2 = ({
           ))}
         </div>
         <div className="outline-content">
-          {activeTab === 1 && (
+          {activeTab === 0 && (
             <div className="create-outline">
               <div className="form">
                 <div className="flex flex-col md:flex-row justify-between">
@@ -227,10 +227,10 @@ const OutlineCourse2 = ({
               </div>
             </div>
           )}
-          {activeTab === 0 && (
+          {activeTab === 1 && (
             <>
               <div className="outline-form">
-                <label>Course Material Title</label>
+                <label>Course Module Title</label>
                 <input
                   type="text"
                   placeholder="e.g Introduction to Programming"
@@ -244,7 +244,7 @@ const OutlineCourse2 = ({
                 />
               </div>
               <div className="outline-form">
-                <h2>Course Materials</h2>
+                <h2>Course Module Materials</h2>
                 <div className="modulebtn">
                   <button>Add Materials</button>
                   {selectedFileName && <span style={{fontSize: "12px", textAlign: "center"}}>{selectedFileName}</span>}

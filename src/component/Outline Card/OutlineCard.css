@@ -6,9 +6,6 @@
 
 .outline-card,
 .material-card {
-    position: relative;
-    width: 200px;
-    height: 60%;
     border-radius: 5px;
     padding: 30px;
     background: #F5F5F5;
@@ -43,29 +40,35 @@
     border-radius: 4px;
     z-index: 1;
 }
+.card-icon{
+    cursor: pointer;
+}
+.outline-card{
+    position: relative;
+}
 
 .option {
     display: flex;
     flex-direction: column;
-}
-
-.option button {
     background: #ffffff;
-    padding: 15px 20px;
-    text-align: left;
+    padding: 10px 0px;
+    border-radius: 8px;
+    cursor: pointer;
+    position: absolute;
+    right: 2px;
 }
 
-.red:hover .dropdown-content {
-    display: block;
-}
-
-.outline-card span {
+.option span {
+    padding: 5px 80px 5px 10px;
+    text-align: left; 
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 19px;
     color: #000000;
 }
-
+.option span:hover{
+    background:#F5F5F5;
+}
 .outline-card h3 {
     font-weight: 700;
     font-size: 24px;
@@ -84,7 +87,29 @@
 .material-card h3 {
     color: #000000;
 }
-
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+  }
+  
+  .edit-modal {
+    background:#ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1001; /* Make sure it has a higher z-index than the overlay */
+  }
+  .edit-modal button{
+    border: 2px solid #407BFF;
+  }
 @media (max-width: 900px) {
     .outline-card span {
         font-size: 13px;

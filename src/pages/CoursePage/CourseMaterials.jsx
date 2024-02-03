@@ -1,22 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./CourseMaterials.css";
 import Nav from "../../component/Navbar/Nav";
-import banner from "../../utils/banner.png";
-import Price from "../../component/Price Card/Price";
 import CourseObjective from "../../component/Course Objective Tab/CourseObjective";
 import { OverlayLoader } from "../../loaders";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { queries } from "../../api";
+import { useDispatch, useSelector } from 'react-redux';
+import { setTitle, setObjective, selectUI } from '../../store/inputSlice';
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
 const CourseMaterials = () => {
-  const [isFollowed, setIsFollowed] = useState(false);
+  // const [isFollowed, setIsFollowed] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const { id } = useParams();
   const courseId = id;
+  const dispatch = useDispatch();
+  const { title } = useSelector(selectUI);
   // console.log(courseId);
 
   const { data, isLoading, isError } = useQuery(
@@ -34,9 +36,9 @@ const CourseMaterials = () => {
     return null;
   }, [data]);
 
-  const handleClick = () => {
-    setIsFollowed(!isFollowed);
-  };
+  // const handleClick = () => {
+  //   setIsFollowed(!isFollowed);
+  // };
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -47,15 +49,23 @@ const CourseMaterials = () => {
     }
 },[])
 
-  if (isLoading) {
-    return <OverlayLoader showing={true} />;
-  }
+  // if (isLoading) {
+  //   return <OverlayLoader showing={true} />;
+  // }
 
   const editText=()=>{
       setEdit(!edit);
   }
 
 
+
+  const handleTitleChange = (event) => {
+    dispatch(setTitle(event.target.value));
+  };
+
+  const handleObjectiveChange = (event) => {
+    dispatch(setObjective(event.target.value));
+  };
 
   return (
     <>
@@ -87,7 +97,7 @@ const CourseMaterials = () => {
               </div> */}
               <div className="price-body">
                 <div className="price-title">
-                  <input type="text"  value={course?.title} onChange={(e)=>setEditTitle(e.target.value)}/>
+                  <input type="text" value={course?.title} onChange={handleTitleChange} readOnly={!edit}/>
                 </div>
                 <div className="price-followbtn">
                   <span>Tutor: {course?.tutor?.fullName}</span>
@@ -108,6 +118,7 @@ const CourseMaterials = () => {
                     objectives={course?.objectives}
                     materials={course?.outlines}
                     edit={edit}
+                    handleObjectiveChange={handleObjectiveChange}
                   />
                 </div>
               </div>
