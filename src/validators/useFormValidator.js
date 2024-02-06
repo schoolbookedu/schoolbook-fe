@@ -12,6 +12,17 @@ const FormFieldValidationMap = {
       .min(11, "Phone number must not be less than 11")
       .required("Phone number is required"),
   },
+  courseTitle: {
+    rule: Yup.string()
+      .min(3, "Course title must not be less than 3 characters")
+      .required("Course title is required"),
+  },
+  courseCode: {
+    rule: Yup.string().required("Course code is required"),
+  },
+  courseObjectives: {
+    rule: Yup.string().required("Course objectives is required"),
+  },
   gender: {
     rule: Yup.string().required("Gender is required"),
   },
@@ -64,11 +75,13 @@ const FormFieldValidationMap = {
   confirmPassword: {
     rule: Yup.string()
       .required("Confirm password is required")
-      .oneOf([Yup.ref('newPassword'), null], "Confrim Password  must match with New Password")
+      .oneOf(
+        [Yup.ref("newPassword"), null],
+        "Confrim Password  must match with New Password"
+      ),
   },
   passwordResetToken: {
-    rule: Yup.string()
-      .required("Password Reset Token is required")
+    rule: Yup.string().required("Password Reset Token is required"),
   },
   oldPassword: {
     rule: Yup.string()
