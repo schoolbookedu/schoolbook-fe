@@ -102,7 +102,12 @@ const tabs = [
   { id: 1, label: "Course Modules" },
 ];
 
-const CourseObjective = ({ materials, edit, handleObjectiveChange }) => {
+const CourseObjective = ({
+  materials,
+  edit,
+  handleObjectiveChange,
+  courseId,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const { objectives } = useSelector(selectUI);
@@ -122,13 +127,6 @@ const CourseObjective = ({ materials, edit, handleObjectiveChange }) => {
 
   const toggleEditModal = () => {
     setEditModalVisible(!editModalVisible);
-  };
-
-  const handleUpload = (data) => {
-    // Do something with the uploaded data
-    console.log("Uploaded Data:", data);
-    // Add the uploaded data to the list of uploaded modules
-    setUploadedModules((prevModules) => [...prevModules, data]);
   };
 
   return (
@@ -181,7 +179,7 @@ const CourseObjective = ({ materials, edit, handleObjectiveChange }) => {
       {editModalVisible && (
         <EditModal
           setEditModalVisible={setEditModalVisible}
-          onUpload={handleUpload}
+          courseId={courseId}
         />
       )}
     </>

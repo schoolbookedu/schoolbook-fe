@@ -6,8 +6,8 @@ import { OverlayLoader } from "../../loaders";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { queries } from "../../api";
-import { useDispatch, useSelector } from 'react-redux';
-import { setTitle, setObjective, selectUI } from '../../store/inputSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { setTitle, setObjective, selectUI } from "../../store/inputSlice";
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
@@ -43,21 +43,19 @@ const CourseMaterials = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const { getCourse } = queries;
-  useEffect(()=>{
-    if (course?.title){
+  useEffect(() => {
+    if (course?.title) {
       setEditTitle(course?.title);
     }
-},[])
+  }, []);
 
   // if (isLoading) {
   //   return <OverlayLoader showing={true} />;
   // }
 
-  const editText=()=>{
-      setEdit(!edit);
-  }
-
-
+  const editText = () => {
+    setEdit(!edit);
+  };
 
   const handleTitleChange = (event) => {
     dispatch(setTitle(event.target.value));
@@ -97,7 +95,12 @@ const CourseMaterials = () => {
               </div> */}
               <div className="price-body">
                 <div className="price-title">
-                  <input type="text" value={course?.title} onChange={handleTitleChange} readOnly={!edit}/>
+                  <input
+                    type="text"
+                    value={course?.title}
+                    onChange={handleTitleChange}
+                    readOnly={!edit}
+                  />
                 </div>
                 <div className="price-followbtn">
                   <span>Tutor: {course?.tutor?.fullName}</span>
@@ -107,11 +110,12 @@ const CourseMaterials = () => {
                   >
                     {isFollowed ? "Followed" : "Follow"}
                   </button> */}
-                    <div className="flex justify-between">
-                  <button className="followed"
-                  onClick={editText}>Edit</button>
-                  <button className="follow">Save</button>
-                </div>
+                  <div className="flex justify-between">
+                    <button className="followed" onClick={editText}>
+                      Edit
+                    </button>
+                    <button className="follow">Save</button>
+                  </div>
                 </div>
                 <div className="objectivetab-container">
                   <CourseObjective
@@ -119,6 +123,7 @@ const CourseMaterials = () => {
                     materials={course?.outlines}
                     edit={edit}
                     handleObjectiveChange={handleObjectiveChange}
+                    courseId={courseId}
                   />
                 </div>
               </div>

@@ -82,10 +82,10 @@ export const mutations = {
 
   // course
   async createCourse(payload) {
-    const {data} = await axiosInstance.request({
+    const { data } = await axiosInstance.request({
       method: HTTP_METHODS.POST,
       url: endpoints.courses.create,
-      data:payload,
+      data: payload,
     });
     return data?.data?.resource;
   },
@@ -109,17 +109,27 @@ export const mutations = {
     return axiosInstance.request({
       method: HTTP_METHODS.POST,
       url: endpoints.courses.enroll,
-      data:{courseId},
+      data: { courseId },
     });
+  },
+
+  // modules
+  async createModule(payload) {
+    const { data } = await axiosInstance.request({
+      method: HTTP_METHODS.POST,
+      url: endpoints.modules.create,
+      data: payload,
+    });
+    return data?.data?.resource;
   },
 
   // materials
   async createMaterial(payload) {
-    const {data} = await axiosInstance.request({
+    const { data } = await axiosInstance.request({
       method: HTTP_METHODS.POST,
       url: endpoints.materials.create,
-      headers: {"Content-Type": "multipart/form-data"},
-      data:payload,
+      headers: { "Content-Type": "multipart/form-data" },
+      data: payload,
     });
     return data?.data?.resource;
   },

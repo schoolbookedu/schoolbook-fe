@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { OverlayLoader } from "../../loaders";
 import { useNavigate } from "react-router-dom";
 import EmptyMessage from "../../component/EmptyMessage";
-import InputBox from "../../component/Create Courses/InputBox";
+import { CreateCourseElem } from "../../component/Courses/createCourse";
 // import InputBox from "../Create Courses/InputBox";
 
 const tab = [
@@ -185,82 +185,7 @@ const CourseOutline = () => {
           </div>
         </div>
         <div className="dashboard-content">
-          {activeTab === 0 && (
-            // <div className="outline">{renderComponent()}</div>
-            <div className="outline-container">
-              <div className="outline-content">
-                <div className="create-outline">
-                  <div className="form">
-                    <div className="flex flex-col md:flex-row justify-between">
-                      <div className="flex flex-col w-full md:w-[65%]">
-                        <label>Course Title</label>
-                        <input
-                          type="text"
-                          placeholder="eg: Programming for Beginners"
-                          className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                          onChange={(e) =>
-                            setCourseDetails({
-                              ...courseDetails,
-                              title: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                      <div className="flex flex-col w-full md:w-[30%]">
-                        <label>Course Code</label>
-                        <input
-                          type="text"
-                          placeholder="Course code"
-                          className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                          onChange={(e) =>
-                            setCourseDetails({
-                              ...courseDetails,
-                              courseCode: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                    <label>Course Objective</label>
-                    <textarea
-                      type="text"
-                      placeholder="An overview of what the course is all about..."
-                      className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                      onChange={(e) =>
-                        setCourseDetails({
-                          ...courseDetails,
-                          objectives: e.target.value,
-                        })
-                      }
-                    />
-                    <div className="coverPhoto">
-                      <div className="coverText">
-                        <p>
-                          <b>Add Course Cover Photo </b>
-                          <span>(Optional)</span>
-                        </p>
-                        <span>
-                          (This is the picture that will display as the home
-                          cover when your course is viewed)
-                        </span>
-                      </div>
-                      <div className="coverCreate">
-                        <InputBox
-                          courseDetails={courseDetails}
-                          setCourseDetails={setCourseDetails}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="outlinebtn">
-                    <button onClick={() => setActiveTab(2)}>
-                      Create Course
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {activeTab === 0 && <CreateCourseElem setActiveTab={setActiveTab} />}
           {activeTab === 1 && (
             <div className="content-container">
               <div className="create-container">

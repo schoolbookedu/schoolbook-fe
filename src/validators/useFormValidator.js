@@ -116,9 +116,12 @@ const FormFieldValidationMap = {
   zipCode: {
     rule: Yup.string().required("Zip code is required"),
   },
-  city: {
-    rule: Yup.string().required("City is required"),
-  },
+  thumbnail: Yup.mixed().test("thumbnail", "File is required", (value) => {
+    if (!value) {
+      return false; // File is required
+    }
+    return true; // File is valid
+  }),
 };
 
 export const useFormValidation = (fields) => {

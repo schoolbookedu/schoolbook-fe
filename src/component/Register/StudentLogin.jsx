@@ -17,36 +17,31 @@ const tabs = [
   { id: 1, label: "Login" },
 ];
 
+const registerFieldsToValidate = [
+  "fullName",
+  "email",
+  "phoneNumber",
+  "gender",
+  "userType",
+  "university",
+  "department",
+  "level",
+  "password",
+  "country",
+  "subscribe",
+];
+
+const loginFieldsToValidate = ["email", "password"];
+
 const StudentLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { show, showing, hide } = useOverlayLoader();
   const { getUniversities, getDepartments } = queries;
   const { login, register } = mutations;
 
-  const registerFieldsToValidate = [
-    "fullName",
-    "email",
-    "phoneNumber",
-    "gender",
-    "userType",
-    "university",
-    "department",
-    "level",
-    "password",
-    "country",
-    "subscribe",
-  ];
-
-  const loginFieldsToValidate = [
-    "email",
-    "password",
-  ];
-
   const loginValidators = useFormValidation(loginFieldsToValidate);
   const registerValidators = useFormValidation(registerFieldsToValidate);
   const [activeTab, setActiveTab] = useState(0);
-
-  
 
   const mutation = useMutation(login, {
     onMutate: () => show(),
@@ -95,12 +90,12 @@ const StudentLogin = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    mutation.mutate(data);
+  const onSubmit = async (data) => {
+    mutation.mutateAsync(data);
   };
 
-  const onRegSubmit = (data) => {
-    regMutation.mutate(data);
+  const onRegSubmit = async (data) => {
+    regMutation.mutateAsync(data);
   };
   const universitiesAndDepartmentsQuery = useQueries({
     queries: [
@@ -327,19 +322,19 @@ const StudentLogin = () => {
                 )}
 
                 <div className="password">
-                <input
-                  type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
-                  className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
-                  {...reactHookFormRegister("password")}
-                  placeholder="Password"
-                />
-                <div className="showPassword">
-                {showPassword ? (
-                  <FaEyeSlash onClick={() => setShowPassword(false)} />
-                ) : (
-                  <FaEye onClick={() => setShowPassword(true)} />
-                )}
-                </div>
+                  <input
+                    type={showPassword ? "text" : "password"} // Use "text" when showPassword is true, otherwise use "password"
+                    className="border border-gray-300 rounded-md py-2 px-3 text-sm text-gray-700 focus:outline-none focus:border-blue-500 placeholder:text-sm"
+                    {...reactHookFormRegister("password")}
+                    placeholder="Password"
+                  />
+                  <div className="showPassword">
+                    {showPassword ? (
+                      <FaEyeSlash onClick={() => setShowPassword(false)} />
+                    ) : (
+                      <FaEye onClick={() => setShowPassword(true)} />
+                    )}
+                  </div>
                 </div>
                 {regErrors?.password && (
                   <ErrorMessage message={regErrors.password.message} />
