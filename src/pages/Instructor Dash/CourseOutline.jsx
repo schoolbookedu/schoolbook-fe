@@ -253,7 +253,7 @@ const CourseOutline = () => {
                   </div>
                 </div>
                 <div className="outlinebtn">
-                  <button onClick={() => setActiveTab(2)}>Create Course</button>
+                  <button onClick={() => setActiveTab(2)}>Create Course one</button>
                 </div>
               </div>
           </div>
