@@ -2,7 +2,9 @@ const UNIVERSITIES = "universities";
 const USERS = "users";
 const DEPARTMENTS = "departments";
 const COURSES = "courses";
+const COURSE = "course";
 const MATERIALS = "materials";
+const MODULES = "modules";
 
 export const endpoints = {
   auth: {
@@ -41,6 +43,10 @@ export const endpoints = {
     tutorCourses: COURSES + "/tutor/my-courses",
     enroll: COURSES + "/enroll",
     studentCourses: COURSES + "/student/my-courses",
+  },
+  modules: {
+    get: MODULES,
+    create: `${COURSE}-${MODULES}`,
   },
   materials: {
     get: MATERIALS,
