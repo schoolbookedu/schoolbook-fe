@@ -1,10 +1,21 @@
 import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IoClose } from "react-icons/io5";
-import { faEdit, faFile, faMusic, faTrashAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
-import { mediaType } from "../../utils";
+import {
+  faEdit,
+  faFile,
+  faMusic,
+  faTrashAlt,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
+import { mediaType, generateBase64FromFile } from "../../utils";
+import { showToast } from "../notifications";
+import { mutations } from "../../api";
+import { useMutation } from "@tanstack/react-query";
+import { useOverlayLoader } from "../../hooks";
+import { OverlayLoader } from "../../loaders";
 
-const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => {
+const AddMaterials = ({ courseId, moduleId, setAddMaterialModalVisible }) => {
   const videoInputRef = useRef(null);
   const audioInputRef = useRef(null);
   const documentInputRef = useRef(null);
@@ -12,6 +23,24 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
   const [moduleTitle, setModuleTitle] = useState("");
   const [materialTitle, setMaterialTitle] = useState("");
   const [editedMaterialIndex, setEditedMaterialIndex] = useState(null); // Initialize with null
+
+  // Overlay loader hooks
+  const { show, showing, hide } = useOverlayLoader();
+
+  // Mutation hook for creating module materials
+  const { createMaterial } = mutations;
+
+  const mutation = useMutation(createMaterial, {
+    onMutate: () => show(),
+    onSuccess: () => {
+      setModuleTitle("");
+      setMaterialTitle("");
+      setUploadedMaterials([]);
+      setAddMaterialModalVisible(false);
+      hide();
+    },
+    onError: () => hide(),
+  });
 
   const handleCloseModal = () => {
     setAddMaterialModalVisible(false);
@@ -21,59 +50,12 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
     inputRef.current.click();
   };
 
-//     const fileObj = event.target.files && event.target.files[0];
-  
-//     if (fileObj) {
-//       let materialType;
-  
-//       // Check the file type and set materialType accordingly
-//       if (fileObj.type.startsWith("audio/")) {
-//         materialType = mediaType.AUDIO;
-//       } else if (fileObj.type.startsWith("video/")) {
-//         materialType = mediaType.VIDEO;
-//       } else if (
-//         fileObj.type.startsWith("application/") ||
-//         fileObj.type.startsWith("text/") ||
-//         fileObj.type === "application/pdf"
-//       ) {
-//         materialType = mediaType.DOCUMENT;
-//       } else {
-//         // Handle the case where an invalid file type is selected
-//         console.log(
-//           "Invalid file type. Please select an audio, video, or document file."
-//         );
-//         // Optionally, you can provide feedback to the user
-//         return;
-//       }
-  
-//       const newMaterial = {
-//         title: fileObj.name,
-//         materialTitle: materialTitle,
-//         type: materialType,
-//       };
-  
-//       // If editing, update the material at the editedMaterialIndex
-//       if (editedMaterialIndex !== null) {
-//         const updatedMaterials = [...uploadedMaterials];
-//         updatedMaterials[editedMaterialIndex] = newMaterial;
-//         setUploadedMaterials(updatedMaterials);
-//         setEditedMaterialIndex(null); // Reset after updating
-//       } else {
-//         // If not editing, add a new material to the list
-//         setUploadedMaterials((prevMaterials) => [...prevMaterials, newMaterial]);
-//       }
-  
-//       setMaterialTitle(""); // Clear materialTitle after adding to the list
-//       console.log("Uploaded Materials:", uploadedMaterials);
-//     }
-//   };
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const fileObj = event.target.files && event.target.files[0];
 
     if (fileObj) {
       let materialType;
 
-     
       if (fileObj.type.startsWith("audio/")) {
         materialType = mediaType.AUDIO;
       } else if (fileObj.type.startsWith("video/")) {
@@ -85,93 +67,65 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
       ) {
         materialType = mediaType.DOCUMENT;
       } else {
-      
         console.log(
           "Invalid file type. Please select an audio, video, or document file."
         );
-        
+
         return;
+      }
+
+      if (!materialTitle) {
+        return showToast("Please provide a material title.");
       }
 
       const newMaterial = {
         title: fileObj.name,
-        materialTitle: materialTitle,
+        materialTitle: materialTitle || "Untitled Material",
         type: materialType,
+        mediaURL: await generateBase64FromFile(fileObj),
       };
 
       if (editedMaterialIndex !== null) {
-       
         const updatedMaterials = [...uploadedMaterials];
         updatedMaterials[editedMaterialIndex] = newMaterial;
         setUploadedMaterials(updatedMaterials);
-        setEditedMaterialIndex(null); 
+        setEditedMaterialIndex(null);
       } else {
-        
-        setUploadedMaterials((prevMaterials) => [...prevMaterials, newMaterial]);
+        setUploadedMaterials((prevMaterials) => [
+          ...prevMaterials,
+          newMaterial,
+        ]);
       }
 
-      setMaterialTitle(""); 
+      setMaterialTitle("");
       console.log("Uploaded Materials:", uploadedMaterials);
     }
   };
-  
+
   const handleMaterialTitleChange = (event) => {
     setMaterialTitle(event.target.value);
   };
 
-//     if (materialTitle.trim() !== "" && uploadedMaterials.length > 0) {
-//       // Send data to parent component
-//       onUpload({
-//         moduleTitle: moduleTitle,
-//         materialTitle: materialTitle,
-//         uploadedMaterials: uploadedMaterials,
-//       });
+  const handleUpload = async () => {
+    console.log({ uploadedMaterials });
 
-//       // Clear the form after uploading
-//       setMaterialTitle("");
-//       setUploadedMaterials([]);
-//       setAddMaterialModalVisible(false);
-//     } else {
-//       // Handle case where either materialTitle or uploadedMaterials is empty
-//       console.log("Please provide a material title and upload materials.");
-//     }
-//   };
-// const handleUpload = () => {
-//     if (materialTitle.trim() !== "" && uploadedMaterials.length > 0) {
-//       // Send data to parent component
-//       onUpload({
-//         moduleTitle: moduleTitle,
-//         materialTitle: materialTitle,
-//         uploadedMaterials: uploadedMaterials,
-//       });
-  
-//       // Clear the form after uploading
-//       setMaterialTitle("");
-//       setUploadedMaterials([]);
-//       setAddMaterialModalVisible(false);
-//       console.log("Modal closed");
-//     } else {
-//       // Handle case where either materialTitle or uploadedMaterials is empty
-//       console.log("Please provide a material title and upload materials.");
-//     }
-//   };
-  const handleUpload = () => {
-    if (moduleTitle.trim() !== "" && uploadedMaterials.length > 0) {
+    if (uploadedMaterials.length > 0) {
+      console.log({ uploadedMaterials });
 
-      onUpload({
-        moduleTitle: moduleTitle,
-        materialTitle: materialTitle,
-        uploadedMaterials: uploadedMaterials,
+     uploadedMaterials?.forEach( async (material) => {
+        // if (!material.title)
+        //   return showToast("Please provide a material title.");
+        await mutation.mutateAsync ({  title: material.materialTitle || "Untitled Material",
+        type: material.type,
+        mediaURL: material.mediaURL,
+        courseId: courseId,
+        moduleId: moduleId, });
       });
 
-      setModuleTitle("");
-      setMaterialTitle("");
-      setUploadedMaterials([]);
-      setAddMaterialModalVisible(false);
-      console.log("Modal closed");
+      // await mutation.mutateAsync(mutationReq);
     } else {
-      
       console.log("Please provide a module title and upload materials.");
+      return showToast("Please provide a module title and upload materials.");
     }
   };
 
@@ -182,7 +136,6 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
   };
 
   const handleEdit = (index) => {
-  
     setEditedMaterialIndex(index);
     setMaterialTitle(uploadedMaterials[index].materialTitle);
 
@@ -191,7 +144,7 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
       materialTitle: uploadedMaterials[index].materialTitle,
       type: mediaType,
     };
-  
+
     const updatedMaterials = [...uploadedMaterials];
     updatedMaterials[index] = editedMaterial;
     setUploadedMaterials(updatedMaterials);
@@ -202,7 +155,10 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
       <div className="edit-modal md:w-[50%] w-90%] max-height overflow-y-scroll">
         <div className="flex flex-row justify-between align-center cursor-pointer">
           <h2>{""}</h2>
-          <IoClose onClick={handleCloseModal} className="cursor-pointer text-dark" />
+          <IoClose
+            onClick={handleCloseModal}
+            className="cursor-pointer text-dark"
+          />
         </div>
         <>
           <div className="flex flex-col mt-10">
@@ -267,8 +223,11 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
               <h3>Materials</h3>
               <ul>
                 {uploadedMaterials.map((material, index) => (
-                  <div className="w-full pt-2 flex flex-row justify-between border-t border-t-[#c0c0c0] mt-2">
-                    <li key={index} className="text-sm capitalize border-0">
+                  <div
+                    key={index}
+                    className="w-full pt-2 flex flex-row justify-between border-t border-t-[#c0c0c0] mt-2"
+                  >
+                    <li className="text-sm capitalize border-0">
                       {material.materialTitle} - {material.title}
                     </li>
                     <div>
@@ -293,6 +252,7 @@ const AddMaterials = ({ setAddMaterialModalVisible, onUpload, initialData }) => 
           </div>
         </>
       </div>
+      <OverlayLoader showing={showing} />
     </div>
   );
 };

@@ -35,11 +35,16 @@ function App() {
               <Route path="/student" element={<StudentLogin />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/course-materials" element={<CourseMaterials />} />
-              <Route path="/course-materials/:id" element={<CourseMaterials />} />
-              <Route path="/course-content" element={<CourseContent />} />
+              <Route
+                path="/course-materials/:id"
+                element={<CourseMaterials />}
+              />
+              <Route
+                path="/course-content/:courseId"
+                element={<CourseContent />}
+              />
               <Route path="/profile" element={<Profile />} />
               <Route path="/change-pass" element={<ChangePass />} />
-
 
               {/*Instructor Page*/}
 

@@ -187,7 +187,6 @@ const CourseOutline = () => {
         </div>
         <div className="dashboard-content">
           {activeTab === 0 && <CreateCourseElem setActiveTab={setActiveTab} />}
-          */}
           {activeTab === 1 && (
             <div className="content-container">
               <div className="create-container">

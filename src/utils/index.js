@@ -3,6 +3,7 @@ import { USER_TYPE } from "./user-type";
 import { setStorage, getStorage, clearStorage, removeStorage } from "./storage";
 import { mediaType } from "./media-type";
 import { getFileType } from "./get-media-type";
+import { generateBase64FromFile } from "./generate-base64-from-file";
 
 export {
   HTTP_METHODS,
@@ -13,4 +14,5 @@ export {
   removeStorage,
   mediaType,
   getFileType,
+  generateBase64FromFile,
 };

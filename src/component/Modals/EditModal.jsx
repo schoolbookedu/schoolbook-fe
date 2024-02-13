@@ -14,7 +14,12 @@ import { OverlayLoader } from "../../loaders";
 const createModuleFieldsToValidate = ["title"];
 
 // EditModal component
-const EditModal = ({ setEditModalVisible, courseId }) => {
+const EditModal = ({
+  setEditModalVisible,
+  courseId,
+  title = "",
+  moduleId = "",
+}) => {
   // Get validation schema
   const createModuleValidators = useFormValidation(
     createModuleFieldsToValidate
@@ -41,11 +46,17 @@ const EditModal = ({ setEditModalVisible, courseId }) => {
 
   // Form submission handler
   const onSubmit = async (data) => {
-    if (!courseId) return showToast("error", "Course ID is required");
-    await mutation.mutateAsync({
-      title: data.title,
-      courseId: courseId,
-    });
+    if (!courseId) return showToast("Course ID is required");
+
+    if (title && moduleId) {
+      // Edit module
+      return showToast("Edit module title coming soon!");
+    } else {
+      return mutation.mutateAsync({
+        title: data.title,
+        courseId: courseId,
+      });
+    }
   };
 
   // Form hook
@@ -56,7 +67,7 @@ const EditModal = ({ setEditModalVisible, courseId }) => {
   } = useForm({
     resolver: yupResolver(createModuleValidators),
     defaultValues: {
-      title: "",
+      title: title,
     },
   });
 
