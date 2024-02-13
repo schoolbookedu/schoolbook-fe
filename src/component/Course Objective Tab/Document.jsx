@@ -1,9 +1,8 @@
-import { React, useState } from "react";
+import { React } from "react";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 const Document = ({ documentUrl, title }) => {
-
   const docs = [
     {
       uri: documentUrl,

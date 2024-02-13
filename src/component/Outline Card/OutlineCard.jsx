@@ -14,7 +14,7 @@ const CardOptions = ({ onEdit, onDelete, addMaterials }) => (
   </div>
 );
 
-const OutlineCard = ({ index, moduleTitle }) => {
+const OutlineCard = ({ moduleId, index, moduleTitle, courseId }) => {
   const navigate = useNavigate();
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -22,16 +22,12 @@ const OutlineCard = ({ index, moduleTitle }) => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const courseContent = () => {
-    navigate("/course-content");
+    navigate("/course-content/" + courseId);
   };
 
   const toggleOptions = (e) => {
     e.stopPropagation();
     setOptionsVisible(!optionsVisible);
-  };
-
-  const handleOptionsClick = (e) => {
-    e.stopPropagation();
   };
 
   const handleEdit = () => {
@@ -47,50 +43,73 @@ const OutlineCard = ({ index, moduleTitle }) => {
   const handleAddMaterials = () => {
     setOptionsVisible(false);
     setAddMaterialModalVisible(true);
-  }  
+  };
 
   const handleCloseModal = () => {
     setEditModalVisible(false);
     setAddMaterialModalVisible(false); // Close AddMaterialModal
-    setDeleteModalVisible(false);  
+    setDeleteModalVisible(false);
   };
 
   return (
     <>
-    <div className="outline-card">
-      <div className="flex justify-end" onClick={toggleOptions}>
-        <IoEllipsisVertical className="text-dark"/>
+      <div className="outline-card">
+        <div className="flex justify-end" onClick={toggleOptions}>
+          <IoEllipsisVertical className="text-dark" />
+        </div>
+        {optionsVisible && (
+          <CardOptions
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            addMaterials={handleAddMaterials}
+          />
+        )}
+        <span>Module {index}</span>
+        <h3 onClick={courseContent}>{moduleTitle}</h3>
       </div>
-      {optionsVisible && (
-        <CardOptions onEdit={handleEdit} onDelete={handleDelete} addMaterials={handleAddMaterials} />
+      {editModalVisible && (
+        <EditModal
+          setEditModalVisible={setEditModalVisible}
+          title={moduleTitle}
+          courseId={courseId}
+          moduleId={moduleId}
+        />
       )}
-      <span>Module {index}</span>
-      <h3 onClick={courseContent}>{moduleTitle}</h3>
-    </div>
-     {editModalVisible && 
-      <EditModal setEditModalVisible={setEditModalVisible}/>
-    }
-    {addMaterialModalVisible && 
-      <AddMaterials setAddMaterialModalVisible={setAddMaterialModalVisible}/>
-    }
-    {deleteModalVisible && 
-      <div className="modal-overlay">
-        <div className="edit-modal">
-          <div className="flex flex-row justify-between align-center">
-            <h2></h2>
-            <IoClose onClick={handleCloseModal} />
-          </div>
-          <div className="p-10">
-            <h2>Are you sure you want to Delete?</h2>
-            <div className="flex flex-row justify-between pt-10">
-              <button onClick={() => {setDeleteModalVisible(false)}}>Yes</button>
-              <button onClick={() => setDeleteModalVisible(false)}
-                className="bg-white text-[#407BFF] border-[#407BFF] border-2">No</button> 
+      {addMaterialModalVisible && (
+        <AddMaterials
+          setAddMaterialModalVisible={setAddMaterialModalVisible}
+          courseId={courseId}
+          moduleId={moduleId}
+        />
+      )}
+      {deleteModalVisible && (
+        <div className="modal-overlay">
+          <div className="edit-modal">
+            <div className="flex flex-row justify-between align-center">
+              {/* <h2></h2> */}
+              <IoClose onClick={handleCloseModal} />
+            </div>
+            <div className="p-10">
+              <h2>Are you sure you want to Delete?</h2>
+              <div className="flex flex-row justify-between pt-10">
+                <button
+                  onClick={() => {
+                    setDeleteModalVisible(false);
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => setDeleteModalVisible(false)}
+                  className="bg-white text-[#407BFF] border-[#407BFF] border-2"
+                >
+                  No
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    }
+      )}
     </>
   );
 };

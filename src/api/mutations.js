@@ -123,6 +123,15 @@ export const mutations = {
     return data?.data?.resource;
   },
 
+  async editModule(payload) {
+    const { data } = await axiosInstance.request({
+      method: HTTP_METHODS.POST,
+      url: endpoints.modules.create,
+      data: payload,
+    });
+    return data?.data?.resource;
+  },
+
   // materials
   async createMaterial(payload) {
     const { data } = await axiosInstance.request({
