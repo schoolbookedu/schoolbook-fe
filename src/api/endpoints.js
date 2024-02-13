@@ -46,7 +46,7 @@ export const endpoints = {
   },
   modules: {
     get: MODULES,
-    create: `${COURSE}-${MODULES}`,
+    create: `${COURSES}/${COURSE}-${MODULES}`,
   },
   materials: {
     get: MATERIALS,
