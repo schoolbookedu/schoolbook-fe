@@ -1,5 +1,4 @@
-import { React, useState } from "react";
-import CourseOutline1 from "../../component/Course Component/CourseOutline1";
+import { React, useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,11 +9,11 @@ import { useQuery } from "@tanstack/react-query";
 import { OverlayLoader } from "../../loaders";
 import { useParams } from "react-router-dom";
 import { mediaType } from "../../utils";
+import CourseModuelMaterial from "../../component/Courses/CourseModuleMaterial";
 
 const CourseContent = () => {
   const { courseId } = useParams();
-
-  const { getCourse, getCourseModulesMaterials } = queries;
+  const { getCourse } = queries;
   const courseQuery = useQuery({
     queryKey: ["course"],
     queryFn: () => getCourse(courseId),
@@ -23,15 +22,21 @@ const CourseContent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
+  const [module, setModule] = useState(null);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
   const handleMenuLinkClick = (menuId) => {
-    console.log({ menuId, activeSubmenu });
     setActiveSubmenu(activeSubmenu === menuId ? null : menuId);
   };
+
+  // useEffect(() => {
+  //   if (courseQuery?.data?.data?.resource?.modules?.length > 0) {
+  //     setModule(courseQuery?.data?.data?.resource?.modules[0]);
+  //   }
+  // }, [courseQuery?.data?.data?.resource?.modules]);
 
   if (courseQuery?.isLoading) {
     return <OverlayLoader showing={true} />;
@@ -43,7 +48,7 @@ const CourseContent = () => {
   }
 
   const courseResult = courseQuery?.data?.data?.resource;
-  console.log(courseResult);
+
   return (
     <div>
       <Nav />
@@ -70,7 +75,10 @@ const CourseContent = () => {
                       <ul
                         key={module?._id + index}
                         className={activeTab === module?._id ? "active" : ""}
-                        onClick={() => setActiveTab(module?._id)}
+                        onClick={() => {
+                          setActiveTab(module?._id);
+                          setModule(module);
+                        }}
                       >
                         <li>
                           <div
@@ -82,7 +90,7 @@ const CourseContent = () => {
                           {!!module?.materials?.length &&
                             activeSubmenu === module?._id && (
                               <div className="submenu">
-                                {module?.materials?.map(( _, index) => (
+                                {module?.materials?.map((_, index) => (
                                   <ModuleMaterials
                                     moduleId={module?._id}
                                     key={index}
@@ -101,16 +109,14 @@ const CourseContent = () => {
         </div>
       </div>
       <div className="sidenav-content">
-        <div className="tab-content">
+        <MainCourseContent module={module} />
+        {/* <div className="tab-content">
           {courseResult?.modules.map((module, index) => (
             <div key={module?._id + index}>
-              <CourseOutline1
-                moduleId={module?._id}
-                title={module?.title}
-              />
+              <CourseOutline1 moduleId={module?._id} title={module?.title} />
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -118,7 +124,38 @@ const CourseContent = () => {
 
 export default CourseContent;
 
-const ModuleMaterials = ({moduleId}) => {
+export const MainCourseContent = ({ module }) => {
+  const { getCourseModulesMaterials } = queries;
+  const moduleMaterialQuery = useQuery({
+    queryKey: ["moduleMaterial"],
+    queryFn: () => getCourseModulesMaterials(module?._id),
+    enabled: !!module?._id && module?.materials?.length < 0,
+  });
+
+  if (moduleMaterialQuery?.isLoading && module?._id) {
+    return <div>Loading...</div>;
+  }
+
+  if (moduleMaterialQuery?.isError && module?._id) {
+    return <>An error occurred while fetching material</>;
+  }
+
+  const materials = moduleMaterialQuery?.data?.data?.resource?.materials;
+
+  return (
+    <div className="tab-content">
+      {module?.materials?.length > 0 ? (
+        <>
+          <CourseModuelMaterial materials={materials} title={module?.title} />
+        </>
+      ) : (
+        <div className="my-[2rem] text-xl">No materials found</div>
+      )}
+    </div>
+  );
+};
+
+const ModuleMaterials = ({ moduleId }) => {
   const { getCourseModulesMaterials } = queries;
   const moduleMaterialQuery = useQuery({
     queryKey: ["moduleMaterial"],
@@ -138,31 +175,31 @@ const ModuleMaterials = ({moduleId}) => {
   return (
     <div>
       <div className="submenu-items">
-        {materials.length > 0 && materials.map((material, index) => <ModuleMaterial  key={index} material={material}/>
-        )}
+        {materials.length > 0 &&
+          materials.map((material, index) => (
+            <ModuleMaterial key={index} material={material} />
+          ))}
       </div>
     </div>
   );
 };
 
-
-const ModuleMaterial = ({material}) => {
-
+const ModuleMaterial = ({ material }) => {
   return (
-<div>
-        <div className="submenu-icon">
-          {material.type === mediaType.VIDEO ? (
-            <FaFileVideo />
-          ) : material.type === mediaType.AUDIO ? (
-            <FaFileAudio />
-          ) : (
-            <FaFileAlt />
-          )}
-        </div>
-        <div className="submenu-text">
-          <h4>{material.title}</h4>
-          <span>{material.type}</span>
-        </div>
+    <div>
+      <div className="submenu-icon">
+        {material.type === mediaType.VIDEO ? (
+          <FaFileVideo />
+        ) : material.type === mediaType.AUDIO ? (
+          <FaFileAudio />
+        ) : (
+          <FaFileAlt />
+        )}
       </div>
+      <div className="submenu-text">
+        <h4>{material.title}</h4>
+        <span>{material.type}</span>
+      </div>
+    </div>
   );
 };
