@@ -37,6 +37,8 @@ axiosInstance.interceptors.response.use(
     if (response.status === 200) {
       if (response.data.message === "" || response.data.message === undefined) {
         console.log("");
+      } else if (response?.data?.msg) {
+        showToast(response.data.msg, "success");
       } else {
         showToast(response.data.message, "success");
       }
@@ -47,7 +49,7 @@ axiosInstance.interceptors.response.use(
     if (!error?.response?.data) {
       return;
     }
-    console.log(error)
+    console.log(error);
     if (error.response.status >= 300) {
       const errorMsg =
         error?.response?.data?.errors[0].msg ?? error?.response?.data?.error;

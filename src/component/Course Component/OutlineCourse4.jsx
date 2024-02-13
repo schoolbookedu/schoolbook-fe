@@ -8,9 +8,9 @@ import Create from "../Create Courses/Create";
 
 
 const link = [
-  { id: 1, list: "Course Intro" },
-  { id: 0, list: "Outline" },
-  { id: 2, list: "Preview" },
+  { id: 0, list: "Course Intro" },
+  { id: 1, list: "Course Module" },
+  { id: 2, list: "Course Preview" },
 ];
 const OutlineCourse4 = ({ onNext, onPrevious, materialValue, setMaterialValue, isFileSelected, setIsFileSelected}) => {
   const [activeTab, setActiveTab] = useState(0)

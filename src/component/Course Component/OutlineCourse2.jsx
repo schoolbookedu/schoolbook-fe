@@ -1,15 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState, useRef } from "react";
 import { faFile, faMusic, faVideo } from "@fortawesome/free-solid-svg-icons";
-import MediaContent from "../Media Content/MediaContent";
 import { Link } from "react-router-dom";
 import InputBox from "../Create Courses/InputBox";
 import { mediaType } from "../../utils";
+import { showToast } from "../notifications";
+import { mutations } from "../../api";
+import { useMutation } from "@tanstack/react-query";
+import { useOverlayLoader } from "../../hooks";
 
 const link = [
-  { id: 1, list: "Course Intro" },
-  { id: 0, list: "Outline" },
-  { id: 2, list: "Preview" },
+  { id: 0, list: "Course Intro" },
+  { id: 1, list: "Course Module" },
+  { id: 2, list: "Course Preview" },
 ];
 const OutlineCourse2 = ({
   onNext,
@@ -21,47 +24,35 @@ const OutlineCourse2 = ({
 }) => {
   const [activeTab, setActiveTab] = useState(0);
   const videoInputRef = useRef(null);
-const audioInputRef = useRef(null);
-const documentInputRef = useRef(null);
-  
+  const audioInputRef = useRef(null);
+  const documentInputRef = useRef(null);
+
   const [selectedFileName, setSelectedFileName] = useState("");
+
+  const { createCourse, createMaterial } = mutations;
+  const { show, showing, hide } = useOverlayLoader();
+  const materialMutation = useMutation(createMaterial, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
+
+  const mutation = useMutation(createCourse, {
+    onMutate: () => show(),
+    onSuccess: () => hide(),
+    onError: () => hide(),
+  });
 
   const handleClick = (inputRef) => {
     inputRef.current.click();
   };
 
-  //Sending as base 64
-  // const handleFileChange = (event) => {
-  //   const fileObj = event.target.files && event.target.files[0];
-    
-  //   if (fileObj) {
-  //     const materialType = event.target.accept;
-      
-  //     const reader = new FileReader();
-  
-  //     reader.onload = () => {
-  //       setCourseDetails({
-  //         ...courseDetails,
-  //         outlines: {
-  //           materialId: reader.result, // This will contain the base64 data
-  //           materialTitle: courseDetails?.outlines?.materialTitle,
-  //           materialType: materialType,
-  //         },
-  //       });
-  //     };
-  
-  //     reader.readAsDataURL(fileObj); // This reads the file as a data URL
-  //     setSelectedFileName(fileObj.name);
-  //   }
-  // };
-
-
   const handleFileChange = (event) => {
     const fileObj = event.target.files && event.target.files[0];
-  
+
     if (fileObj) {
       let materialType;
-  
+
       // Check the file type and set materialType accordingly
       if (fileObj.type.startsWith("audio/")) {
         materialType = mediaType.AUDIO;
@@ -75,13 +66,15 @@ const documentInputRef = useRef(null);
         materialType = mediaType.DOCUMENT;
       } else {
         // Handle the case where an invalid file type is selected
-        console.log("Invalid file type. Please select an audio, video, or document file.");
+        console.log(
+          "Invalid file type. Please select an audio, video, or document file."
+        );
         // Optionally, you can provide feedback to the user
         return;
       }
-        console.log({materialType})
+      console.log({ materialType });
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         setCourseDetails({
           ...courseDetails,
@@ -92,12 +85,64 @@ const documentInputRef = useRef(null);
           },
         });
       };
-  
+
       reader.readAsDataURL(fileObj); // This reads the file as a data URL
       setSelectedFileName(fileObj.name);
     }
   };
-  
+
+  const createCourseRequest = async () => {
+    console.log({ courseDetails });
+ 
+    const materialOutlines = courseDetails?.outlines;
+    if (materialOutlines?.materialId) {
+      const fileType = materialOutlines?.materialType;
+      console.log(fileType)
+      const formData = new FormData()
+      formData.append("title",materialOutlines.materialTitle)
+      formData.append('mediaURL', materialOutlines.materialId)
+      formData.append ('type',fileType)
+    
+     // formData.append('type', 
+      //getFileType (materialOutlines?.materialId))
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      const material = await materialMutation.mutateAsync(
+        formData,
+      );
+
+      console.log({ material });
+
+      if (material?._id) {
+        const createCoursePayload = {
+          ...courseDetails,
+          outlines: {
+            ...courseDetails?.outlines,
+            materialId: material?._id,
+          },
+        };
+        console.log({createCourse})
+        const course = await mutation.mutateAsync({
+          ...createCoursePayload,
+        });
+        if (course?._id){
+          showToast("Course created Successful", { type: "success"});
+          setActiveTab(2);
+          return;
+        }else{
+          showToast("Failed", {type: "Fail" } );
+          };
+         
+        
+        
+        console.log({ course });
+      }
+    } else {
+      return showToast("Please upload a course material", { type: "error" });
+    }
+  };
+
   return (
     <>
       <div className="outline-container">
@@ -113,7 +158,7 @@ const documentInputRef = useRef(null);
           ))}
         </div>
         <div className="outline-content">
-          {activeTab === 1 && (
+          {activeTab === 0 && (
             <div className="create-outline">
               <div className="form">
                 <div className="flex flex-col md:flex-row justify-between">
@@ -182,10 +227,10 @@ const documentInputRef = useRef(null);
               </div>
             </div>
           )}
-          {activeTab === 0 && (
+          {activeTab === 1 && (
             <>
               <div className="outline-form">
-                <label>Course Material Title</label>
+                <label>Course Module Title</label>
                 <input
                   type="text"
                   placeholder="e.g Introduction to Programming"
@@ -199,93 +244,58 @@ const documentInputRef = useRef(null);
                 />
               </div>
               <div className="outline-form">
-                <h2>Course Materials</h2>
+                <h2>Course Module Materials</h2>
                 <div className="modulebtn">
                   <button>Add Materials</button>
-                  {selectedFileName && <p>{selectedFileName}</p>}
+                  {selectedFileName && <span style={{fontSize: "12px", textAlign: "center"}}>{selectedFileName}</span>}
                   <div className="modulehover">
                     <ul>
-                      {/* <li onClick={handleClick}>
+                      <li onClick={() => handleClick(videoInputRef)}>
                         <FontAwesomeIcon icon={faVideo} />
                         <br />
-                        <span>Video</span>
+                        <span>Add Video</span>
                         <input
                           style={{ display: "none" }}
-                          ref={inputRef}
+                          ref={videoInputRef}
                           type="file"
-                         // accept="video/.mp4,video/.x-m4v,video/*"
+                          accept=".mp4,.mp3/*"
                           onChange={handleFileChange}
                         />
                       </li>
-                      <li onClick={handleClick}>
+                      <li onClick={() => handleClick(audioInputRef)}>
                         <FontAwesomeIcon icon={faMusic} />
                         <br />
                         <span>Add Audio</span>
                         <input
                           style={{ display: "none" }}
-                          ref={inputRef}
+                          ref={audioInputRef}
                           type="file"
-                         // accept=".mp3,audio/*"
+                          accept="audio/*"
                           onChange={handleFileChange}
                         />
                       </li>
-                      <li onClick={handleClick}>
+                      <li onClick={() => handleClick(documentInputRef)}>
                         <FontAwesomeIcon icon={faFile} />
                         <br />
                         <span>Add Document</span>
                         <input
                           style={{ display: "none" }}
-                          ref={inputRef}
+                          ref={documentInputRef}
                           type="file"
-                         // accept=".doc,.docx,.xml, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf, .txt"
+                          accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.txt"
                           onChange={handleFileChange}
                         />
-                      </li> */}
-<li onClick={() => handleClick(videoInputRef)}>
-  <FontAwesomeIcon icon={faVideo} />
-  <br />
-  <span>Add Video</span>
-  <input
-    style={{ display: "none" }}
-    ref={videoInputRef}
-    type="file"
-    accept=".mp4,.mp3/*"
-    onChange={handleFileChange}
-  />
-</li>
-<li onClick={() => handleClick(audioInputRef)}>
-  <FontAwesomeIcon icon={faMusic} />
-  <br />
-  <span>Add Audio</span>
-  <input
-    style={{ display: "none" }}
-    ref={audioInputRef}
-    type="file"
-    accept="audio/*"
-    onChange={handleFileChange}
-  />
-</li>
-<li onClick={() => handleClick(documentInputRef)}>
-  <FontAwesomeIcon icon={faFile} />
-  <br />
-  <span>Add Document</span>
-  <input
-    style={{ display: "none" }}
-    ref={documentInputRef}
-    type="file"
-    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.txt"
-    onChange={handleFileChange}
-  />
-</li>
+                      </li>
                     </ul>
                   </div>
                 </div>
               </div>
               <div className="outlinebtn2">
-                <button className="prev" onClick={onPrevious}>
+                {/* <button className="prev" onClick={onPrevious}>
                   Previous
                 </button>
-                <button onClick={onNext}>Next</button>
+                <button onClick={onNext}>Next</button> */}
+                 <button onClick={createCourseRequest}>Submit</button>
               </div>
             </>
           )}
@@ -303,7 +313,7 @@ const documentInputRef = useRef(null);
                 {/* <MediaContent /> */}
               </div>
               <div className="outlinebtn2">
-              <Link to="/Instructor-dashboard">
+                <Link to="/Instructor-dashboard">
                   <button type="submit">Finish</button>
                 </Link>
               </div>

@@ -2,30 +2,26 @@ import React, { useState } from "react";
 import Audio from "./Audio";
 import Video from "./Video";
 import Document from "./Document";
-import OutlineCardList from "../Outline Card/OutlineCardList";
 import { mediaType } from "../../utils";
+import { useSelector } from "react-redux";
+import { selectUI } from "../../store/inputSlice";
+import OutlineCard from "../Outline Card/OutlineCard";
+import EditModal from "../Modals/EditModal";
+import { queries } from "../../api";
+import { useQuery } from "@tanstack/react-query";
 
 const tabs = [
   { id: 0, label: "Course Objectives" },
-  { id: 1, label: "Course Outlines" },
+  { id: 1, label: "Course Modules" },
 ];
 
-const CourseObjective = ({ objectives, materials }) => {
+const CourseObjective = ({ edit, handleObjectiveChange, courseId }) => {
   const [activeTab, setActiveTab] = useState(0);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const { objectives } = useSelector(selectUI);
 
-  console.log(materials);
-  const MaterialComponent = ({ material }) => {
-    console.log({ material });
-    const { type: materialType, title, mediaURL } = material?.materialId;
-    console.log({ materialType, mediaURL, title });
-    const type = materialType?.toString()?.toLowerCase();
-    return type === mediaType.AUDIO?.toString()?.toLowerCase() ? (
-      <Audio audioUrl={mediaURL} />
-    ) : type === mediaType.VIDEO?.toString()?.toLowerCase() ? (
-      <Video videoUrl={mediaURL} />
-    ) : (
-      <Document documentUrl={mediaURL} title={title} />
-    );
+  const toggleEditModal = () => {
+    setEditModalVisible(!editModalVisible);
   };
 
   return (
@@ -45,27 +41,71 @@ const CourseObjective = ({ objectives, materials }) => {
           </div>
           {activeTab === 0 && (
             <div className="objective-content">
-              <p>{objectives}</p>
+              <input
+                type="text"
+                value={objectives}
+                onChange={handleObjectiveChange}
+                readOnly={edit}
+              />
             </div>
           )}
           {activeTab === 1 && (
-            <div className="outlineCard-container">
-              {!!materials?.length ? (
-                <>
-                  {materials?.map((material) => (
-                    <div key={material.materialId} className="mt-8">
-                      {<MaterialComponent material={material} />}
-                    </div>
-                  ))}
-                </>
-              ) : (
-                <h2>You have no material </h2>
-              )}
+            <div className="flex flex-col mt-[100px]">
+              <div className="flex justify-end">
+                <button onClick={toggleEditModal}>Add Modules</button>
+              </div>
+
+              <CourseModules courseId={courseId} />
             </div>
           )}
         </div>
       </div>
+      {editModalVisible && (
+        <EditModal
+          setEditModalVisible={setEditModalVisible}
+          courseId={courseId}
+        />
+      )}
     </>
   );
 };
 export default CourseObjective;
+
+const CourseModules = ({ courseId }) => {
+  const { getCourseModules } = queries;
+
+  const getCourseModulesQuery = useQuery({
+    queryKey: ["courses-modules"],
+    queryFn: () => getCourseModules(courseId),
+  });
+
+  if (getCourseModulesQuery?.isLoading) {
+    return <div>Loading modules...</div>;
+  }
+
+  if (getCourseModulesQuery?.isError) {
+    return <>An error occurred while loading modules</>;
+  }
+
+  const modules = getCourseModulesQuery?.data?.data?.resource?.modules;
+
+  return (
+    <div className="outlineCard-container mt-4">
+      <ul className="fcourse-container-grid">
+        {" "}
+        {!!modules?.length &&
+          modules?.map((module, index) => (
+            <li key={index} className="border-none">
+              <OutlineCard
+                index={index + 1}
+                moduleTitle={module?.title}
+                moduleId={module?._id}
+                courseId={courseId}
+                materials={module?.materials ?? []}
+              />
+            </li>
+          ))}{" "}
+      </ul>
+    </div>
+  );
+};

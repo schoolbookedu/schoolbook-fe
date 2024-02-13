@@ -6,10 +6,11 @@
     justify-content: center;
 }
 .dashboard-content{
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  overflow: scroll;
 }
 .dashboard-content h2{
   font-size: 30px;
@@ -45,6 +46,7 @@
   }
   .dashboard .dashboard-tab button.active{
     border-bottom: 2px solid #407BFF;
+    border-radius: 0px;
   }
   .content-container{
     width: 90%;
@@ -72,6 +74,23 @@
     justify-content:center;
     overflow: hidden;
   }
+  .fcourse-module-container{
+    margin: 30px auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content:flex-start;
+    overflow: scroll;
+  }
+  .fcourse-container-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    overflow-x: scroll;
+    gap: 20px;
+    padding: 10px 5px;
+  }
+  
   .fcourse-scroll{
     width: 100%;
     display: flex;
@@ -103,6 +122,9 @@
       .search-container h2{
         padding-bottom: 50px;
       }
+      .fcourse-container-grid {
+        grid-template-columns: 1fr 1fr;
+      }
   }
   @media (max-width: 480px){
     .dashboard-content h2{
@@ -114,5 +136,8 @@
     .dashboard-tab button {
         padding: 5px 20px;
         font-size: 16px;
+      }
+      .fcourse-container-grid {
+        grid-template-columns: 1fr;
       }
   }

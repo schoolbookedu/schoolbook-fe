@@ -44,13 +44,19 @@
 .cancel-icon{
     display: none;
 }
-.Menutabs ul li{
+.profile-menutabs{
     text-align: right;
     padding-right: 20px;
 }
-.Menutabs ul li:active{
+.profile-menutabs ul li{
+    padding: 20px 0px;
+    border:none;
+}
+.profile-menutabs ul li:active,
+.profile-menutabs ul li:hover{
     color: #407BFF;
 }
+
 .logoutbtn{
     /* width: 100%;
     display: flex;

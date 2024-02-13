@@ -126,7 +126,7 @@ const OutlineCourse6 = ({
               <div className="outline-form">
                 <h2>Module Materials</h2>
                 <div className="outlineCard-container">
-                  <MaterialCardList materialCards={materialCards} />
+                  {/* <MaterialCardList materialCards={materialCards} /> */}
                 </div>
                 <div className="addmaterials">
                   <button>Add Materials</button>

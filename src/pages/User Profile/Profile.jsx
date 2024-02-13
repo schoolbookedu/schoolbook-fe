@@ -10,6 +10,7 @@ import { clearStorage, getStorage } from "../../utils";
 import Completed from "../../component/Featured Courses/Completed";
 import logo from "../../utils/logo.png";
 import "./Profile.css";
+import OutlineCourse4 from "../../component/Course Component/OutlineCourse4";
 
 const profileTab = [
   { id: 0, label: "Profile" },
@@ -131,10 +132,10 @@ const Profile = () => {
             <div className="objective" onClick={() => setOpen(false)}>
               <div className="objective-container">
                 <div className="Sidenav-tab">
-                  <div className="Menutabs">
+                  <div className="profile-menutabs">
                     {profileTab.map((menu, index) => (
                       <ul
-                        className={activeTab === menu.id ? "active" : ""}
+                        className={activeTab === menu.id ? "active-list" : ""}
                         onClick={() => setActiveTab(menu.id)}
                       >
                         <li key={menu.id + index}>{menu.label}</li>
@@ -215,6 +216,7 @@ const Profile = () => {
           {activeTab === 1 && (
             <div className="completed-courses">
               <Completed />
+              {/* <OutlineCourse4/> */}
             </div>
           )}
         </div>
