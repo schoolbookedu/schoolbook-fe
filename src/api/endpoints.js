@@ -47,6 +47,7 @@ export const endpoints = {
   modules: {
     get: `${COURSES}`,
     create: `${COURSES}/${COURSE}-${MODULES}`,
+    delete: `${COURSES}/${COURSE}-${MODULES}`,
   },
   materials: {
     get: MATERIALS,

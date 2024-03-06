@@ -8,7 +8,6 @@ import Audio from "../Course Objective Tab/Audio";
 const CourseModuelMaterial = ({ title, materials }) => {
   return (
     <div className="flex gap-4">
-      <h2 className="text-lg md:text-xl">{title}</h2>
       {!!materials?.length &&
         materials.map((material, index) => (
           <div className="courseoutline" key={index}>
@@ -33,13 +32,16 @@ const CourseModuelMaterial = ({ title, materials }) => {
             <br />
             <div className="sidenavContent-title">
               <div className="sidenavContent-text">
-                <div className="sidenavContent-titletext">
+                {/* <div className="sidenavContent-titletext">
                   <h2>{material?.title}</h2>
-                </div>
+                </div> */}
                 <div className="sidenavContent-subtitletext">
                   <h2>
                     {title}
-                    <span> Course Module {index + 1}</span>
+                    <span className="text-[.6rem]">
+                      {" "}
+                      Course Module {index + 1}
+                    </span>
                   </h2>
                 </div>
                 {/* <span>Tutor: Prof John Tobiloba</span> */}

@@ -132,6 +132,13 @@ export const mutations = {
     return data?.data?.resource;
   },
 
+  async deleteModule(id) {
+    return axiosInstance.request({
+      method: HTTP_METHODS.POST,
+      url: endpoints.modules.delete + "/" + id,
+    });
+  },
+
   // materials
   async createMaterial(payload) {
     const { data } = await axiosInstance.request({
