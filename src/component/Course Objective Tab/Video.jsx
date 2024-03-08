@@ -1,11 +1,11 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-const Video = ({ videoUrl, title }) => {
+const Video = ({ videoUrl }) => {
   return (
    
     <div>
-       <h2>{title}</h2>
+       {/* <h2>{title}</h2> */}
       <ReactPlayer
         className="react-player"
         controls="true"

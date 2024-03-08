@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { queries } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { setTitle, setObjective, selectUI } from "../../store/inputSlice";
+import { USER_TYPE } from "../../utils/user-type";
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
@@ -43,6 +44,7 @@ const CourseMaterials = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const { getCourse } = queries;
+  console.log(course);
   useEffect(() => {
     if (course?.title) {
       setEditTitle(course?.title);
@@ -110,12 +112,14 @@ const CourseMaterials = () => {
                   >
                     {isFollowed ? "Followed" : "Follow"}
                   </button> */}
+                  {USER_TYPE === 'instructor' ? (
                   <div className="flex justify-between">
                     <button className="followed" onClick={editText}>
                       Edit
                     </button>
                     <button className="follow">Save</button>
                   </div>
+                   ) : null}
                 </div>
                 <div className="objectivetab-container">
                   <CourseObjective

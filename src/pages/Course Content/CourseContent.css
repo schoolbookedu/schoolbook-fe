@@ -93,12 +93,12 @@
     align-items: flex-end;
     padding-right: 50px;
   }
-  .submenu-items{
+  /* .submenu-items{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 0px;
-  }
+  } */
   
   .submenu-items .submenu-icon{
       display: flex;

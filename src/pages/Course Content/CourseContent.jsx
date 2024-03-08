@@ -174,19 +174,27 @@ const ModuleMaterials = ({ moduleId }) => {
 
   return (
     <div>
-      <div className="submenu-items">
+      {/* <div className="submenu-items">
         {materials.length > 0 &&
           materials.map((material, index) => (
             <ModuleMaterial key={index} material={material} />
+          ))} */}
+      <div className="submenu-items">
+        {materials.length > 0 &&
+          materials.map((material, index) => (
+            <div key={index}>
+              <ModuleMaterial material={material} />
+            </div>
           ))}
       </div>
+      {/* </div> */}
     </div>
   );
 };
 
 const ModuleMaterial = ({ material }) => {
   return (
-    <div>
+    <div className="flex gap-2">
       <div className="submenu-icon">
         {material.type === mediaType.VIDEO ? (
           <FaFileVideo />

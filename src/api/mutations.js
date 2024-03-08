@@ -131,7 +131,12 @@ export const mutations = {
     });
     return data?.data?.resource;
   },
-
+  async deleteModule(moduleId) {
+    const { data } = await axiosInstance.request({
+      method: HTTP_METHODS.DELETE,
+      url: endpoints.modules.delete + "/" + moduleId,
+    });
+  },
   // materials
   async createMaterial(payload) {
     const { data } = await axiosInstance.request({
