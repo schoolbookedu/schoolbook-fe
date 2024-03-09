@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import Audio from "./Audio";
-import Video from "./Video";
-import Document from "./Document";
 import { USER_TYPE, mediaType } from "../../utils";
-import { useSelector } from "react-redux";
-import { selectUI } from "../../store/inputSlice";
 import OutlineCard from "../Outline Card/OutlineCard";
 import EditModal from "../Modals/EditModal";
 import { queries } from "../../api";
@@ -59,7 +54,7 @@ const CourseObjective = ({
                 <div className="flex justify-end">
                   <button onClick={toggleEditModal}>Add Modules</button>
                 </div>
-              ) : null}
+               ) : null}
               <CourseModules courseId={courseId} />
             </div>
           )}

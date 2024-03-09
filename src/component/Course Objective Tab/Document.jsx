@@ -10,8 +10,6 @@ const Document = ({ documentUrl }) => {
   ];
 
   return (
-    <div>
-      {/* <h2>{title}</h2> */}
       <div className="w-full">
         <DocViewer
           documents={docs}
@@ -20,7 +18,6 @@ const Document = ({ documentUrl }) => {
           height="100"
         />
       </div>
-    </div>
   );
 };
 

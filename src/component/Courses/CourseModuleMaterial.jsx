@@ -7,12 +7,7 @@ import Audio from "../Course Objective Tab/Audio";
 
 const CourseModuelMaterial = ({ title, materials }) => {
   return (
-<<<<<<< HEAD
-    <div className="w-full flex flex-col items-center justify-center">
-      {/* <h2 className="text-lg md:text-xl">{title}</h2> */}
-=======
-    <div className="flex gap-4">
->>>>>>> 3d9c77bebe34ab3defbf707ae27ed38ab007767a
+    <div className="w-full flex flex-col justify-center items-center">
       {!!materials?.length &&
         materials.map((material, index) => (
           <div className="courseoutline" key={index}>
