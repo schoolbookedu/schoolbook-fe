@@ -64,8 +64,8 @@ const OutlineCard = ({ moduleId, index, moduleTitle, courseId }) => {
   };
 
   const handleModuleDelete = (id) => {
-    console.log("DELETING MODULE WITH ID", id);
     mutation.mutateAsync(id);
+    setDeleteModalVisible(false);
   };
 
   return (
