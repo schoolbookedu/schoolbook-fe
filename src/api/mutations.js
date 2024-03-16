@@ -134,7 +134,7 @@ export const mutations = {
 
   async deleteModule(id) {
     return axiosInstance.request({
-      method: HTTP_METHODS.POST,
+      method: HTTP_METHODS.DELETE,
       url: endpoints.modules.delete + "/" + id,
     });
   },
