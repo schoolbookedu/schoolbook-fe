@@ -50,7 +50,7 @@ const CourseObjective = ({
           )}
           {activeTab === 1 && (
             <div className="flex flex-col mt-[100px]">
-              {USER_TYPE === "instructor" ? (
+              {USER_TYPE !== "instructor" ? (
                 <div className="flex justify-end">
                   <button onClick={toggleEditModal}>Add Modules</button>
                 </div>
