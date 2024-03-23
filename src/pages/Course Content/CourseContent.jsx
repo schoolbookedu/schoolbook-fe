@@ -10,10 +10,13 @@ import { OverlayLoader } from "../../loaders";
 import { useParams } from "react-router-dom";
 import { mediaType } from "../../utils";
 import CourseModuelMaterial from "../../component/Courses/CourseModuleMaterial";
+import { useMaterialStore } from "../../store/materialStore";
 
 const CourseContent = () => {
   const { courseId } = useParams();
-  const { getCourse } = queries;
+  const { getCourse, getCourseModulesMaterials } = queries;
+  const setMaterial = useMaterialStore((state) => state.setMaterial);
+
   const courseQuery = useQuery({
     queryKey: ["course"],
     queryFn: () => getCourse(courseId),
@@ -23,6 +26,7 @@ const CourseContent = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [module, setModule] = useState(null);
+  const [firstMaterialId, setFirstMaterialId] = useState(null);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -32,11 +36,27 @@ const CourseContent = () => {
     setActiveSubmenu(activeSubmenu === menuId ? null : menuId);
   };
 
-  // useEffect(() => {
-  //   if (courseQuery?.data?.data?.resource?.modules?.length > 0) {
-  //     setModule(courseQuery?.data?.data?.resource?.modules[0]);
-  //   }
-  // }, [courseQuery?.data?.data?.resource?.modules]);
+  const moduleMaterialQuery = useQuery({
+    queryKey: ["moduleMaterial"],
+    queryFn: () => getCourseModulesMaterials(module?._id),
+    enabled: !!module?._id && !!firstMaterialId,
+  });
+
+  useEffect(() => {
+    if (courseQuery?.data?.data?.resource?.modules?.length > 0) {
+      setModule(courseQuery?.data?.data?.resource?.modules[0]);
+      if (courseQuery?.data?.data?.resource?.modules[0]) {
+        const doesModuleHaveMaterial =
+          courseQuery?.data?.data?.resource?.modules[0]?.materials?.length > 0;
+
+        if (doesModuleHaveMaterial) {
+          const firstMaterialId =
+            courseQuery?.data?.data?.resource?.modules[0]?.materials[0];
+          setFirstMaterialId(firstMaterialId);
+        }
+      }
+    }
+  }, [courseQuery?.data?.data?.resource?.modules]);
 
   if (courseQuery?.isLoading) {
     return <OverlayLoader showing={true} />;
@@ -65,7 +85,7 @@ const CourseContent = () => {
               <div className="sidenav-body">
                 <div className="sidenav-title">
                   <h2>{courseResult?.title}</h2>
-                  <div className="close-icon" onClick={() => setIsOpen(false)}>
+                  <div className="close-icon" onClick={handleClick}>
                     <FaTimes />
                   </div>
                 </div>
@@ -91,14 +111,24 @@ const CourseContent = () => {
         </div>
       </div>
       <div className="sidenav-content">
-        <MainCourseContent module={module} />
-        {/* <div className="tab-content">
-          {courseResult?.modules.map((module, index) => (
-            <div key={module?._id + index}>
-              <CourseOutline1 moduleId={module?._id} title={module?.title} />
-            </div>
-          ))}
-        </div> */}
+        {moduleMaterialQuery?.isLoading ? (
+          <div>
+            <h4 className="text-md text-blue-400">Loading material...</h4>
+          </div>
+        ) : moduleMaterialQuery?.isError ? (
+          <div>
+            <h4 className="text-md text-blue-400">
+              An error occured while loading the material
+            </h4>
+          </div>
+        ) : (
+          <>
+            {setMaterial(
+              moduleMaterialQuery?.data?.data?.resource?.materials[0]
+            )}
+            <MainCourseContent module={module} />
+          </>
+        )}
       </div>
     </div>
   );
@@ -107,33 +137,57 @@ const CourseContent = () => {
 export default CourseContent;
 
 export const MainCourseContent = ({ module }) => {
-  const { getCourseModulesMaterials } = queries;
-  const moduleMaterialQuery = useQuery({
-    queryKey: ["moduleMaterial"],
-    queryFn: () => getCourseModulesMaterials(module?._id),
-    enabled: !!module?._id && module?.materials?.length < 0,
-  });
-
-  if (moduleMaterialQuery?.isLoading && module?._id) {
-    return <div>Loading...</div>;
-  }
-
-  if (moduleMaterialQuery?.isError && module?._id) {
-    return <>An error occurred while fetching material</>;
-  }
-
-  const materials = moduleMaterialQuery?.data?.data?.resource?.materials;
+  const material = useMaterialStore((state) => state.material);
 
   return (
     <div className="tab-content">
-      {module?.materials?.length > 0 ? (
+      {material ? (
         <>
-          <CourseModuelMaterial materials={materials} title={module?.title} />
+          <CourseModuelMaterial
+            material={material}
+            title={module?.title ?? "UNTITLED"}
+          />
         </>
       ) : (
         <div className="my-[2rem] text-xl">No materials found</div>
       )}
     </div>
+  );
+};
+
+const CourseMaterial = ({
+  setActiveTab,
+  module,
+  activeTab,
+  handleMenuLinkClick,
+  setModule,
+  activeSubmenu,
+  index,
+}) => {
+  return (
+    <>
+      <ul
+        className={activeTab === module?._id ? "active" : ""}
+        onClick={() => {
+          setActiveTab(module?._id);
+          setModule(module);
+        }}
+      >
+        <li>
+          <div
+            className="menulink"
+            onClick={() => handleMenuLinkClick(module?._id)}
+          >
+            Course module {index + 1} - {module?.title}{" "}
+          </div>
+          {!!module?.materials?.length && activeSubmenu === module?._id && (
+            <div className="submenu">
+              <ModuleMaterials moduleId={module?._id} />
+            </div>
+          )}
+        </li>
+      </ul>
+    </>
   );
 };
 
@@ -156,28 +210,24 @@ const ModuleMaterials = ({ moduleId }) => {
 
   return (
     <div>
-      {/* <div className="submenu-items">
-        {materials.length > 0 &&
-          materials.map((material, index) => (
-            <ModuleMaterial key={index} material={material} />
-          ))} */}
       <div className="submenu-items">
         {materials.length > 0 &&
           materials.map((material, index) => (
-            <div key={index}>
-              <ModuleMaterial material={material} />
-            </div>
+            <ModuleMaterialSymbolAndTitle material={material} key={index} />
           ))}
       </div>
-      {/* </div> */}
     </div>
   );
 };
 
-const ModuleMaterial = ({ material }) => {
+const ModuleMaterialSymbolAndTitle = ({ material }) => {
+  const setMaterial = useMaterialStore((state) => state.setMaterial);
   return (
-    <div className="flex gap-2">
-      <div className="submenu-icon">
+    <div
+      className="text-sm flex gap-2  hover:text-blue-1000"
+      onClick={() => setMaterial(material)}
+    >
+      <div className="">
         {material.type === mediaType.VIDEO ? (
           <FaFileVideo />
         ) : material.type === mediaType.AUDIO ? (
@@ -186,48 +236,10 @@ const ModuleMaterial = ({ material }) => {
           <FaFileAlt />
         )}
       </div>
-      <div className="submenu-text">
+      <div className="text-[.8rem]">
         <h4>{material.title}</h4>
         <span>{material.type}</span>
       </div>
     </div>
-  );
-};
-
-const CourseMaterial = ({
-  setActiveTab,
-  module,
-  activeTab,
-  handleMenuLinkClick,
-  setModule,
-  activeSubmenu,
-  index
-}) => {
-  return (
-    <>
-      <ul
-        className={activeTab === module?._id ? "active" : ""}
-        onClick={() => {
-          setActiveTab(module?._id);
-          setModule(module);
-        }}
-      >
-        <li>
-          <div
-            className="menulink"
-            onClick={() => handleMenuLinkClick(module?._id)}
-          >
-            Course module {index + 1} - {module?.title}{" "}
-          </div>
-          {!!module?.materials?.length && activeSubmenu === module?._id && (
-            <div className="submenu">
-              {module?.materials?.map((_, index) => (
-                <ModuleMaterials moduleId={module?._id} key={index} />
-              ))}
-            </div>
-          )}
-        </li>
-      </ul>
-    </>
   );
 };
