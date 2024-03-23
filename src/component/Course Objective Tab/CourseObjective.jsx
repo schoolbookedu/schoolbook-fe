@@ -40,17 +40,20 @@ const CourseObjective = ({
           </div>
           {activeTab === 0 && (
             <div className="objective-content">
-              <input
+              <p>
+              {objectives}
+              </p>
+              {/* <input
                 type="text"
                 value={objectives}
                 onChange={handleObjectiveChange}
                 readOnly={edit}
-              />
+              /> */}
             </div>
           )}
           {activeTab === 1 && (
             <div className="flex flex-col mt-[100px]">
-              {USER_TYPE !== "instructor" ? (
+               {USER_TYPE === 'instructor' ? (
                 <div className="flex justify-end">
                   <button onClick={toggleEditModal}>Add Modules</button>
                 </div>

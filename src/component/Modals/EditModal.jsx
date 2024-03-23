@@ -50,6 +50,7 @@ const EditModal = ({
 
     if (title && moduleId) {
       editModuleMutation.mutate({
+        moduleId,
         title: data.title,
         courseId: courseId,
       });

@@ -72,34 +72,16 @@ const CourseContent = () => {
                 <div className="Sidenav-tab">
                   <div className="Menutabs">
                     {courseResult?.modules?.map((module, index) => (
-                      <ul
+                      <CourseMaterial
                         key={module?._id + index}
-                        className={activeTab === module?._id ? "active" : ""}
-                        onClick={() => {
-                          setActiveTab(module?._id);
-                          setModule(module);
-                        }}
-                      >
-                        <li>
-                          <div
-                            className="menulink"
-                            onClick={() => handleMenuLinkClick(module?._id)}
-                          >
-                            Course module {index + 1} - {module?.title}{" "}
-                          </div>
-                          {!!module?.materials?.length &&
-                            activeSubmenu === module?._id && (
-                              <div className="submenu">
-                                {module?.materials?.map((_, index) => (
-                                  <ModuleMaterials
-                                    moduleId={module?._id}
-                                    key={index}
-                                  />
-                                ))}
-                              </div>
-                            )}
-                        </li>
-                      </ul>
+                        index={index}
+                        setActiveTab={setActiveTab}
+                        module={module}
+                        activeTab={activeTab}
+                        handleMenuLinkClick={handleMenuLinkClick}
+                        setModule={setModule}
+                        activeSubmenu={activeSubmenu}
+                      />
                     ))}
                   </div>
                 </div>
@@ -209,5 +191,43 @@ const ModuleMaterial = ({ material }) => {
         <span>{material.type}</span>
       </div>
     </div>
+  );
+};
+
+const CourseMaterial = ({
+  setActiveTab,
+  module,
+  activeTab,
+  handleMenuLinkClick,
+  setModule,
+  activeSubmenu,
+  index
+}) => {
+  return (
+    <>
+      <ul
+        className={activeTab === module?._id ? "active" : ""}
+        onClick={() => {
+          setActiveTab(module?._id);
+          setModule(module);
+        }}
+      >
+        <li>
+          <div
+            className="menulink"
+            onClick={() => handleMenuLinkClick(module?._id)}
+          >
+            Course module {index + 1} - {module?.title}{" "}
+          </div>
+          {!!module?.materials?.length && activeSubmenu === module?._id && (
+            <div className="submenu">
+              {module?.materials?.map((_, index) => (
+                <ModuleMaterials moduleId={module?._id} key={index} />
+              ))}
+            </div>
+          )}
+        </li>
+      </ul>
+    </>
   );
 };

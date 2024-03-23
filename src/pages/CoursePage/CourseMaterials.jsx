@@ -97,14 +97,17 @@ const CourseMaterials = () => {
               </div> */}
               <div className="price-body">
                 <div className="price-title">
-                  <input
+                <h2>
+                {course?.title}
+                </h2>
+                  {/* <input
                     type="text"
-                    value={course?.title}
+                    value= {course?.title}
                     onChange={handleTitleChange}
                     readOnly={!edit}
-                  />
+                  /> */}
                 </div>
-                <div className="price-followbtn">
+                <div className="price-followbtn mt-4">
                   <span>Tutor: {course?.tutor?.fullName}</span>
                   {/* <button
                     className={isFollowed ? "followed" : "follow"}
