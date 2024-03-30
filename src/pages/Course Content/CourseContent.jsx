@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +15,7 @@ import { useMaterialStore } from "../../store/materialStore";
 const CourseContent = () => {
   const { courseId } = useParams();
   const { getCourse, getCourseModulesMaterials } = queries;
-  const setMaterial = useMaterialStore((state) => state.setMaterial);
+  const { setMaterial, material } = useMaterialStore((state) => state);
 
   const courseQuery = useQuery({
     queryKey: ["course"],
@@ -28,9 +28,9 @@ const CourseContent = () => {
   const [module, setModule] = useState(null);
   const [firstMaterialId, setFirstMaterialId] = useState(null);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
+  const handleClick = () => {
+    setFirstMaterialId(material._id);
+    setIsOpen((prev) => !prev);
   };
 
   const handleMenuLinkClick = (menuId) => {
@@ -73,13 +73,11 @@ const CourseContent = () => {
   return (
     <div>
       <Nav />
-      {/* <div className="w-full bg-red-600 flex align-middle justify-center">
-        <p onClick={handleClick}>Close X</p>
-      </div> */}
+
       <div className="sidenav">
         <div className="sidenav-container">
           <div
-            className={`menu-icon ${isOpen ? "open" : ""}`}
+            className="cursor-pointer mr-[30px] mb-[20px] text-[24px]"
             onClick={handleClick}
           >
             <FontAwesomeIcon icon={faBars} />
@@ -88,8 +86,13 @@ const CourseContent = () => {
             <div className="side-nav-bar">
               <div className="sidenav-body">
                 <div className="sidenav-title">
-                  <h2>{courseResult?.title}</h2>
-                  <div className="close-icon" onClick={handleClick}>
+                  <h2 className="mr-3 text-sm lg:text-lg">
+                    {courseResult?.title}
+                  </h2>
+                  <div
+                    className="cursor-pointer  text-[20px]"
+                    onClick={handleClick}
+                  >
                     <FaTimes />
                   </div>
                 </div>
@@ -140,7 +143,7 @@ const CourseContent = () => {
 
 export default CourseContent;
 
-export const MainCourseContent = ({ module }) => {
+export const MainCourseContent = React.memo(({ module }) => {
   const material = useMaterialStore((state) => state.material);
 
   return (
@@ -157,7 +160,7 @@ export const MainCourseContent = ({ module }) => {
       )}
     </div>
   );
-};
+});
 
 const CourseMaterial = ({
   setActiveTab,

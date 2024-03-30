@@ -3,12 +3,11 @@ import ReactPlayer from "react-player";
 
 const Video = ({ videoUrl }) => {
   return (
-   
     <div>
-       {/* <h2>{title}</h2> */}
+      {/* <h2>{title}</h2> */}
       <ReactPlayer
         className="react-player"
-        controls="true"
+        controls
         playing
         url={videoUrl}
         width="100%"
