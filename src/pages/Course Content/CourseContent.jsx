@@ -1,4 +1,4 @@
-import { React, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -143,7 +143,7 @@ const CourseContent = () => {
 
 export default CourseContent;
 
-export const MainCourseContent = React.memo(({ module }) => {
+export const MainCourseContent = ({ module }) => {
   const material = useMaterialStore((state) => state.material);
 
   return (
@@ -160,7 +160,7 @@ export const MainCourseContent = React.memo(({ module }) => {
       )}
     </div>
   );
-});
+};
 
 const CourseMaterial = ({
   setActiveTab,
