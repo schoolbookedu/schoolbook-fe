@@ -23,6 +23,8 @@ const CourseObjective = ({
     setEditModalVisible(!editModalVisible);
   };
 
+  const userType = sessionStorage.getItem("userType") ?? undefined;
+
   return (
     <>
       <div className="objective">
@@ -40,9 +42,7 @@ const CourseObjective = ({
           </div>
           {activeTab === 0 && (
             <div className="objective-content">
-              <p>
-              {objectives}
-              </p>
+              <p>{objectives}</p>
               {/* <input
                 type="text"
                 value={objectives}
@@ -53,11 +53,11 @@ const CourseObjective = ({
           )}
           {activeTab === 1 && (
             <div className="flex flex-col mt-[100px]">
-               {USER_TYPE === 'instructor' ? (
+              {userType && userType === USER_TYPE.INSTRUCTOR && (
                 <div className="flex justify-end">
                   <button onClick={toggleEditModal}>Add Modules</button>
                 </div>
-               ) : null}
+              )}
               <CourseModules courseId={courseId} />
             </div>
           )}
