@@ -27,7 +27,6 @@ const Courses = () => {
     );
   }
   const courses = data?.data?.resource ?? [];
-  console.log({ courses });
   return (
     <>
       {courses?.length > 0 ? (
@@ -39,19 +38,24 @@ const Courses = () => {
   );
 };
 
-const Course = ({ course }) => {
+const Course = ({ course, resource }) => {
+  console.log(resource, "RESOURCE");
+  // console.log(course)
+
   return (
-    <div key={course?.id} className="course">
-      <div className="course-img">
+    <>
+      <div className='fcourse mt-4' key={course?.id}>
+      <div className='fcourse-img'>
         <img src={course?.thumbnail} alt="course" />
       </div>
-      <div className="course-title">
+      <div className="course-title mt-4">
         <div className="text">
           <h2>{course?.title}</h2>
-          <span>{course?.tutor?.fullName}</span>
+          <span>{resource?.tutor?.fullName}</span>
         </div>
       </div>
     </div>
+     </>
   );
 };
 

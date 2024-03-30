@@ -6,6 +6,7 @@ import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
+
 const coursesInProgress = [];
 
 const Progress = () => {
@@ -14,10 +15,10 @@ const Progress = () => {
   const viewCourse = (courseId) => {
     navigate(`/course-materials/${courseId}`);
   };
-
+  const {getStudentCourses } = queries;
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["student-courses"],
-    // queryFn: getStudentCourses,
+    queryFn: getStudentCourses,
   });
 
   if (isLoading) {
@@ -29,6 +30,7 @@ const Progress = () => {
   }
 
   if (isError) {
+    console.log(error);
     return (
       <div className="flex items-center justify-center ">
         Unable to fetch your courses, please reload this page

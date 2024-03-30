@@ -124,10 +124,11 @@ export const mutations = {
   },
 
   async editModule(payload) {
+    const { moduleId, ...restPayload } = payload  ;
     const { data } = await axiosInstance.request({
-      method: HTTP_METHODS.POST,
-      url: endpoints.modules.create,
-      data: payload,
+      method: HTTP_METHODS.PATCH,
+      url: endpoints.modules.edit + "/"+ moduleId,
+      data: restPayload,
     });
     return data?.data?.resource;
   },

@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import Audio from "./Audio";
-import Video from "./Video";
-import Document from "./Document";
-import { mediaType } from "../../utils";
-import { useSelector } from "react-redux";
-import { selectUI } from "../../store/inputSlice";
+import { USER_TYPE, mediaType } from "../../utils";
 import OutlineCard from "../Outline Card/OutlineCard";
 import EditModal from "../Modals/EditModal";
 import { queries } from "../../api";
@@ -15,14 +10,20 @@ const tabs = [
   { id: 1, label: "Course Modules" },
 ];
 
-const CourseObjective = ({ edit, handleObjectiveChange, courseId }) => {
+const CourseObjective = ({
+  edit,
+  handleObjectiveChange,
+  courseId,
+  objectives,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const { objectives } = useSelector(selectUI);
 
   const toggleEditModal = () => {
     setEditModalVisible(!editModalVisible);
   };
+
+  const userType = sessionStorage.getItem("userType") ?? undefined;
 
   return (
     <>
@@ -41,20 +42,22 @@ const CourseObjective = ({ edit, handleObjectiveChange, courseId }) => {
           </div>
           {activeTab === 0 && (
             <div className="objective-content">
-              <input
+              <p>{objectives}</p>
+              {/* <input
                 type="text"
                 value={objectives}
                 onChange={handleObjectiveChange}
                 readOnly={edit}
-              />
+              /> */}
             </div>
           )}
           {activeTab === 1 && (
             <div className="flex flex-col mt-[100px]">
-              <div className="flex justify-end">
-                <button onClick={toggleEditModal}>Add Modules</button>
-              </div>
-
+              {userType && userType === USER_TYPE.INSTRUCTOR && (
+                <div className="flex justify-end">
+                  <button onClick={toggleEditModal}>Add Modules</button>
+                </div>
+              )}
               <CourseModules courseId={courseId} />
             </div>
           )}

@@ -25,14 +25,13 @@ const Fcourse = ({resource}) => {
     console.log({courseId});
 
    const response = await mutation.mutateAsync(courseId);
-   console.log(response);
+  //  console.log(response);
     
    if (response?.data?.data) {
     navigate (`/course-materials/${courseId}`)
    }
   
   }
-  
 
   
   const alt = `${resource?.title} by ${resource?.tutor?.fullName}`;

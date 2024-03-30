@@ -29,7 +29,7 @@ const EditModal = ({
   const { show, showing, hide } = useOverlayLoader();
 
   // Mutation hook for creating module
-  const { createModule } = mutations;
+  const { createModule, editModule } = mutations;
   const mutation = useMutation(createModule, {
     onMutate: () => show(),
     onSuccess: () => {
@@ -49,8 +49,12 @@ const EditModal = ({
     if (!courseId) return showToast("Course ID is required");
 
     if (title && moduleId) {
-      // Edit module
-      return showToast("Edit module title coming soon!");
+      editModuleMutation.mutate({
+        moduleId,
+        title: data.title,
+        courseId: courseId,
+      });
+      console.log(title);
     } else {
       return mutation.mutateAsync({
         title: data.title,
@@ -58,6 +62,15 @@ const EditModal = ({
       });
     }
   };
+
+  const editModuleMutation = useMutation(editModule, {
+    onMutate: () => show(),
+    onSuccess: () => {
+      hide();
+      setEditModalVisible(false);
+    },
+    onError: () => hide(),
+  });
 
   // Form hook
   const {
@@ -102,3 +115,4 @@ const EditModal = ({
 };
 
 export default EditModal;
+

@@ -87,8 +87,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     overflow-x: scroll;
-    gap: 20px;
     padding: 10px 5px;
+    gap: 20px;
   }
   
   .fcourse-scroll{
