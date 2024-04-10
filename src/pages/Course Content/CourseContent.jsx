@@ -1,9 +1,8 @@
 import { React, useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Coursesidebar from "../../component/Courses/Coursesidebar";
 import "./CourseContent.css";
-import { FaFileAudio, FaFileVideo, FaFileAlt, FaTimes } from "react-icons/fa";
+import { FaFileAudio, FaFileVideo, FaFileAlt} from "react-icons/fa";
 import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { OverlayLoader } from "../../loaders";
@@ -22,20 +21,8 @@ const CourseContent = () => {
     queryFn: () => getCourse(courseId),
   });
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [module, setModule] = useState(null);
   const [firstMaterialId, setFirstMaterialId] = useState(null);
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
-  };
-
-  const handleMenuLinkClick = (menuId) => {
-    setActiveSubmenu(activeSubmenu === menuId ? null : menuId);
-  };
 
   const moduleMaterialQuery = useQuery({
     queryKey: ["moduleMaterial"],
@@ -73,47 +60,7 @@ const CourseContent = () => {
   return (
     <div>
       <Nav />
-      {/* <div className="w-full bg-red-600 flex align-middle justify-center">
-        <p onClick={handleClick}>Close X</p>
-      </div> */}
-      <div className="sidenav">
-        <div className="sidenav-container">
-          <div
-            className={`menu-icon ${isOpen ? "open" : ""}`}
-            onClick={handleClick}
-          >
-            <FontAwesomeIcon icon={faBars} />
-          </div>
-          {isOpen && (
-            <div className="side-nav-bar">
-              <div className="sidenav-body">
-                <div className="sidenav-title">
-                  <h2>{courseResult?.title}</h2>
-                  <div className="close-icon" onClick={handleClick}>
-                    <FaTimes />
-                  </div>
-                </div>
-                <div className="Sidenav-tab">
-                  <div className="Menutabs">
-                    {courseResult?.modules?.map((module, index) => (
-                      <CourseMaterial
-                        key={module?._id + index}
-                        index={index}
-                        setActiveTab={setActiveTab}
-                        module={module}
-                        activeTab={activeTab}
-                        handleMenuLinkClick={handleMenuLinkClick}
-                        setModule={setModule}
-                        activeSubmenu={activeSubmenu}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      <Coursesidebar />
       <div className="sidenav-content">
         {moduleMaterialQuery?.isLoading ? (
           <div>
@@ -159,7 +106,7 @@ export const MainCourseContent = ({ module }) => {
   );
 };
 
-const CourseMaterial = ({
+export const CourseMaterial = ({
   setActiveTab,
   module,
   activeTab,
@@ -195,7 +142,7 @@ const CourseMaterial = ({
   );
 };
 
-const ModuleMaterials = ({ moduleId }) => {
+export const ModuleMaterials = ({ moduleId }) => {
   const { getCourseModulesMaterials } = queries;
   const moduleMaterialQuery = useQuery({
     queryKey: ["moduleMaterial"],
@@ -224,7 +171,7 @@ const ModuleMaterials = ({ moduleId }) => {
   );
 };
 
-const ModuleMaterialSymbolAndTitle = ({ material }) => {
+export const ModuleMaterialSymbolAndTitle = ({ material }) => {
   const setMaterial = useMaterialStore((state) => state.setMaterial);
   return (
     <div

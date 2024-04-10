@@ -62,7 +62,6 @@ const Dashboard = () => {
   }
 
   const resource = data?.data?.resource;
-  console.log(resource, "RESOURCE");
 
   const props = {
     search,
@@ -90,16 +89,19 @@ const Dashboard = () => {
           {activeTab === 0 && (
             <div className="content-container">
               <h2>Your Enrolled Courses</h2>
-              <div className="flex overflow-scroll">
-              <Courses resource={resource}/>
-              </div>
+                <div className="flex overflow-scroll">
+                      {filteredCourses?.map((resource) => (
+                    <Courses resource={resource}/>
+                    ))}
+                </div>
+          
               <div className="search-container">
                 <h2>All Courses</h2>
                 <Search {...props} />
               </div>
               <div className="content-container">
                 {filteredCourses?.length > 0 ? (
-                 <div className="fcourse-container-grid">
+                  <div className="fcourse-container-grid">
                     {filteredCourses?.map((resource) => (
                       <Fcourse key={resource?._id} resource={resource} />
                     ))}

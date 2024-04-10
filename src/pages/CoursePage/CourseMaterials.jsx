@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { queries } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { setTitle, setObjective, selectUI } from "../../store/inputSlice";
-import { USER_TYPE } from "../../utils/user-type";
+import { USER_TYPE } from "../../utils";
 
 const tab = [{ id: 0, label: "Course Materials" }];
 
@@ -21,6 +21,9 @@ const CourseMaterials = () => {
   const dispatch = useDispatch();
   const { title } = useSelector(selectUI);
   // console.log(courseId);
+
+
+  const userType = sessionStorage.getItem("userType") ?? undefined;
 
   const { data, isLoading, isError } = useQuery(
     ["course"],
@@ -44,7 +47,7 @@ const CourseMaterials = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const { getCourse } = queries;
-  console.log(course);
+  // console.log(course);
   useEffect(() => {
     if (course?.title) {
       setEditTitle(course?.title);
@@ -115,14 +118,14 @@ const CourseMaterials = () => {
                   >
                     {isFollowed ? "Followed" : "Follow"}
                   </button> */}
-                  {USER_TYPE === 'instructor' ? (
+                {/* {userType && userType === USER_TYPE.INSTRUCTOR && (
                   <div className="flex justify-between">
                     <button className="followed" onClick={editText}>
                       Edit
                     </button>
                     <button className="follow">Save</button>
                   </div>
-                   ) : null}
+                    )} */}
                 </div>
                 <div className="objectivetab-container">
                   <CourseObjective
