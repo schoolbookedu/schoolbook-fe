@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
 import Coursesidebar from "../../component/Courses/Coursesidebar";
 import "./CourseContent.css";
@@ -14,7 +14,7 @@ import { useMaterialStore } from "../../store/materialStore";
 const CourseContent = () => {
   const { courseId } = useParams();
   const { getCourse, getCourseModulesMaterials } = queries;
-  const { setMaterial } = useMaterialStore((state) => state);
+  const setMaterial = useMaterialStore((state) => state.setMaterial);
 
   const courseQuery = useQuery({
     queryKey: ["course"],
@@ -55,7 +55,7 @@ const CourseContent = () => {
     return <>An error occurred</>;
   }
 
-  // const courseResult = courseQuery?.data?.data?.resource;
+  const courseResult = courseQuery?.data?.data?.resource;
 
   return (
     <div>
@@ -178,7 +178,7 @@ export const ModuleMaterialSymbolAndTitle = ({ material }) => {
       className="text-sm flex gap-2  hover:text-blue-1000"
       onClick={() => setMaterial(material)}
     >
-      <div className="flex justify-center items-center">
+      <div className="">
         {material.type === mediaType.VIDEO ? (
           <FaFileVideo size="2em"/>
         ) : material.type === mediaType.AUDIO ? (
@@ -187,8 +187,8 @@ export const ModuleMaterialSymbolAndTitle = ({ material }) => {
           <FaFileAlt size="2em"/>
         )}
       </div>
-      <div className="">
-        <h3>{material.title}</h3>
+      <div className="text-[.8rem]">
+        <h4>{material.title}</h4>
         <span>{material.type}</span>
       </div>
     </div>
