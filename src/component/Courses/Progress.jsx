@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../../utils/img.png";
+// import img from "../../utils/img.png";
 import "./Course.css";
 import EmptyMessage from "../../component/EmptyMessage";
 import { queries } from "../../api";
@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 
-const coursesInProgress = [];
+// const coursesInProgress = [];
 
 const Progress = () => {
   const navigate = useNavigate();
@@ -69,8 +69,8 @@ const Course = ({ course, onViewCourse }) => {
           <h2>{course?.title}</h2>
           <span>{course?.tutor?.fullName}</span>
           <div className="progress">
-            <span>40% completed</span>
-            <input type="range" value="40" min="0" max="100" id="range" />
+            <span>10% In progress</span>
+            <input type="range" value="50" min="0" max="100" id="range" />
           </div>
         </div>
       </div>

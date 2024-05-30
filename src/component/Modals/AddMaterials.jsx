@@ -154,7 +154,7 @@ const AddMaterials = ({ courseId, moduleId, setAddMaterialModalVisible }) => {
     <div className="modal-overlay">
       <div className="edit-modal md:w-[50%] w-90%] max-height overflow-y-scroll">
         <div className="flex flex-row justify-between align-center cursor-pointer">
-          <h2>{""}</h2>
+        <p>Kindly upload one material at a time</p>
           <IoClose
             onClick={handleCloseModal}
             className="cursor-pointer text-dark"

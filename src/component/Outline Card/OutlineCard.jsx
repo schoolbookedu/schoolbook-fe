@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useOverlayLoader } from "../../hooks";
 import { mutations } from "../../api";
 import { OverlayLoader } from "../../loaders";
+import { USER_TYPE } from "../../utils";
 
 const CardOptions = ({ onEdit, onDelete, addMaterials }) => (
   <div className="option">
@@ -68,12 +69,16 @@ const OutlineCard = ({ moduleId, index, moduleTitle, courseId }) => {
     setDeleteModalVisible(false);
   };
 
+  const userType = sessionStorage.getItem("userType") ?? undefined;
+
   return (
     <>
       <div className="outline-card">
+      {userType && userType === USER_TYPE.INSTRUCTOR && (
         <div className="flex justify-end" onClick={toggleOptions}>
           <IoEllipsisVertical className="text-dark" />
         </div>
+      )}
         {optionsVisible && (
           <CardOptions
             onEdit={handleEdit}

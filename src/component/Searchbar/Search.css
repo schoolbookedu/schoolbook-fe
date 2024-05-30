@@ -1,11 +1,11 @@
 .search{
-    width: 40%;
+    width: 30%;
     display: flex;
 }
 
 .search [type="search"]{
     width: 100%;
-    padding: 16px 24px;
+    padding: 12px 20px;
     border: 2px solid #407BFF;
     border-radius: 3px;
 }

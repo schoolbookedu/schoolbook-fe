@@ -1,16 +1,22 @@
 import React from "react";
-import img from "../../utils/img.png";
 import "./Course.css";
 import EmptyMessage from "../../component/EmptyMessage";
 import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate} from "react-router-dom";
 
 const Courses = () => {
   const { getStudentCourses } = queries;
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError} = useQuery({
     queryKey: ["student-courses"],
     queryFn: getStudentCourses,
   });
+
+  const navigate = useNavigate();
+
+  const viewCourse = (courseId) => {
+    navigate(`/course-materials/${courseId}`);
+  };
   if (isLoading) {
     return (
       <div>
@@ -21,7 +27,7 @@ const Courses = () => {
 
   if (isError) {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="w-full flex items-center justify-center">
         Unable to fetch your courses, please try reloading this page
       </div>
     );
@@ -30,7 +36,7 @@ const Courses = () => {
   return (
     <>
       {courses?.length > 0 ? (
-        courses?.map((course) => <Course key={course?.id} course={course} />)
+        courses?.map((course) => <Course key={courses?.id}  course={course} onViewCourse={viewCourse}/>)
       ) : (
         <EmptyMessage content="You have not enrolled for a course yet" />
       )}
@@ -38,20 +44,18 @@ const Courses = () => {
   );
 };
 
-const Course = ({ course, resource }) => {
-  console.log(resource, "RESOURCE");
-  // console.log(course)
+const Course = ({ course, onViewCourse }) => {
 
   return (
     <>
-      <div className='fcourse mt-4' key={course?.id}>
+      <div className='fcourse mt-4'>
       <div className='fcourse-img'>
         <img src={course?.thumbnail} alt="course" />
       </div>
-      <div className="course-title mt-4">
-        <div className="text">
+      <div className="course-title w-full mt-4">
+        <div className="text cursor-pointer" onClick={() => onViewCourse(course?._id)}>
           <h2>{course?.title}</h2>
-          <span>{resource?.tutor?.fullName}</span>
+          {/* <span>Tutor: {courses?.tutor?.fullName}</span> */}
         </div>
       </div>
     </div>

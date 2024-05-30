@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Coursesidebar from "../../component/Courses/Coursesidebar";
 import "./CourseContent.css";
-import { FaFileAudio, FaFileVideo, FaFileAlt, FaTimes } from "react-icons/fa";
+import { FaFileAudio, FaFileVideo, FaFileAlt} from "react-icons/fa";
 import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { OverlayLoader } from "../../loaders";
@@ -15,27 +14,15 @@ import { useMaterialStore } from "../../store/materialStore";
 const CourseContent = () => {
   const { courseId } = useParams();
   const { getCourse, getCourseModulesMaterials } = queries;
-  const { setMaterial, material } = useMaterialStore((state) => state);
+  const { setMaterial } = useMaterialStore((state) => state);
 
   const courseQuery = useQuery({
     queryKey: ["course"],
     queryFn: () => getCourse(courseId),
   });
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [module, setModule] = useState(null);
   const [firstMaterialId, setFirstMaterialId] = useState(null);
-
-  const handleClick = () => {
-    setFirstMaterialId(material._id);
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleMenuLinkClick = (menuId) => {
-    setActiveSubmenu(activeSubmenu === menuId ? null : menuId);
-  };
 
   const moduleMaterialQuery = useQuery({
     queryKey: ["moduleMaterial"],
@@ -68,55 +55,12 @@ const CourseContent = () => {
     return <>An error occurred</>;
   }
 
-  const courseResult = courseQuery?.data?.data?.resource;
+  // const courseResult = courseQuery?.data?.data?.resource;
 
   return (
     <div>
       <Nav />
-
-      <div className="sidenav">
-        <div className="sidenav-container">
-          <div
-            className="cursor-pointer mr-[30px] mb-[20px] text-[24px]"
-            onClick={handleClick}
-          >
-            <FontAwesomeIcon icon={faBars} />
-          </div>
-          {isOpen && (
-            <div className="side-nav-bar">
-              <div className="sidenav-body">
-                <div className="sidenav-title">
-                  <h2 className="mr-3 text-sm lg:text-lg">
-                    {courseResult?.title}
-                  </h2>
-                  <div
-                    className="cursor-pointer  text-[20px]"
-                    onClick={handleClick}
-                  >
-                    <FaTimes />
-                  </div>
-                </div>
-                <div className="Sidenav-tab">
-                  <div className="Menutabs">
-                    {courseResult?.modules?.map((module, index) => (
-                      <CourseMaterial
-                        key={module?._id + index}
-                        index={index}
-                        setActiveTab={setActiveTab}
-                        module={module}
-                        activeTab={activeTab}
-                        handleMenuLinkClick={handleMenuLinkClick}
-                        setModule={setModule}
-                        activeSubmenu={activeSubmenu}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      <Coursesidebar />
       <div className="sidenav-content">
         {moduleMaterialQuery?.isLoading ? (
           <div>
@@ -162,7 +106,7 @@ export const MainCourseContent = ({ module }) => {
   );
 };
 
-const CourseMaterial = ({
+export const CourseMaterial = ({
   setActiveTab,
   module,
   activeTab,
@@ -198,7 +142,7 @@ const CourseMaterial = ({
   );
 };
 
-const ModuleMaterials = ({ moduleId }) => {
+export const ModuleMaterials = ({ moduleId }) => {
   const { getCourseModulesMaterials } = queries;
   const moduleMaterialQuery = useQuery({
     queryKey: ["moduleMaterial"],
@@ -227,24 +171,24 @@ const ModuleMaterials = ({ moduleId }) => {
   );
 };
 
-const ModuleMaterialSymbolAndTitle = ({ material }) => {
+export const ModuleMaterialSymbolAndTitle = ({ material }) => {
   const setMaterial = useMaterialStore((state) => state.setMaterial);
   return (
     <div
       className="text-sm flex gap-2  hover:text-blue-1000"
       onClick={() => setMaterial(material)}
     >
-      <div className="">
+      <div className="flex justify-center items-center">
         {material.type === mediaType.VIDEO ? (
-          <FaFileVideo />
+          <FaFileVideo size="2em"/>
         ) : material.type === mediaType.AUDIO ? (
-          <FaFileAudio />
+          <FaFileAudio size="2em"/>
         ) : (
-          <FaFileAlt />
+          <FaFileAlt size="2em"/>
         )}
       </div>
-      <div className="text-[.8rem]">
-        <h4>{material.title}</h4>
+      <div className="">
+        <h3>{material.title}</h3>
         <span>{material.type}</span>
       </div>
     </div>

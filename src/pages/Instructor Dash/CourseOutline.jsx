@@ -15,7 +15,7 @@ import { OverlayLoader } from "../../loaders";
 import { useNavigate } from "react-router-dom";
 import EmptyMessage from "../../component/EmptyMessage";
 import { CreateCourseElem } from "../../component/Courses/createCourse";
-import InputBox from "../../component/Create Courses/InputBox";
+// import InputBox from "../../component/Create Courses/InputBox";
 // import InputBox from "../Create Courses/InputBox";
 
 const tab = [
@@ -33,7 +33,7 @@ const CourseOutline = () => {
   // const [cards, setCards] = useState([]);
   // const [materialCards, setMaterialCards] = useState([]);
   // const [isFileSelected, setIsFileSelected] = useState(false);
-  const [courseDetails, setCourseDetails] = useState({
+  const [courseDetails] = useState({
     title: "",
     objectives: "",
     thumbnail: "",
@@ -48,7 +48,7 @@ const CourseOutline = () => {
   console.log({ courseDetails });
 
   const { getTutorCourses } = queries;
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading} = useQuery({
     queryKey: ["courses"],
     queryFn: getTutorCourses,
   });

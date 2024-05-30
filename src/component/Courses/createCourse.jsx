@@ -104,7 +104,6 @@ export const CreateCourseElem = ({ setActiveTab }) => {
                 <div className="coverText">
                   <p>
                     <b>Add Course Cover Photo </b>
-                    <span>(Optional)</span>
                   </p>
                   <span>
                     (This is the picture that will display as the home cover
