@@ -18,7 +18,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const { getCourses, getTutorCourses } = queries;
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["courses", "tutor-courses"],
     queryFn: getCourses,
     getTutorCourses,
@@ -61,7 +61,7 @@ const Dashboard = () => {
     return <OverlayLoader showing={true} />;
   }
 
-  const resource = data?.data?.resource;
+  // const resource = data?.data?.resource;
 
   const props = {
     search,

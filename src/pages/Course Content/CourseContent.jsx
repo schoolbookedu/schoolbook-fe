@@ -55,7 +55,7 @@ const CourseContent = () => {
     return <>An error occurred</>;
   }
 
-  const courseResult = courseQuery?.data?.data?.resource;
+  // const courseResult = courseQuery?.data?.data?.resource;
 
   return (
     <div>

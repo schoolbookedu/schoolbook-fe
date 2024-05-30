@@ -1,5 +1,5 @@
 import React from 'react'
-import img from '../../utils/img.png'
+// import img from '../../utils/img.png'
 import './Fcourse.css'
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ const Fcourse = ({resource}) => {
 
   const  {enrollCourse} = mutations;
   const navigate = useNavigate()
-  const { show, showing, hide } = useOverlayLoader();
+  const { show, hide } = useOverlayLoader();
 
   const mutation = useMutation(enrollCourse, {
     onMutate: () => show(),

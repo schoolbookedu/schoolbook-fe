@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../../utils/img.png";
+// import img from "../../utils/img.png";
 import "./Course.css";
 import EmptyMessage from "../../component/EmptyMessage";
 import { queries } from "../../api";
@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 
-const coursesInProgress = [];
+// const coursesInProgress = [];
 
 const Progress = () => {
   const navigate = useNavigate();

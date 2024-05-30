@@ -116,10 +116,10 @@
 *:focus{
     outline: none;
 }
-.password,
+/* .password,
 .inst{
-    /* margin-top: 20px; */
-}
+    margin-top: 20px;
+} */
 .pass{
     width: 97%;
     display: flex;

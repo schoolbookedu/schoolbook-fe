@@ -7,7 +7,7 @@ import { useNavigate} from "react-router-dom";
 
 const Courses = () => {
   const { getStudentCourses } = queries;
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError} = useQuery({
     queryKey: ["student-courses"],
     queryFn: getStudentCourses,
   });

@@ -5,13 +5,13 @@ import {FaTimes } from "react-icons/fa";
 import { queries } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { useMaterialStore } from "../../store/materialStore";
+// import { useMaterialStore } from "../../store/materialStore";
 import { CourseMaterial } from "../../pages/Course Content/CourseContent";
 
 const Coursesidebar = () => {
   const { courseId } = useParams();
-  const { getCourse, getCourseModulesMaterials } = queries;
-  const setMaterial = useMaterialStore((state) => state.setMaterial);
+  const { getCourse } = queries;
+  // const setMaterial = useMaterialStore((state) => state.setMaterial);
 
   const courseQuery = useQuery({
     queryKey: ["course"],
@@ -21,7 +21,7 @@ const Coursesidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
-  const [module, setModule] = useState(null);
+  const [ setModule] = useState(null);
 
   const handleClick = (e) => {
     e.preventDefault();
