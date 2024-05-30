@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "../../component/Navbar/Nav";
 import Coursesidebar from "../../component/Courses/Coursesidebar";
 import "./CourseContent.css";
@@ -14,7 +14,7 @@ import { useMaterialStore } from "../../store/materialStore";
 const CourseContent = () => {
   const { courseId } = useParams();
   const { getCourse, getCourseModulesMaterials } = queries;
-  const setMaterial = useMaterialStore((state) => state.setMaterial);
+  const { setMaterial } = useMaterialStore((state) => state);
 
   const courseQuery = useQuery({
     queryKey: ["course"],
