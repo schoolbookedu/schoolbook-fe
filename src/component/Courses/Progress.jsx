@@ -69,8 +69,8 @@ const Course = ({ course, onViewCourse }) => {
           <h2>{course?.title}</h2>
           <span>{course?.tutor?.fullName}</span>
           <div className="progress">
-            <span>40% completed</span>
-            <input type="range" value="40" min="0" max="100" id="range" />
+            <span>10% In progress</span>
+            <input type="range" value="50" min="0" max="100" id="range" />
           </div>
         </div>
       </div>

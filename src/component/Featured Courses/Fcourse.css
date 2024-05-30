@@ -5,11 +5,11 @@
    align-items: left;
    max-width: 325px;
    width: 100%;
-   padding-bottom: 20px;
    background-color: #FFFFFF;
    margin-right: 20px;
    margin-bottom: 20px;
    box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 100%;
 }
 
 .fcourse-img{
@@ -21,6 +21,7 @@ width: 325px;
     object-fit: cover;
 }
 .fcourse-text{
+    flex-grow: 1;
     padding: 20px 20px;
 }
 .fcourse-text h2{
@@ -52,9 +53,10 @@ width: 325px;
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    margin-top: auto;
 }
-.fcourse-button button{
+/* .fcourse-button button{
     margin: 0px;
     margin-top: 30px;
     padding: 20px 90px;
@@ -63,7 +65,7 @@ width: 325px;
     font-weight: 700;
     font-size: 24px;
     color:#FFFFFF;
-}
+} */
   @media (max-width: 480px){
     .fcourse {
         width: 300px;

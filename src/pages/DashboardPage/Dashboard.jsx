@@ -90,9 +90,7 @@ const Dashboard = () => {
             <div className="content-container">
               <h2>Your Enrolled Courses</h2>
                 <div className="flex overflow-scroll">
-                      {filteredCourses?.map((resource) => (
-                    <Courses resource={resource}/>
-                    ))}
+                    <Courses />
                 </div>
           
               <div className="search-container">

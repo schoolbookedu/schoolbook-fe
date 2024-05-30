@@ -178,17 +178,17 @@ export const ModuleMaterialSymbolAndTitle = ({ material }) => {
       className="text-sm flex gap-2  hover:text-blue-1000"
       onClick={() => setMaterial(material)}
     >
-      <div className="">
+      <div className="flex justify-center items-center">
         {material.type === mediaType.VIDEO ? (
-          <FaFileVideo />
+          <FaFileVideo size="2em"/>
         ) : material.type === mediaType.AUDIO ? (
-          <FaFileAudio />
+          <FaFileAudio size="2em"/>
         ) : (
-          <FaFileAlt />
+          <FaFileAlt size="2em"/>
         )}
       </div>
-      <div className="text-[.8rem]">
-        <h4>{material.title}</h4>
+      <div className="">
+        <h3>{material.title}</h3>
         <span>{material.type}</span>
       </div>
     </div>

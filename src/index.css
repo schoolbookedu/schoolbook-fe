@@ -35,3 +35,6 @@ button {
 .outline {
   outline-style: none;
 }
+div#file-name {
+  display: none;
+}
