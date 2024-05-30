@@ -195,7 +195,7 @@ const CourseOutline = () => {
             </div>
           )}
           {activeTab === 2 && (
-            <div className="flex flex-col mt-[100px]">
+            <div className="w-[90%] flex flex-col mt-[100px]">
               <div className="flex justify-between align-center">
                 <h2>Created Course</h2>
                 <button onClick={() => setActiveTab(0)}>Create Course</button>
