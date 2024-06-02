@@ -111,7 +111,7 @@ const CourseMaterials = () => {
                   /> */}
                 </div>
                 <div className="price-followbtn mt-4">
-                  <span>Tutor: {course?.tutor?.fullName}</span>
+                  {/* <span>Tutor: {course?.tutor?.fullName}</span> */}
                   {/* <button
                     className={isFollowed ? "followed" : "follow"}
                     onClick={handleClick}
