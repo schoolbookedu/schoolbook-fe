@@ -1,78 +1,75 @@
 .Student {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  
-  .tabs {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 79px;
-  }
-  
-  .tabs button {
-    padding: 10px 0px;
-    background: none;
-    font-size: 26px;
-    line-height: 20px;
-    margin-right: 100px;
-    color: rgba(224, 224, 224, 0.5);
-  }
-  .tabs button.active {
-    font-weight: 700;
-    color: #FFEE52;
-    border-bottom: 2px solid #FFEE52;
-  }
-  .tab-content{
-    width: 100%;
-    padding: 80px 0px 0px 0px;
-  }
-  .tab-content p{
-    text-align: left;
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 60px;
-    color: #FFFFFF;
-  }
-  .tab-content span{
-    color: #FFEE52;
-  }
-
-
-
-  @media (max-width: 900px){
-    .Student {
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
-      padding: 20px 20px 0px 20px;
-    }
-    .tabs {
-      margin-top: 0px;
-    }
-    .tab-content{
-      padding: 0px;
-    }
-    .tab-content p{
-      font-weight: 700;
-      font-size: 48px;
-      line-height: 70px;
-
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
-@media (max-width: 480px){
+.tabs {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 79px;
+}
+
+.tabs button {
+  padding: 10px 0px;
+  background: none;
+  font-size: 26px;
+  line-height: 20px;
+  margin: 0 10px;
+  color: rgba(224, 224, 224, 0.5);
+}
+.tabs button.active {
+  font-weight: 700;
+  color: #ffee52;
+  border-bottom: 2px solid #ffee52;
+}
+.tab-content {
+  width: 100%;
+  padding: 80px 0px 0px 0px;
+}
+.tab-content p {
+  text-align: left;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 60px;
+  color: #ffffff;
+}
+.tab-content span {
+  color: #ffee52;
+}
+
+@media (max-width: 900px) {
+  .Student {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    padding: 20px 20px 0px 20px;
+  }
+  .tabs {
+    margin-top: 0px;
+  }
+  .tab-content {
+    padding: 0px;
+  }
+  .tab-content p {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
   .tabs button {
     font-size: 20px;
     font-weight: 500;
     color: rgba(224, 224, 224, 0.5);
   }
-  .tab-content p{
+  .tab-content p {
     font-weight: 700;
     font-size: 30px;
     line-height: 50px;
   }
-} 
+}
